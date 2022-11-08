@@ -1,6 +1,5 @@
 
-#include <allegro.h>
-#include <time.h>
+#include "header.h"
 
 int main()
 {

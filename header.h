@@ -1,5 +1,12 @@
 
+#ifndef POINTH_H_INCLUDED
+#define POINTH_H_INCLUDED
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <allegro.h>
 
 /**********************/
 /*     STRUCTURES     */
@@ -88,3 +95,4 @@ void dessinerListeActeurs(BITMAP *bmp,t_listeActeurs *la);
 // ( pour visualiser: pas utile dans un programme finalis� )
 void dessinerCasesListeActeurs(BITMAP *bmp,t_listeActeurs *la);
 
+#endif

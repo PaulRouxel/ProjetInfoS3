@@ -9,3 +9,6 @@ add_executable(ProjetInfoS3
         header.h
         main.c
         source.c)
+
+target_link_libraries(ProjetInfoS3 -lmingw32 -lalleg44)
+
