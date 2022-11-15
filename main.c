@@ -396,32 +396,38 @@ void AffichageRoute(t_joueur* perso, BITMAP* grille)
 
 }
 
-
-int AffichageTemps(BITMAP* back, int sec, int min,clock_t t1)
+void AffichageTemps(BITMAP* back, int* temps, clock_t t1, bool antispam)
 {
-
     clock_t t2=clock()+1000;
-    sec=(int)(t2-t1)/1000;
+    temps[0]=(int)(t2-t1)/1000;
 
-    if(sec==60)
-        sec=0;
+    if(temps[0]==60 && antispam==true)
+    {
+        temps[1]++;
+        antispam=false;
+        temps[0]=0;
+    }
+    else if(temps[0]==10 && antispam == false)
+    {
+        antispam=true;
+    }
+
 
     ///du mal avec le compteur des minutes vu qu'on peut pas le retourner (je regarde par strucutres ou sinon avec time.h)
 
 
     rectfill(back, 706, 11, 810, 30, makecol(255,242,0));
 
-    if(sec<10)
-        textprintf_ex(back, font, 775, 22, makecol(0,0,0), -1, "0%d",sec);
+    if(temps[0]<10)
+        textprintf_ex(back, font, 775, 22, makecol(0,0,0), -1, "0%d",temps[0]);
     else
-        textprintf_ex(back, font, 775, 22, makecol(0,0,0), -1, "%d",sec);
+        textprintf_ex(back, font, 775, 22, makecol(0,0,0), -1, "%d",temps[0]);
 
-    if(min<10)
-        textprintf_ex(back, font, 745, 22, makecol(0,0,0), -1, "0%d:",min);
+    if(temps[1]<10)
+        textprintf_ex(back, font, 745, 22, makecol(0,0,0), -1, "0%d:",temps[1]);
     else
-        textprintf_ex(back, font, 745, 22, makecol(0,0,0), -1, "%d:",min);
+        textprintf_ex(back, font, 745, 22, makecol(0,0,0), -1, "%d:",temps[1]);
 
-    return sec;
 }
 
 void RecupererImpots(t_joueur* perso, int time)
@@ -566,8 +572,8 @@ void EcranDeJeu(t_joueur* perso)
     //FONT* myfont = load_font("simpsonfont.pcx",NULL,NULL);
 
     clock_t t1 = clock();
-    int minutes=0;
-    int secondes=0;
+    bool antispam = true;
+    int* temps= (int*)malloc(2*sizeof(int));
 
     //va nous permettre de sortir de la boucle d'affichage lorsqu'un choix est fait
     int next=0;
@@ -595,8 +601,8 @@ void EcranDeJeu(t_joueur* perso)
         rectfill(background, 873, 11, 991, 30, makecol(255,242,0)); ///nb_hab
         textprintf_ex(background, font, 882, 21, makecol(0,0,0), -1, "%d",perso->nb_habitants);
 
-        secondes=AffichageTemps(background,secondes,minutes,t1);
-        RecupererImpots(perso,secondes);
+        AffichageTemps(background,temps,t1,antispam);
+        RecupererImpots(perso,temps[0]);
         AffichageRoute(perso, grille);
 
 
