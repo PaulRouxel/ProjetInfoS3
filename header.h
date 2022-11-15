@@ -16,6 +16,9 @@
 #define GRILLE_W 62
 #define GRILLE_H 34
 
+#define COLONNES 45
+#define LIGNES 35
+
 /// STRUCTURE DES JOUEURS ///
 typedef struct joueur  //Cette structure gerera les donnees de joueurs tout au long de la partie
 {
@@ -26,7 +29,9 @@ typedef struct joueur  //Cette structure gerera les donnees de joueurs tout au l
     int electricite;
     int nb_habitants;
     bool antispam;
+    bool editroute;
     int** route;
+
 } t_joueur;
 
 
