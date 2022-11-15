@@ -397,10 +397,10 @@ void AffichageRoute(t_joueur* perso, BITMAP* back)
 
 void AffichageCanalisations(t_joueur* perso, BITMAP* back)
 {
-    BITMAP* route;
-    route = load_bitmap("Bitmaps/road.bmp",NULL);  ///CHANGEMENT CHEMIN
-    if(route==NULL)
-        allegro_message("Erreur bitmap route");
+    BITMAP* canalisation;
+    canalisation = load_bitmap("Bitmaps/EAUVERTE.bmp",NULL);  ///CHANGEMENT CHEMIN
+    if(canalisation==NULL)
+        allegro_message("Erreur bitmap canal");
 
     for(int i=0;i<LIGNES;i++)
     {
@@ -408,7 +408,26 @@ void AffichageCanalisations(t_joueur* perso, BITMAP* back)
         {
             if(perso->route[i][j]==1)
             {
-                draw_sprite(back,route,xCoortoPixel(j),yCoortoPixel(i));   ///CHANGEMENT
+                draw_sprite(back,canalisation,xCoortoPixel(j),yCoortoPixel(i));   ///CHANGEMENT
+            }
+        }
+    }
+}
+
+void AffichageEDF(t_joueur* perso, BITMAP* back)
+{
+    BITMAP* cable;
+    cable = load_bitmap("Bitmaps/ZAAP.bmp",NULL);  ///CHANGEMENT CHEMIN
+    if(cable==NULL)
+        allegro_message("Erreur bitmap canal");
+
+    for(int i=0;i<LIGNES;i++)
+    {
+        for(int j=0;j<COLONNES;j++)
+        {
+            if(perso->route[i][j]==1)
+            {
+                draw_sprite(back,cable,xCoortoPixel(j),yCoortoPixel(i));   ///CHANGEMENT
             }
         }
     }
@@ -486,7 +505,8 @@ void AffichageReseauElec(t_joueur* perso)
 
         draw_sprite(ecranelec,grille,62,34);
 
-        AffichageCanalisations(perso, ecranelec);
+        AffichageEDF(perso,ecranelec);
+
 
         //correspond aux cases de l'ecran
         if((mouse_b&1)&&(mouse_x>=976)&&(mouse_x<=1018)&&(mouse_y>=118)&&(mouse_y<=160)) ///niveau -1
@@ -543,9 +563,7 @@ void AffichageReseaudEau(t_joueur* perso)
         blit(buffer, screen, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
         clear_bitmap(buffer);
 
-        draw_sprite(ecranwater,grille,62,34);
-
-        //AffichageRoute(perso, ecranwater);
+        AffichageCanalisations(perso, ecranwater);
 
         //correspond aux cases de l'ecran
         if((mouse_b&1)&&(mouse_x>=983)&&(mouse_x<=1020)&&(mouse_y>=114)&&(mouse_y<=153)) ///niveau -2
