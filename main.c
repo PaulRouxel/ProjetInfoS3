@@ -441,7 +441,11 @@ void AffichageReseauElec(t_joueur* perso)
 {
 
     BITMAP* ecranelec;
-    ecranelec = load_bitmap("ecranreseaudelec.bmp",NULL);                           ///CHANGEMENT CHEMIN
+    ecranelec = load_bitmap("Bitmaps/ecranreseaudelec.bmp",NULL);                           ///CHANGEMENT CHEMIN
+    if(ecranelec==NULL)
+    {
+        allegro_message("erreure chargement ecranelec");
+    }
 
     BITMAP* buffer;
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
@@ -492,7 +496,12 @@ void AffichageReseauElec(t_joueur* perso)
 void AffichageReseaudEau(t_joueur* perso)
 {
     BITMAP* ecranwater;
-    ecranwater = load_bitmap("ecranreseaudeau.bmp",NULL);                           ///CHANGEMENT CHEMIN
+    ecranwater = load_bitmap("Bitmaps/ecranreseaudeau.bmp",NULL);                           ///CHANGEMENT CHEMIN
+
+    if(ecranwater==NULL)
+    {
+        allegro_message("erreure de chargement de ecranreseaudeau");
+    }
 
     BITMAP* buffer;
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
@@ -810,7 +819,7 @@ void MenuDemarrage(t_joueur* perso)
 {
     //BITMAP
     BITMAP* accueil;
-    accueil = load_bitmap("ecrandemarrageS3.bmp",NULL);                 ///CHANGEMENT CHEMIN
+    accueil = load_bitmap("Bitmaps/ecrandemarrageS3.bmp",NULL);                 ///CHANGEMENT CHEMIN
 
     BITMAP* buffer;
     buffer = create_bitmap(SCREEN_W, SCREEN_H);

@@ -52,14 +52,14 @@ build cmake_object_order_depends_target_ProjetInfoS3: phony || CMakeFiles/Projet
 build CMakeFiles/ProjetInfoS3.dir/main.c.obj: C_COMPILER__ProjetInfoS3_Debug C$:/Users/33769/Documents/GitHub/ProjetInfoS3/main.c || cmake_object_order_depends_target_ProjetInfoS3
   DEP_FILE = CMakeFiles\ProjetInfoS3.dir\main.c.obj.d
   FLAGS = -g -std=gnu11
-  INCLUDES = -IC:/Users/33769/Documents/GitHub/ProjetInfoS3/.
+  INCLUDES = -IC:/Users/33769/Documents/GitHub/ProjetInfoS3/. -IC:/Users/33769/Documents/GitHub/ProjetInfoS3/Bitmaps
   OBJECT_DIR = CMakeFiles\ProjetInfoS3.dir
   OBJECT_FILE_DIR = CMakeFiles\ProjetInfoS3.dir
 
 build CMakeFiles/ProjetInfoS3.dir/source.c.obj: C_COMPILER__ProjetInfoS3_Debug C$:/Users/33769/Documents/GitHub/ProjetInfoS3/source.c || cmake_object_order_depends_target_ProjetInfoS3
   DEP_FILE = CMakeFiles\ProjetInfoS3.dir\source.c.obj.d
   FLAGS = -g -std=gnu11
-  INCLUDES = -IC:/Users/33769/Documents/GitHub/ProjetInfoS3/.
+  INCLUDES = -IC:/Users/33769/Documents/GitHub/ProjetInfoS3/. -IC:/Users/33769/Documents/GitHub/ProjetInfoS3/Bitmaps
   OBJECT_DIR = CMakeFiles\ProjetInfoS3.dir
   OBJECT_FILE_DIR = CMakeFiles\ProjetInfoS3.dir
 
