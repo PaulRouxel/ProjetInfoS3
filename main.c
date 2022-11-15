@@ -376,11 +376,12 @@ int yCoortoPixel(int yCoor)  //pour traduire les coordonnes en pixels en Y
     }
 }
 
-void AffichageRoute(t_joueur* perso, BITMAP* grille)
+void AffichageRoute(t_joueur* perso, BITMAP* back)
 {
     BITMAP* route;
     route = load_bitmap("Bitmaps/road.bmp",NULL);  ///CHANGEMENT CHEMIN
-
+    if(route==NULL)
+        allegro_message("Erreur bitmap route");
 
     for(int i=0;i<LIGNES;i++)
     {
@@ -388,12 +389,10 @@ void AffichageRoute(t_joueur* perso, BITMAP* grille)
         {
             if(perso->route[i][j]==1)
             {
-                draw_sprite(grille,route,xCoortoPixel(i),yCoortoPixel(j));
+                draw_sprite(back,route,xCoortoPixel(j),yCoortoPixel(i));   ///CHANGEMENT
             }
         }
     }
-
-
 }
 
 
@@ -443,9 +442,8 @@ void AffichageReseauElec(t_joueur* perso)
     BITMAP* ecranelec;
     ecranelec = load_bitmap("Bitmaps/ecranreseaudelec.bmp",NULL);                           ///CHANGEMENT CHEMIN
     if(ecranelec==NULL)
-    {
         allegro_message("erreure chargement ecranelec");
-    }
+
 
     BITMAP* buffer;
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
@@ -554,11 +552,11 @@ void EcranDeJeu(t_joueur* perso)
     BITMAP* background;
     background = load_bitmap("Bitmaps/ecrandejeu.bmp",NULL);   ///CHANGEMENT CHEMIN
 
-    BITMAP* grille;
-    grille = load_bitmap("Bitmaps/cases.bmp",NULL);  ///CHANGEMENT CHEMIN
+    //BITMAP* grille;
+    //grille = load_bitmap("Bitmaps/cases.bmp",NULL);  ///CHANGEMENT CHEMIN
 
-    //BITMAP* map;
-    //map = load_bitmap("map.bmp",NULL);  ///CHANGEMENT CHEMIN
+    BITMAP* map;
+    map = load_bitmap("Bitmaps/map.bmp",NULL);  ///CHANGEMENT CHEMIN
 
     BITMAP* buffer;
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
@@ -577,8 +575,8 @@ void EcranDeJeu(t_joueur* perso)
 
         //routine d'affichage
         blit(background, buffer, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
-        blit(grille,background, 0,0,GRILLE_W,GRILLE_H, SCREEN_W,SCREEN_H);
-        //blit(map,background, 0,0,GRILLE_W,GRILLE_H, SCREEN_W,SCREEN_H);
+        //blit(grille,background, 0,0,GRILLE_W,GRILLE_H, SCREEN_W,SCREEN_H);
+        blit(map,background, 0,0,GRILLE_W,GRILLE_H, SCREEN_W,SCREEN_H);
         show_mouse(buffer);
         blit(buffer, screen, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
         clear_bitmap(buffer);
@@ -597,7 +595,7 @@ void EcranDeJeu(t_joueur* perso)
 
         secondes=AffichageTemps(background,secondes,minutes,t1);
         RecupererImpots(perso,secondes);
-        AffichageRoute(perso, grille);
+        AffichageRoute(perso, background);
 
 
         //correspond aux cases de l'ecran
@@ -636,9 +634,10 @@ void EcranDeJeu(t_joueur* perso)
 
         if(perso->editroute==true)  ///mode edition
         {
-            if((mouse_b&1)&&(mouse_x>=62)&&(mouse_x<=962)&&(mouse_y>=34)&&(mouse_y<=734)) ///correspond à la taille de l'écran jouable
+            if((mouse_b&1)&&(mouse_x>=62)&&(mouse_x<=962)&&(mouse_y>=34)&&(mouse_y<=734)&&(perso->flouz>=10)&&(perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)]!=1)) ///correspond à la taille de l'écran jouable
             {
-                perso->route[xPixeltoCoor(mouse_x)][yPixeltoCoor(mouse_y)]=1;
+                perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)]=1;
+                perso->flouz-=10;
             }
         }
 
