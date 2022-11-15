@@ -395,6 +395,25 @@ void AffichageRoute(t_joueur* perso, BITMAP* back)
     }
 }
 
+void AffichageCanalisations(t_joueur* perso, BITMAP* back)
+{
+    BITMAP* route;
+    route = load_bitmap("Bitmaps/road.bmp",NULL);  ///CHANGEMENT CHEMIN
+    if(route==NULL)
+        allegro_message("Erreur bitmap route");
+
+    for(int i=0;i<LIGNES;i++)
+    {
+        for(int j=0;j<COLONNES;j++)
+        {
+            if(perso->route[i][j]==1)
+            {
+                draw_sprite(back,route,xCoortoPixel(j),yCoortoPixel(i));   ///CHANGEMENT
+            }
+        }
+    }
+}
+
 
 int AffichageTemps(BITMAP* back, int sec, int min,clock_t t1)
 {
@@ -442,14 +461,14 @@ void AffichageReseauElec(t_joueur* perso)
     BITMAP* ecranelec;
     ecranelec = load_bitmap("Bitmaps/ecranreseaudelec.bmp",NULL);                           ///CHANGEMENT CHEMIN
     if(ecranelec==NULL)
-        allegro_message("erreure chargement ecranelec");
+        allegro_message("erreur chargement ecranelec");
 
 
     BITMAP* buffer;
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
 
     BITMAP* grille;
-    grille = load_bitmap("cases.bmp",NULL);
+    grille = load_bitmap("Bitmaps/cases.bmp",NULL);
 
     //va nous permettre de sortir de la boucle d'affichage lorsqu'un choix est fait
     int next=0;
@@ -466,6 +485,8 @@ void AffichageReseauElec(t_joueur* perso)
         clear_bitmap(buffer);
 
         draw_sprite(ecranelec,grille,62,34);
+
+        AffichageCanalisations(perso, ecranelec);
 
         //correspond aux cases de l'ecran
         if((mouse_b&1)&&(mouse_x>=976)&&(mouse_x<=1018)&&(mouse_y>=118)&&(mouse_y<=160)) ///niveau -1
@@ -498,14 +519,14 @@ void AffichageReseaudEau(t_joueur* perso)
 
     if(ecranwater==NULL)
     {
-        allegro_message("erreure de chargement de ecranreseaudeau");
+        allegro_message("erreur de chargement de ecranreseaudeau");
     }
 
     BITMAP* buffer;
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
 
     BITMAP* grille;
-    grille = load_bitmap("cases.bmp",NULL);
+    grille = load_bitmap("Bitmaps/cases.bmp",NULL);
 
 
     //va nous permettre de sortir de la boucle d'affichage lorsqu'un choix est fait
@@ -523,6 +544,8 @@ void AffichageReseaudEau(t_joueur* perso)
         clear_bitmap(buffer);
 
         draw_sprite(ecranwater,grille,62,34);
+
+        //AffichageRoute(perso, ecranwater);
 
         //correspond aux cases de l'ecran
         if((mouse_b&1)&&(mouse_x>=983)&&(mouse_x<=1020)&&(mouse_y>=114)&&(mouse_y<=153)) ///niveau -2
