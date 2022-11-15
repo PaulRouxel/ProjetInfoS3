@@ -6,6 +6,7 @@ set(CMAKE_C_STANDARD 11)
 include_directories(.)
 
 add_executable(ProjetInfoS3
+        Bitmaps
         header.h
         main.c
         source.c)
