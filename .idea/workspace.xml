@@ -17,10 +17,11 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="+ 1000 lignes de Paul">
+    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="Grand remplacement">
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,6 +62,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\33769\Documents\GitHub\ProjetInfoS3\cmake-build-debug\Bitmaps" />
       <recent name="C:\Users\33769\Documents\GitHub\ProjetInfoS3\cmake-build-debug" />
     </key>
   </component>
@@ -85,7 +87,7 @@
       <option name="presentableId" value="Default" />
       <updated>1667905104086</updated>
       <workItem from="1667905106260" duration="1735000" />
-      <workItem from="1668517816001" duration="2903000" />
+      <workItem from="1668517816001" duration="3464000" />
     </task>
     <task id="LOCAL-00001" summary="AlleZ gros marche">
       <created>1667906483137</created>
@@ -108,7 +110,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668524707840</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Grand remplacement">
+      <created>1668525891469</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1668525891469</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -129,7 +138,8 @@
     <MESSAGE value="AlleZ gros marche" />
     <MESSAGE value="fonctionnalitée de Clion X Github" />
     <MESSAGE value="+ 1000 lignes de Paul" />
-    <option name="LAST_COMMIT_MESSAGE" value="+ 1000 lignes de Paul" />
+    <MESSAGE value="Grand remplacement" />
+    <option name="LAST_COMMIT_MESSAGE" value="Grand remplacement" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -138,6 +148,11 @@
           <url>file://$PROJECT_DIR$/main.c</url>
           <line>16</line>
           <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/main.c</url>
+          <line>198</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

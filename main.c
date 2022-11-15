@@ -379,7 +379,7 @@ int yCoortoPixel(int yCoor)  //pour traduire les coordonnes en pixels en Y
 void AffichageRoute(t_joueur* perso, BITMAP* grille)
 {
     BITMAP* route;
-    route = load_bitmap("road.bmp",NULL);  ///CHANGEMENT CHEMIN
+    route = load_bitmap("Bitmaps/road.bmp",NULL);  ///CHANGEMENT CHEMIN
 
 
     for(int i=0;i<LIGNES;i++)
@@ -543,10 +543,10 @@ void AffichageReseaudEau(t_joueur* perso)
 void EcranDeJeu(t_joueur* perso)
 {
     BITMAP* background;
-    background = load_bitmap("ecrandejeu.bmp",NULL);   ///CHANGEMENT CHEMIN
+    background = load_bitmap("Bitmaps/ecrandejeu.bmp",NULL);   ///CHANGEMENT CHEMIN
 
     BITMAP* grille;
-    grille = load_bitmap("cases.bmp",NULL);  ///CHANGEMENT CHEMIN
+    grille = load_bitmap("Bitmaps/cases.bmp",NULL);  ///CHANGEMENT CHEMIN
 
     //BITMAP* map;
     //map = load_bitmap("map.bmp",NULL);  ///CHANGEMENT CHEMIN
@@ -643,7 +643,7 @@ void EcranDeJeu(t_joueur* perso)
 void AffichageCapitaliste()
 {
     BITMAP* ecrancapitaliste;
-    ecrancapitaliste = load_bitmap("Capitaliste.bmp",NULL);                ///CHANGEMENT CHEMIN
+    ecrancapitaliste = load_bitmap("Bitmaps/Capitaliste.bmp",NULL);                ///CHANGEMENT CHEMIN
 
     BITMAP* buffer;
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
@@ -667,8 +667,11 @@ void AffichageCapitaliste()
 void AffichageCommuniste()
 {
     BITMAP* ecrancommuniste;
-    ecrancommuniste = load_bitmap("communiste.bmp",NULL);                     ///CHANGEMENT CHEMIN
-
+    ecrancommuniste = load_bitmap("Bitmaps/communiste.bmp",NULL);                     ///CHANGEMENT CHEMIN
+    if(ecrancommuniste==NULL)
+    {
+        allegro_message("Erreure de chargement de communiste");
+    }
     BITMAP* buffer;
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
 
@@ -692,7 +695,11 @@ void AffichageCommuniste()
 void ChoixDuMode(t_joueur* perso)
 {
     BITMAP* ecranmodedejeu;
-    ecranmodedejeu = load_bitmap("ecranmodedejeu.bmp",NULL);                           ///CHANGEMENT CHEMIN
+    ecranmodedejeu = load_bitmap("Bitmaps/ecranmodedejeu.bmp",NULL);                           ///CHANGEMENT CHEMIN
+    if(ecranmodedejeu==NULL)
+    {
+        allegro_message("erreur de chargement de ecranmodedejeu");
+    }
 
     BITMAP* buffer;
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
