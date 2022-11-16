@@ -448,31 +448,40 @@ void TestConnexionReseau(t_joueur* perso)
     }
 }
 
-int AffichageTemps(BITMAP* back, int sec, int min,clock_t t1)
+
+void AffichageTemps(BITMAP* back, int* temps, clock_t t1, t_joueur* perso)
 {
-
     clock_t t2=clock()+1000;
-    sec=(int)(t2-t1)/1000;
+    temps[0]=(int)(t2-t1)/1000;
 
-    if(sec==60)
-        sec=0;
+    if(temps[0]%60==0 && perso->antisp.antispam[0]==true && temps[0]!=1)
+    {
+        temps[1]=temps[1]+1;
+        perso->antisp.antispam[0]=false;
+        temps[0]=0;
+    }
+    else if(temps[0]%60==10 && perso->antisp.antispam[0]==false)
+    {
+        perso->antisp.antispam[0]=true;
+    }
+
 
     ///du mal avec le compteur des minutes vu qu'on peut pas le retourner (je regarde par strucutres ou sinon avec time.h)
 
 
     rectfill(back, 706, 11, 810, 30, makecol(255,242,0));
 
-    if(sec<10)
-        textprintf_ex(back, font, 775, 22, makecol(0,0,0), -1, "0%d",sec);
+    if(temps[0]%60<10)
+        textprintf_ex(back, font, 775, 22, makecol(0,0,0), -1, "0%d",temps[0]%60);
     else
-        textprintf_ex(back, font, 775, 22, makecol(0,0,0), -1, "%d",sec);
+        textprintf_ex(back, font, 775, 22, makecol(0,0,0), -1, "%d",temps[0]%60);
 
-    if(min<10)
-        textprintf_ex(back, font, 745, 22, makecol(0,0,0), -1, "0%d:",min);
+    if(temps[1]<10)
+        textprintf_ex(back, font, 745, 22, makecol(0,0,0), -1, "0%d:",temps[1]);
     else
-        textprintf_ex(back, font, 745, 22, makecol(0,0,0), -1, "%d:",min);
+        textprintf_ex(back, font, 745, 22, makecol(0,0,0), -1, "%d:",temps[1]);
 
-    return sec;
+
 }
 
 void RecupererImpots(t_joueur* perso, int time)
@@ -581,8 +590,9 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
 
     clock_t t1 = clock();
-    int minutes = 0;
-    int secondes = 0;
+
+    int* temps= (int*)malloc(2*sizeof(int));
+
 
     //va nous permettre de sortir de la boucle d'affichage lorsqu'un choix est fait
     int next = 0;
@@ -607,12 +617,15 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         rectfill(images->fond0, 315, 11, 409, 30, makecol(255, 242, 0)); ///capacite elec
         textprintf_ex(images->fond0, font, 320, 20, makecol(0, 0, 0), -1, "%d", perso->electricite);
 
+
         rectfill(images->fond0, 873, 11, 991, 30, makecol(255, 242, 0)); ///nb_hab
         textprintf_ex(images->fond0, font, 882, 21, makecol(0, 0, 0), -1, "%d", perso->nb_habitants);
-
-        secondes = AffichageTemps(images->fond0, secondes, minutes, t1);
-        RecupererImpots(perso, secondes);
         AffichageRoute(perso, images->fond0, images);
+
+        
+        AffichageTemps(images->fond0,temps,t1,perso);
+        RecupererImpots(perso,temps[0]);
+
         TestConnexionReseau(perso);
 
         //correspond aux cases de l'ecran
@@ -934,6 +947,10 @@ void StructureJoueurInit(t_joueur* perso)
     perso->flouz=500000;
     perso->nb_habitants=500;
     perso->antispam=true;
+    for(int i=0;i<nbantispam;i++ )
+    {
+        perso->antisp.antispam[i]=true;
+    }
     perso->editroute=false;
     perso->editmaison=false;
     perso->editcentrale=false;
