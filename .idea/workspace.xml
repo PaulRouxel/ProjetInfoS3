@@ -17,22 +17,19 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="on arrete pas le cours du temps">
+    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="ca compile pas faut que je finisset_">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ProjetInfoS3.dir/main.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ProjetInfoS3.dir/main.c.obj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/ProjetInfoS3.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/ProjetInfoS3.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="ChangesViewManager" show_ignored="true">
-    <option name="groupingKeys">
-      <option value="directory" />
-    </option>
   </component>
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
@@ -73,11 +70,6 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="ProjetInfoS3" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ProjetInfoS3" TARGET_NAME="ProjetInfoS3" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ProjetInfoS3" RUN_TARGET_NAME="ProjetInfoS3">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -96,7 +88,7 @@
       <workItem from="1668517816001" duration="6391000" />
       <workItem from="1668530467272" duration="5128000" />
       <workItem from="1668545810486" duration="710000" />
-      <workItem from="1668585033876" duration="11136000" />
+      <workItem from="1668585033876" duration="15336000" />
     </task>
     <task id="LOCAL-00001" summary="AlleZ gros marche">
       <created>1667906483137</created>
@@ -175,26 +167,26 @@
       <option name="project" value="LOCAL" />
       <updated>1668594399136</updated>
     </task>
-    <task id="LOCAL-00012" summary="on arrete pas le cours du temps">
-      <created>1668605319277</created>
+    <task id="LOCAL-00012" summary="routes qui marchent bi1">
+      <created>1668597699425</created>
       <option name="number" value="00012" />
       <option name="presentableId" value="LOCAL-00012" />
       <option name="project" value="LOCAL" />
-      <updated>1668605319277</updated>
+      <updated>1668597699425</updated>
     </task>
-    <task id="LOCAL-00013" summary="on arrete pas le cours du temps">
-      <created>1668606535369</created>
+    <task id="LOCAL-00013" summary="ca compile pas faut que je finisse">
+      <created>1668600300894</created>
       <option name="number" value="00013" />
       <option name="presentableId" value="LOCAL-00013" />
       <option name="project" value="LOCAL" />
-      <updated>1668606535369</updated>
+      <updated>1668600300894</updated>
     </task>
-    <task id="LOCAL-00014" summary="on arrete pas le cours du temps">
-      <created>1668606619497</created>
+    <task id="LOCAL-00014" summary="ca compile pas faut que je finisset_">
+      <created>1668603152165</created>
       <option name="number" value="00014" />
       <option name="presentableId" value="LOCAL-00014" />
       <option name="project" value="LOCAL" />
-      <updated>1668606619497</updated>
+      <updated>1668603152165</updated>
     </task>
     <option name="localTasksCounter" value="15" />
     <servers />
@@ -220,7 +212,8 @@
     <MESSAGE value="Grand remplacement" />
     <MESSAGE value="ou sont les bitmaps" />
     <MESSAGE value="routes qui marchent bi1" />
-    <MESSAGE value="on arrete pas le cours du temps" />
-    <option name="LAST_COMMIT_MESSAGE" value="on arrete pas le cours du temps" />
+    <MESSAGE value="ca compile pas faut que je finisse" />
+    <MESSAGE value="ca compile pas faut que je finisset_" />
+    <option name="LAST_COMMIT_MESSAGE" value="ca compile pas faut que je finisset_" />
   </component>
 </project>
