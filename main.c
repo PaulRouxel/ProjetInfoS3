@@ -497,7 +497,6 @@ void AffichageTemps(BITMAP* back, int* temps, clock_t t1, t_joueur* perso)
     else
         textprintf_ex(back, font, 745, 22, makecol(0,0,0), -1, "%d:",temps[1]);
 
-    return sec;
 }
 
 void RecupererImpots(t_joueur* perso, int time)
