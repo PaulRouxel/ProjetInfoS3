@@ -807,7 +807,7 @@ void AffichageCommuniste()
     }
 }
 
-void ChoixDuMode(t_joueur* perso,)
+void ChoixDuMode(t_joueur* perso,t_bitmap images)
 {
     BITMAP* ecranmodedejeu;
     ecranmodedejeu = load_bitmap("Bitmaps/ecranmodedejeu.bmp",NULL);                           ///CHANGEMENT CHEMIN
