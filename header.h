@@ -32,14 +32,45 @@ typedef struct joueur  //Cette structure gerera les donnees de joueurs tout au l
     bool editroute;
     bool editmaison;
     int** route;
-
 } t_joueur;
+
+typedef struct bitmap
+{
+    BITMAP* map0;
+    BITMAP* map1;
+    BITMAP* map2;
+    BITMAP* fond0;
+    BITMAP* fond1;
+    BITMAP* fond2;
+    BITMAP* ecranaccueil;
+    BITMAP* ecranmode;
+    BITMAP* ecrancommuniste;
+    BITMAP* ecrancapitaliste;
+    BITMAP* chateaudeau;
+    BITMAP* centrale;
+    BITMAP* terrain;
+    BITMAP* ruine;
+    BITMAP* cabane;
+    BITMAP* maison;
+    BITMAP* immeuble;
+    BITMAP* gratteciel;
+    BITMAP* route;
+    BITMAP* eau;
+    BITMAP* electricite;
+}t_bitmap;
+
+
+
+
+
 
 ///INFOS
 //libre -> 0
 //route -> 1
 //centre terrain -> 2
+//centre terrain connecté -> 20
 //autour terrain -> 21
+
 
 
 

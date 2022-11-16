@@ -807,8 +807,7 @@ void AffichageCommuniste()
     }
 }
 
-
-void ChoixDuMode(t_joueur* perso)
+void ChoixDuMode(t_joueur* perso,)
 {
     BITMAP* ecranmodedejeu;
     ecranmodedejeu = load_bitmap("Bitmaps/ecranmodedejeu.bmp",NULL);                           ///CHANGEMENT CHEMIN
@@ -873,7 +872,7 @@ void Song() //theme
 }
 */
 
-void StructureInit(t_joueur* perso)
+void StructureJoueurInit(t_joueur* perso)
 {
     perso->eau=0;
     perso->electricite=0;
@@ -894,14 +893,39 @@ void StructureInit(t_joueur* perso)
             perso->route[i][j]=0;
         }
     }
-
 }
 
-void NouvellePartie(t_joueur* perso)
+void StructureBitmapInit(t_bitmap* images)
 {
-    StructureInit(perso);
-    ChoixDuMode(perso);
-    EcranDeJeu(perso);
+    images->map0 = load_bitmap("Bitmaps/map.bmp",NULL);   ///CHANGEMENT CHEMIN
+    images->map1 = load_bitmap("Bitmaps/Egouts.bmp",NULL);
+    images->map2 = load_bitmap("Bitmaps/zaapmap.bmp",NULL);
+    images->fond0 = load_bitmap("Bitmaps/ecrandejeu.bmp",NULL);
+    images->fond1 = load_bitmap("Bitmaps/ecranreseaudeau.bmp",NULL);
+    images->fond2 = load_bitmap("Bitmaps/ecranreseaudelec.bmp",NULL);
+    images->ecranaccueil = load_bitmap("Bitmaps/ecrandemarrageS3.bmp",NULL);
+    images->ecranmode = load_bitmap("Bitmaps/ecranmodedejeu.bmp",NULL);
+    images->ecrancapitaliste = load_bitmap("Bitmaps/Capitaliste.bmp",NULL);
+    images->ecrancommuniste = load_bitmap("Bitmaps/communiste.bmp",NULL);
+    images->chateaudeau = load_bitmap("Bitmaps/binouze.bmp",NULL);
+    images->centrale = load_bitmap("Bitmaps/NUCULAIRE.bmp",NULL);
+    images->terrain = load_bitmap("Bitmaps/TVAAGUE.bmp",NULL);
+    images->ruine = NULL;
+    images->cabane = load_bitmap("Bitmaps/cabane.bmp",NULL);
+    images->maison = load_bitmap("Bitmaps/LAMAAAAIIISOONN.bmp",NULL);
+    images->immeuble = NULL;
+    images->gratteciel = NULL;
+    images->route = load_bitmap("Bitmaps/road.bmp",NULL);
+    images->eau = load_bitmap("Bitmaps/EAUVERTE.bmp",NULL);
+    images->electricite = load_bitmap("Bitmaps/ZAAP.bmp",NULL);
+}
+
+void NouvellePartie(t_joueur* perso, t_bitmap* images)
+{
+    StructureJoueurInit(perso);
+    StructureBitmapInit(images);
+    ChoixDuMode(perso,images);
+    EcranDeJeu(perso,images);
 }
 
 void ChargerUnePartie(t_joueur* perso)
@@ -914,16 +938,17 @@ void AfficherRegles(t_joueur* perso)
     printf("afficher regles");
 }
 
-void Quitter(t_joueur* perso)
+void Quitter(t_joueur* perso, t_joueur* images)
 {
     free(perso);
+    free(images);
     for(int i = 0; i < LIGNES; ++i)
         free(perso->route[i]);
     free(perso->route);
     allegro_exit();
 }
 
-void MenuDemarrage(t_joueur* perso)
+void MenuDemarrage(t_joueur* perso, t_bitmap* images)
 {
     //BITMAP
     BITMAP* accueil;
@@ -975,13 +1000,13 @@ void MenuDemarrage(t_joueur* perso)
     }
 
     if(choix==1)
-        NouvellePartie(perso);
+        NouvellePartie(perso,images);
     if(choix==2)
         ChargerUnePartie(perso);
     if(choix==3)
         AfficherRegles(perso);
     if(choix==4)
-        Quitter(perso);
+        Quitter(perso,images);
 }
 
 
@@ -990,8 +1015,9 @@ int main()
     initialisationAllegro();
     srand(time(NULL));
     t_joueur* homer=(t_joueur*)malloc(sizeof(t_joueur));
+    t_bitmap* images=(t_bitmap*)malloc(sizeof(t_bitmap));
 
-    MenuDemarrage(homer);
+    MenuDemarrage(homer,images);
     free(homer);
     return 0;
 
