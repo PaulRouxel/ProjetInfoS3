@@ -17,11 +17,13 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="on arrete pas le cours du temps">
+    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="routes qui marchent bi1">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ProjetInfoS3.dir/main.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ProjetInfoS3.dir/main.c.obj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/ProjetInfoS3.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/ProjetInfoS3.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -68,11 +70,6 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="ProjetInfoS3" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ProjetInfoS3" TARGET_NAME="ProjetInfoS3" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ProjetInfoS3" RUN_TARGET_NAME="ProjetInfoS3">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -88,8 +85,10 @@
       <option name="presentableId" value="Default" />
       <updated>1667905104086</updated>
       <workItem from="1667905106260" duration="1735000" />
-      <workItem from="1668517816001" duration="12811000" />
-      <workItem from="1668587225655" duration="3471000" />
+      <workItem from="1668517816001" duration="6391000" />
+      <workItem from="1668530467272" duration="5128000" />
+      <workItem from="1668545810486" duration="710000" />
+      <workItem from="1668585033876" duration="11136000" />
     </task>
     <task id="LOCAL-00001" summary="AlleZ gros marche">
       <created>1667906483137</created>
@@ -133,28 +132,42 @@
       <option name="project" value="LOCAL" />
       <updated>1668527066411</updated>
     </task>
-    <task id="LOCAL-00007" summary="ou sont les bitmaps">
-      <created>1668529308830</created>
+    <task id="LOCAL-00007" summary="routes qui marchent bi1">
+      <created>1668532875981</created>
       <option name="number" value="00007" />
       <option name="presentableId" value="LOCAL-00007" />
       <option name="project" value="LOCAL" />
-      <updated>1668529308830</updated>
+      <updated>1668532875981</updated>
     </task>
-    <task id="LOCAL-00008" summary="Antispam du temps marche pas encore">
-      <created>1668535740498</created>
+    <task id="LOCAL-00008" summary="routes qui marchent bi1">
+      <created>1668533986465</created>
       <option name="number" value="00008" />
       <option name="presentableId" value="LOCAL-00008" />
       <option name="project" value="LOCAL" />
-      <updated>1668535740498</updated>
+      <updated>1668533986465</updated>
     </task>
-    <task id="LOCAL-00009" summary="on arrete pas le cours du temps">
-      <created>1668591156119</created>
+    <task id="LOCAL-00009" summary="routes qui marchent bi1">
+      <created>1668535071908</created>
       <option name="number" value="00009" />
       <option name="presentableId" value="LOCAL-00009" />
       <option name="project" value="LOCAL" />
-      <updated>1668591156119</updated>
+      <updated>1668535071908</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="routes qui marchent bi1">
+      <created>1668535746405</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1668535746405</updated>
+    </task>
+    <task id="LOCAL-00011" summary="routes qui marchent bi1">
+      <created>1668594399136</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1668594399136</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -177,19 +190,7 @@
     <MESSAGE value="+ 1000 lignes de Paul" />
     <MESSAGE value="Grand remplacement" />
     <MESSAGE value="ou sont les bitmaps" />
-    <MESSAGE value="Antispam du temps marche pas encore" />
-    <MESSAGE value="on arrete pas le cours du temps" />
-    <option name="LAST_COMMIT_MESSAGE" value="on arrete pas le cours du temps" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/main.c</url>
-          <line>198</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="routes qui marchent bi1" />
+    <option name="LAST_COMMIT_MESSAGE" value="routes qui marchent bi1" />
   </component>
 </project>
