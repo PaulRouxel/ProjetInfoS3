@@ -68,12 +68,20 @@ typedef struct bitmap
 
 ///INFOS
 //libre -> 0
+
 //route -> 1
+
 //centre terrain -> 2
 //centre terrain connecté -> 20
 //autour terrain -> 21
 
+//centre (x=1;y=2) centrale -> 8
+//centre (x=1;y=2) connecté -> 80
+//autour centrale -> 81
 
+//centre (x=1;y=2) chateau d'eau -> 9
+//centre (x=1;y=2) connecté -> 90
+//autour chateau d'eau -> 91
 
 
 #endif
