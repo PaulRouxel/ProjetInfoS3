@@ -17,7 +17,13 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="ca compile pas faut que je finisse">
+    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="ca compile pas faut que je finisset_">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ProjetInfoS3.dir/main.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ProjetInfoS3.dir/main.c.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/ProjetInfoS3.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/ProjetInfoS3.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -82,7 +88,7 @@
       <workItem from="1668517816001" duration="6391000" />
       <workItem from="1668530467272" duration="5128000" />
       <workItem from="1668545810486" duration="710000" />
-      <workItem from="1668585033876" duration="13857000" />
+      <workItem from="1668585033876" duration="15336000" />
     </task>
     <task id="LOCAL-00001" summary="AlleZ gros marche">
       <created>1667906483137</created>
@@ -175,7 +181,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668600300894</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="ca compile pas faut que je finisset_">
+      <created>1668603152165</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1668603152165</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -200,6 +213,7 @@
     <MESSAGE value="ou sont les bitmaps" />
     <MESSAGE value="routes qui marchent bi1" />
     <MESSAGE value="ca compile pas faut que je finisse" />
-    <option name="LAST_COMMIT_MESSAGE" value="ca compile pas faut que je finisse" />
+    <MESSAGE value="ca compile pas faut que je finisset_" />
+    <option name="LAST_COMMIT_MESSAGE" value="ca compile pas faut que je finisset_" />
   </component>
 </project>
