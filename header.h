@@ -108,7 +108,7 @@ int xCoortoPixel(int xCoor); //pour traduire les coordonnes en pixels en X
 
 int yCoortoPixel(int yCoor); //pour traduire les coordonnes en pixels en Y
 
-void AffichageRoute(t_joueur* perso, BITMAP* grille); //pour afficher les routes sur la bitmap de fond
+void AffichageRoute(t_joueur* perso, BITMAP* back,t_bitmap* images); //pour afficher les routes sur la bitmap de fond
 
 void AffichageTemps(BITMAP* back, int* temps,clock_t t1, t_joueur* perso); //affiche le temps qui avance sur l'écran
 
