@@ -479,6 +479,8 @@ void AffichageTemps(BITMAP* back, int* temps, clock_t t1, t_joueur* perso)
         textprintf_ex(back, font, 745, 22, makecol(0,0,0), -1, "0%d:",temps[1]);
     else
         textprintf_ex(back, font, 745, 22, makecol(0,0,0), -1, "%d:",temps[1]);
+
+
 }
 
 void RecupererImpots(t_joueur* perso, int time)
@@ -580,7 +582,7 @@ void AffichageReseaudEau(t_joueur* perso,t_bitmap* images)
         rest(200);
 
 }
-/*
+
 void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 {
     BITMAP *buffer;
@@ -589,6 +591,8 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
     clock_t t1 = clock();
 
     int* temps= (int*)malloc(2*sizeof(int));
+    temps[0]=0;
+    temps[1]=0;
 
 
     //va nous permettre de sortir de la boucle d'affichage lorsqu'un choix est fait
@@ -836,10 +840,10 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
     }
     allegro_exit();
 }
-*/
 
 
 
+/*
 void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 {
     BITMAP* buffer;
@@ -970,6 +974,7 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
     }
     allegro_exit();
 }
+ */
 
 void AffichageCapitaliste(t_bitmap* images)
 {
