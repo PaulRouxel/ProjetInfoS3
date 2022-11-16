@@ -388,6 +388,7 @@ void AffichageRoute(t_joueur* perso, BITMAP* back)
     if(terrain==NULL)
         allegro_message("Erreur bitmap route");
 
+
     for(int i=0;i<LIGNES;i++)
     {
         for(int j=0;j<COLONNES;j++) ///ROUTE
@@ -396,7 +397,7 @@ void AffichageRoute(t_joueur* perso, BITMAP* back)
             {
                 draw_sprite(back,route,xCoortoPixel(j),yCoortoPixel(i));
             }
-            if(perso->route[i][j]==2) ///TERRAIN
+            if(perso->route[i][j]==2 || perso->route[i][j]==20) ///TERRAIN
             {
                 draw_sprite(back,terrain, xCoortoPixel(j-1), yCoortoPixel(i-1));
             }
@@ -443,23 +444,27 @@ void AffichageEDF(t_joueur* perso, BITMAP* back)
     }
 }
 
-/*
+
 void TestConnexionReseau(t_joueur* perso)
 {
     for(int i=0;i<LIGNES;i++)
     {
         for(int j=0;j<COLONNES;j++) ///ROUTE
         {
-            if(perso->route[i][j]==1)
+            if(perso->route[i][j]==2)
             {
-                draw_sprite(back,route,xCoortoPixel(j),yCoortoPixel(i));
+                if ((perso->route[i - 1][j - 2] == 1) || (perso->route[i][j - 2] == 1) ||
+                    (perso->route[i + 1][j - 2] == 1) || (perso->route[i - 1][j + 2] == 1) ||
+                    (perso->route[i][j + 2] == 1) || (perso->route[i + 1][j + 2] == 1) ||
+                    (perso->route[i - 2][j - 1] == 1) || (perso->route[i - 2][j] == 1) ||
+                    (perso->route[i - 2][j + 1] == 1) || (perso->route[i + 2][j - 1] == 1) ||
+                    (perso->route[i + 2][j] == 1) || (perso->route[i + 2][j + 1] == 1))
+                    perso->route[i][j] = 20;
             }
-
-            if(perso->route[i][j]==21)
         }
     }
 }
- */
+
 
 int AffichageTemps(BITMAP* back, int sec, int min,clock_t t1)
 {
@@ -656,7 +661,7 @@ void EcranDeJeu(t_joueur* perso)
         secondes=AffichageTemps(background,secondes,minutes,t1);
         RecupererImpots(perso,secondes);
         AffichageRoute(perso, background);
-        //TestConnexionReseau(perso);
+        TestConnexionReseau(perso);
 
 
         //correspond aux cases de l'ecran
@@ -710,22 +715,28 @@ void EcranDeJeu(t_joueur* perso)
 
         if(perso->editmaison==true)  ///placement des maisons
         {
-            if((mouse_b&1)&&(mouse_x>=62)&&(mouse_x<=922)&&(mouse_y>=34)&&(mouse_y<=694)&&(perso->flouz>=1000)) ///correspond à la taille de l'écran jouable
-            {
-                if((perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)+1]==0) && (perso->route[yPixeltoCoor(mouse_y)+1][xPixeltoCoor(mouse_x)]==0) && (perso->route[yPixeltoCoor(mouse_y)-1][xPixeltoCoor(mouse_x)]==0) && (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)]==0) && (perso->route[yPixeltoCoor(mouse_y)-1][xPixeltoCoor(mouse_x)+1]==0) && (perso->route[yPixeltoCoor(mouse_y)-1][xPixeltoCoor(mouse_x)-1]==0) && (perso->route[yPixeltoCoor(mouse_y)+1][xPixeltoCoor(mouse_x)+1]==0) && (perso->route[yPixeltoCoor(mouse_y)+1][xPixeltoCoor(mouse_x)-1]==0))
-                {
-                    perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)+1]=21;
-                    perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)-1]=21;
-                    perso->route[yPixeltoCoor(mouse_y)+1][xPixeltoCoor(mouse_x)]=21;
-                    perso->route[yPixeltoCoor(mouse_y)-1][xPixeltoCoor(mouse_x)]=21;
-                    perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)]=2;
-                    perso->route[yPixeltoCoor(mouse_y)-1][xPixeltoCoor(mouse_x)+1]=21;
-                    perso->route[yPixeltoCoor(mouse_y)-1][xPixeltoCoor(mouse_x)-1]=21;
-                    perso->route[yPixeltoCoor(mouse_y)+1][xPixeltoCoor(mouse_x)+1]=21;
-                    perso->route[yPixeltoCoor(mouse_y)+1][xPixeltoCoor(mouse_x)-1]=21;
-                    perso->flouz-=1000;
+            if ((mouse_b & 1) && (mouse_x >= 62) && (mouse_x <= 922) && (mouse_y >= 34) && (mouse_y <= 694) &&
+                (perso->flouz >= 1000)) ///correspond à la taille de l'écran jouable
+                if ((perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x)] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x)] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] == 0)) {
+                    perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 1] = 21;
+                    perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 1] = 21;
+                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x)] = 21;
+                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x)] = 21;
+                    perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)] = 2;
+                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] = 21;
+                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] = 21;
+                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] = 21;
+                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] = 21;
+                    perso->flouz -= 1000;
                 }
-            }
+
         }
 
         if(perso->editroute==true)  ///placement de la route
