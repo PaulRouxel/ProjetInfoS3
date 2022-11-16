@@ -448,7 +448,6 @@ void TestConnexionReseau(t_joueur* perso)
     }
 }
 
-
 void AffichageTemps(BITMAP* back, int* temps, clock_t t1, t_joueur* perso)
 {
     clock_t t2=clock()+1000;
@@ -480,8 +479,6 @@ void AffichageTemps(BITMAP* back, int* temps, clock_t t1, t_joueur* perso)
         textprintf_ex(back, font, 745, 22, makecol(0,0,0), -1, "0%d:",temps[1]);
     else
         textprintf_ex(back, font, 745, 22, makecol(0,0,0), -1, "%d:",temps[1]);
-
-
 }
 
 void RecupererImpots(t_joueur* perso, int time)
@@ -583,7 +580,7 @@ void AffichageReseaudEau(t_joueur* perso,t_bitmap* images)
         rest(200);
 
 }
-
+/*
 void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 {
     BITMAP *buffer;
@@ -608,6 +605,7 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         blit(buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
         clear_bitmap(buffer);
 
+
         rectfill(images->fond0, 52, 11, 120, 30, makecol(255, 242, 0)); ///argent
         textprintf_ex(images->fond0, font, 60, 20, makecol(0, 0, 0), -1, "%d", perso->flouz);
 
@@ -620,12 +618,10 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 
         rectfill(images->fond0, 873, 11, 991, 30, makecol(255, 242, 0)); ///nb_hab
         textprintf_ex(images->fond0, font, 882, 21, makecol(0, 0, 0), -1, "%d", perso->nb_habitants);
-        AffichageRoute(perso, images->fond0, images);
 
-        
         AffichageTemps(images->fond0,temps,t1,perso);
         RecupererImpots(perso,temps[0]);
-
+        AffichageRoute(perso, images->fond0, images);
         TestConnexionReseau(perso);
 
         //correspond aux cases de l'ecran
@@ -649,8 +645,8 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
             (mouse_y <= 240)) /// activation mode edition route
         {
             rest(200);
-            if (perso->editroute == false && perso->editmaison == false && perso->editchateaudeau &&
-                perso->editcentrale)
+            if (perso->editroute == false && perso->editmaison == false && perso->editchateaudeau==false &&
+                perso->editcentrale == false)
                 perso->editroute = true;
             else
                 perso->editroute = false;
@@ -660,8 +656,8 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
             (mouse_y <= 306)) /// activation mode edition maison
         {
             rest(200);
-            if (perso->editroute == false && perso->editmaison == false && perso->editchateaudeau &&
-                perso->editcentrale)
+            if (perso->editroute == false && perso->editmaison == false && perso->editchateaudeau==false &&
+                perso->editcentrale== false)
                 perso->editmaison = true;
             else
                 perso->editmaison = false;
@@ -671,8 +667,8 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
             (mouse_y <= 50)) /// activation mode edition centrale
         {
             rest(200);
-            if (perso->editroute == false && perso->editmaison == false && perso->editchateaudeau &&
-                perso->editcentrale)
+            if (perso->editroute == false && perso->editmaison == false && perso->editchateaudeau==false &&
+                perso->editcentrale== false)
                 perso->editcentrale = true;
             else
                 perso->editcentrale = false;
@@ -682,8 +678,8 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
             (mouse_y <= 724)) /// activation mode edition chateau d'eau
         {
             rest(200);
-            if (perso->editroute == false && perso->editmaison == false && perso->editchateaudeau &&
-                perso->editcentrale)
+            if (perso->editroute == false && perso->editmaison == false && perso->editchateaudeau==false &&
+                perso->editcentrale==false)
                 perso->editchateaudeau = true;
             else
                 perso->editchateaudeau = false;
@@ -835,9 +831,144 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
                     perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] = 91;
                     perso->flouz -= 100000;
                 }
+
         }
-        allegro_exit();
     }
+    allegro_exit();
+}
+*/
+
+
+
+void EcranDeJeu(t_joueur* perso, t_bitmap* images)
+{
+    BITMAP* buffer;
+    buffer = create_bitmap(SCREEN_W, SCREEN_H);
+
+    clock_t t1 = clock();
+    int* temps= (int*)malloc(2*sizeof(int));
+
+    //va nous permettre de sortir de la boucle d'affichage lorsqu'un choix est fait
+    int next=0;
+
+    //boucle d'affichage
+    while(next!=1){
+
+        //routine d'affichage
+        blit(images->fond0, buffer, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
+        //blit(grille,background, 0,0,GRILLE_W,GRILLE_H, SCREEN_W,SCREEN_H);
+        blit(images->map0,images->fond0, 0,0,GRILLE_W,GRILLE_H, SCREEN_W,SCREEN_H);
+        show_mouse(buffer);
+        blit(buffer, screen, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
+        clear_bitmap(buffer);
+
+        rectfill(images->fond0, 52, 11, 120, 30, makecol(255,242,0)); ///argent
+        textprintf_ex(images->fond0, font, 60, 20, makecol(0,0,0), -1, "%d",perso->flouz);
+
+        rectfill(images->fond0, 196, 11, 260, 30, makecol(255,242,0)); ///capacite eau
+        textprintf_ex(images->fond0, font, 200, 20, makecol(0,0,0), -1, "%d",perso->eau);
+
+        rectfill(images->fond0, 315, 11, 409, 30, makecol(255,242,0)); ///capacite elec
+        textprintf_ex(images->fond0, font, 320, 20, makecol(0,0,0), -1, "%d",perso->electricite);
+
+        rectfill(images->fond0, 873, 11, 991, 30, makecol(255,242,0)); ///nb_hab
+        textprintf_ex(images->fond0, font, 882, 21, makecol(0,0,0), -1, "%d",perso->nb_habitants);
+
+        AffichageTemps(images->fond0,temps,t1,perso);
+        RecupererImpots(perso,temps[0]);
+        AffichageRoute(perso, images->fond0,images);
+        TestConnexionReseau(perso);
+
+        //correspond aux cases de l'ecran
+        if((mouse_b&1)&&(mouse_x>=969)&&(mouse_x<=1015)&&(mouse_y>=317)&&(mouse_y<=360))  ///quitter
+            next=1;
+
+        //corrrespond aux niveaux du jeu
+        if((mouse_b&1)&&(mouse_x>=969)&&(mouse_x<=1015)&&(mouse_y>=123)&&(mouse_y<=171)) ///niveau -1
+        {
+            rest(200);
+            AffichageReseaudEau(perso,images);
+        }
+
+        if((mouse_b&1)&&(mouse_x>=969)&&(mouse_x<=1015)&&(mouse_y>=55)&&(mouse_y<=103)) ///niveau -2
+        {
+            rest(200);
+            AffichageReseauElec(perso,images);
+        }
+
+        if((mouse_b&1)&&(mouse_x>=969)&&(mouse_x<=1015)&&(mouse_y>=190)&&(mouse_y<=240)) /// activation mode edition routes
+        {
+            rest(200);
+            if (perso->editroute==false && perso->editmaison==false)
+            {
+                perso->editroute=true;
+                printf("mode edition activated");
+            }
+
+            else
+            {
+                perso->editroute=false;
+                printf("mode edition desactivated");
+            }
+        }
+
+        if((mouse_b&1)&&(mouse_x>=969)&&(mouse_x<=1015)&&(mouse_y>=259)&&(mouse_y<=306)) /// activation mode edition routes
+        {
+            rest(200);
+            if (perso->editmaison==false && perso->editroute==false)
+            {
+                perso->editmaison=true;
+                printf("mode edition activated");
+            }
+            else
+            {
+                perso->editmaison=false;
+                printf("mode edition desactivated");
+            }
+        }
+
+        if(perso->editmaison==true)  ///placement des maisons
+        {
+            if ((mouse_b & 1) && (mouse_x >= 62) && (mouse_x <= 922) && (mouse_y >= 34) && (mouse_y <= 694) &&
+                (perso->flouz >= 1000)) ///correspond à la taille de l'écran jouable
+                if ((perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x)] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x)] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] == 0))
+                {
+                    perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 1] = 21;
+                    perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 1] = 21;
+                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x)] = 21;
+                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x)] = 21;
+                    perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)] = 2;
+                    //Creemaison(bati, yPixeltoCoor(mouse_y),xPixeltoCoor(mouse_x));
+                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] = 21;
+                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] = 21;
+                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] = 21;
+                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] = 21;
+                    perso->flouz -= 1000;
+                }
+
+        }
+
+        if(perso->editroute==true)  ///placement de la route
+        {
+            if((mouse_b&1)&&(mouse_x>=62)&&(mouse_x<=962)&&(mouse_y>=34)&&(mouse_y<=734)&&(perso->flouz>=10)&&(perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)]==0)) ///correspond à la taille de l'écran jouable
+            {
+                perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)]=1;
+                perso->flouz-=10;
+            }
+        }
+
+        ///test si les maisons peuvent évoluer -> dépends du mode
+
+
+    }
+    allegro_exit();
 }
 
 void AffichageCapitaliste(t_bitmap* images)
