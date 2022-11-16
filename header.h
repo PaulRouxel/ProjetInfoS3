@@ -19,6 +19,14 @@
 #define COLONNES 45
 #define LIGNES 35
 
+#define nbantispam 30
+
+///STUCTURE POUR LES VARIABLES DE TEMPS ///
+typedef struct temps
+{
+    bool antispam[nbantispam];
+}t_temps;
+
 /// STRUCTURE DES JOUEURS ///
 typedef struct joueur  //Cette structure gerera les donnees de joueurs tout au long de la partie
 {
@@ -28,11 +36,13 @@ typedef struct joueur  //Cette structure gerera les donnees de joueurs tout au l
     int eau;
     int electricite;
     int nb_habitants;
+    t_temps antisp;
     bool antispam;
     bool editroute;
     int** route;
 
 } t_joueur;
+
 
 /*************************/
 /*     PROTOTYPES        */
@@ -51,7 +61,7 @@ int yCoortoPixel(int yCoor); //pour traduire les coordonnes en pixels en Y
 
 void AffichageRoute(t_joueur* perso, BITMAP* grille); //pour afficher les routes sur la bitmap de fond
 
-void AffichageTemps(BITMAP* back, int* temps,clock_t t1, bool antispam); //affiche le temps qui avance
+void AffichageTemps(BITMAP* back, int* temps,clock_t t1, t_joueur* perso); //affiche le temps qui avance
 
 
 #endif

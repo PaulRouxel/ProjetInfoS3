@@ -396,20 +396,20 @@ void AffichageRoute(t_joueur* perso, BITMAP* grille)
 
 }
 
-void AffichageTemps(BITMAP* back, int* temps, clock_t t1, bool antispam)
+void AffichageTemps(BITMAP* back, int* temps, clock_t t1, t_joueur* perso)
 {
     clock_t t2=clock()+1000;
     temps[0]=(int)(t2-t1)/1000;
 
-    if(temps[0]==60 && antispam==true)
+    if(temps[0]%60==1 && perso->antisp.antispam[0]==true && temps[0]!=1)
     {
-        temps[1]++;
-        antispam=false;
+        temps[1]=temps[1]+1;
+        perso->antisp.antispam[0]=false;
         temps[0]=0;
     }
-    else if(temps[0]==10 && antispam == false)
+    else if(temps[0]%60==10 && perso->antisp.antispam[0]==false)
     {
-        antispam=true;
+        perso->antisp.antispam[0]=true;
     }
 
 
@@ -418,10 +418,10 @@ void AffichageTemps(BITMAP* back, int* temps, clock_t t1, bool antispam)
 
     rectfill(back, 706, 11, 810, 30, makecol(255,242,0));
 
-    if(temps[0]<10)
-        textprintf_ex(back, font, 775, 22, makecol(0,0,0), -1, "0%d",temps[0]);
+    if(temps[0]%60<10)
+        textprintf_ex(back, font, 775, 22, makecol(0,0,0), -1, "0%d",temps[0]%60);
     else
-        textprintf_ex(back, font, 775, 22, makecol(0,0,0), -1, "%d",temps[0]);
+        textprintf_ex(back, font, 775, 22, makecol(0,0,0), -1, "%d",temps[0]%60);
 
     if(temps[1]<10)
         textprintf_ex(back, font, 745, 22, makecol(0,0,0), -1, "0%d:",temps[1]);
@@ -572,7 +572,6 @@ void EcranDeJeu(t_joueur* perso)
     //FONT* myfont = load_font("simpsonfont.pcx",NULL,NULL);
 
     clock_t t1 = clock();
-    bool antispam = true;
     int* temps= (int*)malloc(2*sizeof(int));
 
     //va nous permettre de sortir de la boucle d'affichage lorsqu'un choix est fait
@@ -601,7 +600,7 @@ void EcranDeJeu(t_joueur* perso)
         rectfill(background, 873, 11, 991, 30, makecol(255,242,0)); ///nb_hab
         textprintf_ex(background, font, 882, 21, makecol(0,0,0), -1, "%d",perso->nb_habitants);
 
-        AffichageTemps(background,temps,t1,antispam);
+        AffichageTemps(background,temps,t1,perso);
         RecupererImpots(perso,temps[0]);
         AffichageRoute(perso, grille);
 
@@ -779,6 +778,10 @@ void StructureInit(t_joueur* perso)
     perso->flouz=500000;
     perso->nb_habitants=500;
     perso->antispam=true;
+    for(int i=0;i<nbantispam;i++ )
+    {
+        perso->antisp.antispam[i]=true;
+    }
     perso->editroute=false;
 
     perso->route=(int**)malloc(LIGNES*sizeof(int*));   ///allocation dynamique matrice entiers
