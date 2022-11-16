@@ -30,9 +30,17 @@ typedef struct joueur  //Cette structure gerera les donnees de joueurs tout au l
     int nb_habitants;
     bool antispam;
     bool editroute;
+    bool editmaison;
     int** route;
 
 } t_joueur;
+
+///INFOS
+//libre -> 0
+//route -> 1
+//centre terrain -> 2
+//autour terrain -> 21
+
 
 
 #endif
