@@ -15,7 +15,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/33769/Desktop/MinGW/bin/addr2line.exe"
+			"value" : "C:/Program Files/CodeBlocks/MinGW/bin/addr2line.exe"
 		},
 		{
 			"name" : "CMAKE_AR",
@@ -31,7 +31,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/33769/Desktop/MinGW/bin/ar.exe"
+			"value" : "C:/Program Files/CodeBlocks/MinGW/bin/ar.exe"
 		},
 		{
 			"name" : "CMAKE_BUILD_TYPE",
@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "c:/Users/33769/Documents/GitHub/ProjetInfoS3/cmake-build-debug"
+			"value" : "c:/Users/jules/Bureau/ProjetInfoS3/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -103,7 +103,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Program Files/JetBrains/CLion 2022.2.3/bin/cmake/win/bin/cmake.exe"
+			"value" : "C:/Program Files/JetBrains/CLion 2022.2.1/bin/cmake/win/bin/cmake.exe"
 		},
 		{
 			"name" : "CMAKE_CPACK_COMMAND",
@@ -115,7 +115,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Program Files/JetBrains/CLion 2022.2.3/bin/cmake/win/bin/cpack.exe"
+			"value" : "C:/Program Files/JetBrains/CLion 2022.2.1/bin/cmake/win/bin/cpack.exe"
 		},
 		{
 			"name" : "CMAKE_CTEST_COMMAND",
@@ -127,7 +127,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Program Files/JetBrains/CLion 2022.2.3/bin/cmake/win/bin/ctest.exe"
+			"value" : "C:/Program Files/JetBrains/CLion 2022.2.1/bin/cmake/win/bin/ctest.exe"
 		},
 		{
 			"name" : "CMAKE_C_COMPILER",
@@ -143,7 +143,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/33769/Desktop/MinGW/bin/gcc.exe"
+			"value" : "C:/Program Files/CodeBlocks/MinGW/bin/gcc.exe"
 		},
 		{
 			"name" : "CMAKE_C_COMPILER_AR",
@@ -159,7 +159,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/33769/Desktop/MinGW/bin/gcc-ar.exe"
+			"value" : "C:/Program Files/CodeBlocks/MinGW/bin/gcc-ar.exe"
 		},
 		{
 			"name" : "CMAKE_C_COMPILER_RANLIB",
@@ -175,7 +175,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/33769/Desktop/MinGW/bin/gcc-ranlib.exe"
+			"value" : "C:/Program Files/CodeBlocks/MinGW/bin/gcc-ranlib.exe"
 		},
 		{
 			"name" : "CMAKE_C_FLAGS",
@@ -287,7 +287,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/33769/Desktop/MinGW/bin/dlltool.exe"
+			"value" : "C:/Program Files/CodeBlocks/MinGW/bin/dlltool.exe"
 		},
 		{
 			"name" : "CMAKE_EXECUTABLE_FORMAT",
@@ -479,7 +479,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/33769/Documents/GitHub/ProjetInfoS3"
+			"value" : "C:/Users/jules/Bureau/ProjetInfoS3"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -507,7 +507,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/33769/Desktop/MinGW/bin/ld.exe"
+			"value" : "C:/Program Files/CodeBlocks/MinGW/bin/ld.exe"
 		},
 		{
 			"name" : "CMAKE_MAKE_PROGRAM",
@@ -519,7 +519,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/ninja/win/ninja.exe"
+			"value" : "C:/Program Files/JetBrains/CLion 2022.2.1/bin/ninja/win/ninja.exe"
 		},
 		{
 			"name" : "CMAKE_MODULE_LINKER_FLAGS",
@@ -615,7 +615,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/33769/Desktop/MinGW/bin/nm.exe"
+			"value" : "C:/Program Files/CodeBlocks/MinGW/bin/nm.exe"
 		},
 		{
 			"name" : "CMAKE_NUMBER_OF_MAKEFILES",
@@ -643,7 +643,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/33769/Desktop/MinGW/bin/objcopy.exe"
+			"value" : "C:/Program Files/CodeBlocks/MinGW/bin/objcopy.exe"
 		},
 		{
 			"name" : "CMAKE_OBJDUMP",
@@ -659,7 +659,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/33769/Desktop/MinGW/bin/objdump.exe"
+			"value" : "C:/Program Files/CodeBlocks/MinGW/bin/objdump.exe"
 		},
 		{
 			"name" : "CMAKE_PLATFORM_INFO_INITIALIZED",
@@ -723,7 +723,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/33769/Desktop/MinGW/bin/ranlib.exe"
+			"value" : "C:/Program Files/CodeBlocks/MinGW/bin/ranlib.exe"
 		},
 		{
 			"name" : "CMAKE_RC_COMPILER",
@@ -739,7 +739,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/33769/Desktop/MinGW/bin/windres.exe"
+			"value" : "C:/Program Files/CodeBlocks/MinGW/bin/windres.exe"
 		},
 		{
 			"name" : "CMAKE_RC_COMPILER_WORKS",
@@ -847,7 +847,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/33769/Desktop/MinGW/bin/readelf.exe"
+			"value" : "C:/Program Files/CodeBlocks/MinGW/bin/readelf.exe"
 		},
 		{
 			"name" : "CMAKE_ROOT",
@@ -859,7 +859,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Program Files/JetBrains/CLion 2022.2.3/bin/cmake/win/share/cmake-3.23"
+			"value" : "C:/Program Files/JetBrains/CLion 2022.2.1/bin/cmake/win/share/cmake-3.23"
 		},
 		{
 			"name" : "CMAKE_SHARED_LINKER_FLAGS",
@@ -1067,7 +1067,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/33769/Desktop/MinGW/bin/strip.exe"
+			"value" : "C:/Program Files/CodeBlocks/MinGW/bin/strip.exe"
 		},
 		{
 			"name" : "CMAKE_VERBOSE_MAKEFILE",
@@ -1095,7 +1095,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/33769/Documents/GitHub/ProjetInfoS3/cmake-build-debug"
+			"value" : "C:/Users/jules/Bureau/ProjetInfoS3/cmake-build-debug"
 		},
 		{
 			"name" : "ProjetInfoS3_IS_TOP_LEVEL",
@@ -1119,7 +1119,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/33769/Documents/GitHub/ProjetInfoS3"
+			"value" : "C:/Users/jules/Bureau/ProjetInfoS3"
 		}
 	],
 	"kind" : "cache",
