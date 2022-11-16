@@ -1,4 +1,3 @@
-
 #include "header.h"
 
 void initialisationAllegro(){
@@ -376,74 +375,51 @@ int yCoortoPixel(int yCoor)  //pour traduire les coordonnes en pixels en Y
     }
 }
 
-void AffichageRoute(t_joueur* perso, BITMAP* back)
+void AffichageRoute(t_joueur* perso, BITMAP* back,t_bitmap* images)
 {
-    BITMAP* route;
-    route = load_bitmap("Bitmaps/road.bmp",NULL);  ///CHANGEMENT CHEMIN
-    if(route==NULL)
-        allegro_message("Erreur bitmap route");
-
-    BITMAP* terrain;
-    terrain = load_bitmap("Bitmaps/TVAAAGUE.bmp",NULL);  ///CHANGEMENT CHEMIN
-    if(terrain==NULL)
-        allegro_message("Erreur bitmap route");
-
-
     for(int i=0;i<LIGNES;i++)
     {
         for(int j=0;j<COLONNES;j++) ///ROUTE
         {
             if(perso->route[i][j]==1)
             {
-                draw_sprite(back,route,xCoortoPixel(j),yCoortoPixel(i));
+                draw_sprite(back,images->route,xCoortoPixel(j),yCoortoPixel(i));
             }
             if(perso->route[i][j]==2 || perso->route[i][j]==20) ///TERRAIN
             {
-                draw_sprite(back,terrain, xCoortoPixel(j-1), yCoortoPixel(i-1));
+                draw_sprite(back,images->terrain, xCoortoPixel(j-1), yCoortoPixel(i-1));
             }
         }
     }
 }
 
-
-void AffichageCanalisations(t_joueur* perso, BITMAP* back)
+void AffichageCanalisations(t_joueur* perso, BITMAP* back,t_bitmap* images)
 {
-    BITMAP* canalisation;
-    canalisation = load_bitmap("Bitmaps/EAUVERTE.bmp",NULL);  ///CHANGEMENT CHEMIN
-    if(canalisation==NULL)
-        allegro_message("Erreur bitmap canal");
-
     for(int i=0;i<LIGNES;i++)
     {
         for(int j=0;j<COLONNES;j++)
         {
             if(perso->route[i][j]==1)
             {
-                draw_sprite(back,canalisation,xCoortoPixel(j),yCoortoPixel(i));   ///CHANGEMENT
+                draw_sprite(back,images->eau,xCoortoPixel(j),yCoortoPixel(i));   ///CHANGEMENT
             }
         }
     }
 }
 
-void AffichageEDF(t_joueur* perso, BITMAP* back)
+void AffichageEDF(t_joueur* perso, BITMAP* back,t_bitmap* images)
 {
-    BITMAP* cable;
-    cable = load_bitmap("Bitmaps/ZAAP.bmp",NULL);  ///CHANGEMENT CHEMIN
-    if(cable==NULL)
-        allegro_message("Erreur bitmap canal");
-
     for(int i=0;i<LIGNES;i++)
     {
         for(int j=0;j<COLONNES;j++)
         {
             if(perso->route[i][j]==1)
             {
-                draw_sprite(back,cable,xCoortoPixel(j),yCoortoPixel(i));   ///CHANGEMENT
+                draw_sprite(back,images->electricite,xCoortoPixel(j),yCoortoPixel(i));   ///CHANGEMENT
             }
         }
     }
 }
-
 
 void TestConnexionReseau(t_joueur* perso)
 {
@@ -504,20 +480,12 @@ void RecupererImpots(t_joueur* perso, int time)
         perso->antispam=true;
 }
 
-void AffichageReseaudEau(t_joueur* perso);  ///on declare ici pour pouvoir l'appeler partout dans le programme, même si elle aprait après dans le code
+void AffichageReseaudEau(t_joueur* perso,t_bitmap* images);  ///on declare ici pour pouvoir l'appeler partout dans le programme, même si elle aprait après dans le code
 
-void AffichageReseauElec(t_joueur* perso)
+void AffichageReseauElec(t_joueur* perso,t_bitmap* images)
 {
-    BITMAP* ecranelec;
-    ecranelec = load_bitmap("Bitmaps/ecranreseaudelec.bmp",NULL);                           ///CHANGEMENT CHEMIN
-    if(ecranelec==NULL)
-        allegro_message("erreur chargement ecranelec");
-
     BITMAP* buffer;
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
-
-    BITMAP* mapedf;
-    mapedf = load_bitmap("Bitmaps/zaapmap.bmp",NULL);
 
     //va nous permettre de sortir de la boucle d'affichage lorsqu'un choix est fait
     int next=0;
@@ -527,16 +495,13 @@ void AffichageReseauElec(t_joueur* perso)
     while(next!=1){
 
         //routine d'affichage
-        blit(ecranelec, buffer, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
-        blit(mapedf,ecranelec, 0,0,GRILLE_W,GRILLE_H, SCREEN_W,SCREEN_H);
+        blit(images->fond2, buffer, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
+        blit(images->map2,images->fond2, 0,0,GRILLE_W,GRILLE_H, SCREEN_W,SCREEN_H);
         show_mouse(buffer);
         blit(buffer, screen, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
         clear_bitmap(buffer);
 
-        //draw_sprite(ecranelec,,62,34);
-
-        AffichageEDF(perso,ecranelec);
-
+        AffichageEDF(perso,images->fond2,images);
 
         //correspond aux cases de l'ecran
         if((mouse_b&1)&&(mouse_x>=976)&&(mouse_x<=1018)&&(mouse_y>=118)&&(mouse_y<=160)) ///niveau -1
@@ -554,29 +519,18 @@ void AffichageReseauElec(t_joueur* perso)
     if(choix==1) /// niveau -1
     {
         rest(200);
-        AffichageReseaudEau(perso);
+        AffichageReseaudEau(perso,images);
     }
     else             ///niveau 0 (on skip la fonction)
         rest(200);
 
 }
 
-
-void AffichageReseaudEau(t_joueur* perso)
+void AffichageReseaudEau(t_joueur* perso,t_bitmap* images)
 {
-    BITMAP* ecranwater;
-    ecranwater = load_bitmap("Bitmaps/ecranreseaudeau.bmp",NULL);                           ///CHANGEMENT CHEMIN
-
-    if(ecranwater==NULL)
-        allegro_message("erreur de chargement de ecranreseaudeau");
-
     BITMAP* buffer;
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
 
-    BITMAP* mapegouts;
-    mapegouts = load_bitmap("Bitmaps/Egouts.bmp",NULL);
-    if(mapegouts==NULL)
-        allegro_message("erreur de chargement de mapegouts");
 
     //va nous permettre de sortir de la boucle d'affichage lorsqu'un choix est fait
     int next=0;
@@ -586,13 +540,13 @@ void AffichageReseaudEau(t_joueur* perso)
     while(next!=1){
 
         //routine d'affichage
-        blit(ecranwater, buffer, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
-        blit(mapegouts,ecranwater, 0,0,GRILLE_W,GRILLE_H, SCREEN_W,SCREEN_H);
+        blit(images->fond1, buffer, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
+        blit(images->map1,images->fond1, 0,0,GRILLE_W,GRILLE_H, SCREEN_W,SCREEN_H);
         show_mouse(buffer);
         blit(buffer, screen, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
         clear_bitmap(buffer);
 
-        AffichageCanalisations(perso, ecranwater);
+        AffichageCanalisations(perso, images->fond1,images);
 
         //correspond aux cases de l'ecran
         if((mouse_b&1)&&(mouse_x>=983)&&(mouse_x<=1020)&&(mouse_y>=114)&&(mouse_y<=153)) ///niveau -2
@@ -609,22 +563,15 @@ void AffichageReseaudEau(t_joueur* perso)
     if(choix==1) /// niveau -2
     {
         rest(200);
-        AffichageReseauElec(perso);
+        AffichageReseauElec(perso,images);
     }
     else          ///niveau 0
         rest(200);
 
 }
 
-
-void EcranDeJeu(t_joueur* perso)
+void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 {
-    BITMAP* background;
-    background = load_bitmap("Bitmaps/ecrandejeu.bmp",NULL);   ///CHANGEMENT CHEMIN
-
-    BITMAP* map;
-    map = load_bitmap("Bitmaps/map.bmp",NULL);  ///CHANGEMENT CHEMIN
-
     BITMAP* buffer;
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
 
@@ -639,28 +586,28 @@ void EcranDeJeu(t_joueur* perso)
     while(next!=1){
 
         //routine d'affichage
-        blit(background, buffer, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
+        blit(images->fond0, buffer, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
         //blit(grille,background, 0,0,GRILLE_W,GRILLE_H, SCREEN_W,SCREEN_H);
-        blit(map,background, 0,0,GRILLE_W,GRILLE_H, SCREEN_W,SCREEN_H);
+        blit(images->map0,images->fond0, 0,0,GRILLE_W,GRILLE_H, SCREEN_W,SCREEN_H);
         show_mouse(buffer);
         blit(buffer, screen, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
         clear_bitmap(buffer);
 
-        rectfill(background, 52, 11, 120, 30, makecol(255,242,0)); ///argent
-        textprintf_ex(background, font, 60, 20, makecol(0,0,0), -1, "%d",perso->flouz);
+        rectfill(images->fond0, 52, 11, 120, 30, makecol(255,242,0)); ///argent
+        textprintf_ex(images->fond0, font, 60, 20, makecol(0,0,0), -1, "%d",perso->flouz);
 
-        rectfill(background, 196, 11, 260, 30, makecol(255,242,0)); ///capacite eau
-        textprintf_ex(background, font, 200, 20, makecol(0,0,0), -1, "%d",perso->eau);
+        rectfill(images->fond0, 196, 11, 260, 30, makecol(255,242,0)); ///capacite eau
+        textprintf_ex(images->fond0, font, 200, 20, makecol(0,0,0), -1, "%d",perso->eau);
 
-        rectfill(background, 315, 11, 409, 30, makecol(255,242,0)); ///capacite elec
-        textprintf_ex(background, font, 320, 20, makecol(0,0,0), -1, "%d",perso->electricite);
+        rectfill(images->fond0, 315, 11, 409, 30, makecol(255,242,0)); ///capacite elec
+        textprintf_ex(images->fond0, font, 320, 20, makecol(0,0,0), -1, "%d",perso->electricite);
 
-        rectfill(background, 873, 11, 991, 30, makecol(255,242,0)); ///nb_hab
-        textprintf_ex(background, font, 882, 21, makecol(0,0,0), -1, "%d",perso->nb_habitants);
+        rectfill(images->fond0, 873, 11, 991, 30, makecol(255,242,0)); ///nb_hab
+        textprintf_ex(images->fond0, font, 882, 21, makecol(0,0,0), -1, "%d",perso->nb_habitants);
 
-        secondes=AffichageTemps(background,secondes,minutes,t1);
+        secondes=AffichageTemps(images->fond0,secondes,minutes,t1);
         RecupererImpots(perso,secondes);
-        AffichageRoute(perso, background);
+        AffichageRoute(perso, images->fond0,images);
         TestConnexionReseau(perso);
 
 
@@ -672,13 +619,13 @@ void EcranDeJeu(t_joueur* perso)
         if((mouse_b&1)&&(mouse_x>=969)&&(mouse_x<=1015)&&(mouse_y>=123)&&(mouse_y<=171)) ///niveau -1
         {
             rest(200);
-            AffichageReseaudEau(perso);
+            AffichageReseaudEau(perso,images);
         }
 
         if((mouse_b&1)&&(mouse_x>=969)&&(mouse_x<=1015)&&(mouse_y>=55)&&(mouse_y<=103)) ///niveau -2
         {
             rest(200);
-            AffichageReseauElec(perso);
+            AffichageReseauElec(perso,images);
         }
 
         if((mouse_b&1)&&(mouse_x>=969)&&(mouse_x<=1015)&&(mouse_y>=190)&&(mouse_y<=240)) /// activation mode edition routes
@@ -705,7 +652,6 @@ void EcranDeJeu(t_joueur* perso)
                 perso->editmaison=true;
                 printf("mode edition activated");
             }
-
             else
             {
                 perso->editmaison=false;
@@ -747,20 +693,13 @@ void EcranDeJeu(t_joueur* perso)
                 perso->flouz-=10;
             }
         }
-
-
-
-
     }
     allegro_exit();
 }
 
 
-void AffichageCapitaliste()
+void AffichageCapitaliste(t_bitmap* images)
 {
-    BITMAP* ecrancapitaliste;
-    ecrancapitaliste = load_bitmap("Bitmaps/Capitaliste.bmp",NULL);                ///CHANGEMENT CHEMIN
-
     BITMAP* buffer;
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
 
@@ -771,7 +710,7 @@ void AffichageCapitaliste()
     while(next!=1){
 
         //routine d'affichage
-        blit(ecrancapitaliste, buffer, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
+        blit(images->ecrancapitaliste, buffer, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
         show_mouse(buffer);
         blit(buffer, screen, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
         clear_bitmap(buffer);
@@ -780,14 +719,8 @@ void AffichageCapitaliste()
     }
 }
 
-void AffichageCommuniste()
+void AffichageCommuniste(t_bitmap* images)
 {
-    BITMAP* ecrancommuniste;
-    ecrancommuniste = load_bitmap("Bitmaps/communiste.bmp",NULL);                     ///CHANGEMENT CHEMIN
-    if(ecrancommuniste==NULL)
-    {
-        allegro_message("Erreure de chargement de communiste");
-    }
     BITMAP* buffer;
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
 
@@ -798,7 +731,7 @@ void AffichageCommuniste()
     while(next!=1){
 
         //routine d'affichage
-        blit(ecrancommuniste, buffer, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
+        blit(images->ecrancommuniste, buffer, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
         show_mouse(buffer);
         blit(buffer, screen, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
         clear_bitmap(buffer);
@@ -807,16 +740,8 @@ void AffichageCommuniste()
     }
 }
 
-
-void ChoixDuMode(t_joueur* perso)
+void ChoixDuMode(t_joueur* perso,t_bitmap* images)
 {
-    BITMAP* ecranmodedejeu;
-    ecranmodedejeu = load_bitmap("Bitmaps/ecranmodedejeu.bmp",NULL);                           ///CHANGEMENT CHEMIN
-    if(ecranmodedejeu==NULL)
-    {
-        allegro_message("erreur de chargement de ecranmodedejeu");
-    }
-
     BITMAP* buffer;
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
 
@@ -828,7 +753,7 @@ void ChoixDuMode(t_joueur* perso)
     while(next!=1){
 
         //routine d'affichage
-        blit(ecranmodedejeu, buffer, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
+        blit(images->ecranmode, buffer, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
         show_mouse(buffer);
         blit(buffer, screen, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
         clear_bitmap(buffer);
@@ -852,14 +777,14 @@ void ChoixDuMode(t_joueur* perso)
     {
         perso->capitaliste=true;
         perso->communiste=false;
-        AffichageCapitaliste();
+        AffichageCapitaliste(images);
     }
 
     if(choix==2) //communiste
     {
         perso->capitaliste=false;
         perso->communiste=true;
-        AffichageCommuniste();
+        AffichageCommuniste(images);
     }
 }
 
@@ -873,7 +798,7 @@ void Song() //theme
 }
 */
 
-void StructureInit(t_joueur* perso)
+void StructureJoueurInit(t_joueur* perso)
 {
     perso->eau=0;
     perso->electricite=0;
@@ -894,14 +819,39 @@ void StructureInit(t_joueur* perso)
             perso->route[i][j]=0;
         }
     }
-
 }
 
-void NouvellePartie(t_joueur* perso)
+void StructureBitmapInit(t_bitmap* images)
 {
-    StructureInit(perso);
-    ChoixDuMode(perso);
-    EcranDeJeu(perso);
+    images->map0 = load_bitmap("Bitmaps/map.bmp",NULL);   ///CHANGEMENT CHEMIN
+    images->map1 = load_bitmap("Bitmaps/Egouts.bmp",NULL);
+    images->map2 = load_bitmap("Bitmaps/zaapmap.bmp",NULL);
+    images->fond0 = load_bitmap("Bitmaps/ecrandejeu.bmp",NULL);
+    images->fond1 = load_bitmap("Bitmaps/ecranreseaudeau.bmp",NULL);
+    images->fond2 = load_bitmap("Bitmaps/ecranreseaudelec.bmp",NULL);
+    images->ecranaccueil = load_bitmap("Bitmaps/ecrandemarrageS3.bmp",NULL);
+    images->ecranmode = load_bitmap("Bitmaps/ecranmodedejeu.bmp",NULL);
+    images->ecrancapitaliste = load_bitmap("Bitmaps/Capitaliste.bmp",NULL);
+    images->ecrancommuniste = load_bitmap("Bitmaps/communiste.bmp",NULL);
+    images->chateaudeau = load_bitmap("Bitmaps/binouze.bmp",NULL);
+    images->centrale = load_bitmap("Bitmaps/NUCULAIRE.bmp",NULL);
+    images->terrain = load_bitmap("Bitmaps/TVAAAGUE.bmp",NULL);
+    images->ruine = NULL;
+    images->cabane = load_bitmap("Bitmaps/cabane.bmp",NULL);
+    images->maison = load_bitmap("Bitmaps/LAMAAAAIIISOONN.bmp",NULL);
+    images->immeuble = NULL;
+    images->gratteciel = NULL;
+    images->route = load_bitmap("Bitmaps/road.bmp",NULL);
+    images->eau = load_bitmap("Bitmaps/EAUVERTE.bmp",NULL);
+    images->electricite = load_bitmap("Bitmaps/ZAAP.bmp",NULL);
+}
+
+void NouvellePartie(t_joueur* perso, t_bitmap* images)
+{
+    StructureJoueurInit(perso);
+    StructureBitmapInit(images);
+    ChoixDuMode(perso,images);
+    EcranDeJeu(perso,images);
 }
 
 void ChargerUnePartie(t_joueur* perso)
@@ -914,16 +864,22 @@ void AfficherRegles(t_joueur* perso)
     printf("afficher regles");
 }
 
-void Quitter(t_joueur* perso)
+void Quitter(t_joueur* perso, t_bitmap* images)
 {
     free(perso);
+    free(images);
     for(int i = 0; i < LIGNES; ++i)
         free(perso->route[i]);
     free(perso->route);
     allegro_exit();
 }
 
-void MenuDemarrage(t_joueur* perso)
+void QuitterBis()
+{
+    allegro_exit();
+}
+
+void MenuDemarrage(t_joueur* perso, t_bitmap* images)
 {
     //BITMAP
     BITMAP* accueil;
@@ -975,23 +931,23 @@ void MenuDemarrage(t_joueur* perso)
     }
 
     if(choix==1)
-        NouvellePartie(perso);
+        NouvellePartie(perso,images);
     if(choix==2)
         ChargerUnePartie(perso);
     if(choix==3)
         AfficherRegles(perso);
     if(choix==4)
-        Quitter(perso);
+        QuitterBis();
 }
-
 
 int main()
 {
     initialisationAllegro();
     srand(time(NULL));
     t_joueur* homer=(t_joueur*)malloc(sizeof(t_joueur));
+    t_bitmap* images=(t_bitmap*)malloc(sizeof(t_bitmap));
 
-    MenuDemarrage(homer);
+    MenuDemarrage(homer,images);
     free(homer);
     return 0;
 
