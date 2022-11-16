@@ -401,7 +401,7 @@ void AffichageTemps(BITMAP* back, int* temps, clock_t t1, t_joueur* perso)
     clock_t t2=clock()+1000;
     temps[0]=(int)(t2-t1)/1000;
 
-    if(temps[0]%60==1 && perso->antisp.antispam[0]==true && temps[0]!=1)
+    if(temps[0]%60==0 && perso->antisp.antispam[0]==true && temps[0]!=1)
     {
         temps[1]=temps[1]+1;
         perso->antisp.antispam[0]=false;
