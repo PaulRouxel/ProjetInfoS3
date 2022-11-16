@@ -31,6 +31,8 @@ typedef struct joueur  //Cette structure gerera les donnees de joueurs tout au l
     bool antispam;
     bool editroute;
     bool editmaison;
+    bool editcentrale;
+    bool editchateaudeau;
     int** route;
 } t_joueur;
 

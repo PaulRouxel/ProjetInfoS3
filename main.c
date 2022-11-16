@@ -193,7 +193,6 @@ int yPixeltoCoor(int yPixel)  //pour traduire les pixels en coordonnes en Y
     }
 }
 
-
 int xCoortoPixel(int xCoor) //pour traduire les coordonnes en pixels en X
 {
     if(xCoor==0)
@@ -441,7 +440,6 @@ void TestConnexionReseau(t_joueur* perso)
     }
 }
 
-
 int AffichageTemps(BITMAP* back, int sec, int min,clock_t t1)
 {
 
@@ -531,7 +529,6 @@ void AffichageReseaudEau(t_joueur* perso,t_bitmap* images)
     BITMAP* buffer;
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
 
-
     //va nous permettre de sortir de la boucle d'affichage lorsqu'un choix est fait
     int next=0;
     int choix=0;
@@ -610,7 +607,6 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         AffichageRoute(perso, images->fond0,images);
         TestConnexionReseau(perso);
 
-
         //correspond aux cases de l'ecran
         if((mouse_b&1)&&(mouse_x>=969)&&(mouse_x<=1015)&&(mouse_y>=317)&&(mouse_y<=360))  ///quitter
             next=1;
@@ -628,35 +624,40 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
             AffichageReseauElec(perso,images);
         }
 
-        if((mouse_b&1)&&(mouse_x>=969)&&(mouse_x<=1015)&&(mouse_y>=190)&&(mouse_y<=240)) /// activation mode edition routes
+        if((mouse_b&1)&&(mouse_x>=969)&&(mouse_x<=1015)&&(mouse_y>=190)&&(mouse_y<=240)) /// activation mode edition route
         {
             rest(200);
             if (perso->editroute==false && perso->editmaison==false)
-            {
                 perso->editroute=true;
-                printf("mode edition activated");
-            }
-
             else
-            {
                 perso->editroute=false;
-                printf("mode edition desactivated");
-            }
         }
 
-        if((mouse_b&1)&&(mouse_x>=969)&&(mouse_x<=1015)&&(mouse_y>=259)&&(mouse_y<=306)) /// activation mode edition routes
+        if((mouse_b&1)&&(mouse_x>=969)&&(mouse_x<=1015)&&(mouse_y>=259)&&(mouse_y<=306)) /// activation mode edition maison
         {
             rest(200);
             if (perso->editmaison==false && perso->editroute==false)
-            {
                 perso->editmaison=true;
-                printf("mode edition activated");
-            }
             else
-            {
                 perso->editmaison=false;
-                printf("mode edition desactivated");
-            }
+        }
+
+        if((mouse_b&1)&&(mouse_x>=0)&&(mouse_x<=50)&&(mouse_y>=0)&&(mouse_y<=50)) /// activation mode edition centrale
+        {
+            rest(200);
+            if (perso->editcentrale==false && perso->editcentrale==false)
+                perso->editcentrale=true;
+            else
+                perso->editcentrale=false;
+        }
+
+        if((mouse_b&1)&&(mouse_x>=0)&&(mouse_x<=50)&&(mouse_y>=684)&&(mouse_y<=724)) /// activation mode edition chateau d'eau
+        {
+            rest(200);
+            if (perso->editchateaudeau==false && perso->editchateaudeau==false)
+                perso->editchateaudeau=true;
+            else
+                perso->editchateaudeau=false;
         }
 
         if(perso->editmaison==true)  ///placement des maisons
@@ -807,6 +808,8 @@ void StructureJoueurInit(t_joueur* perso)
     perso->antispam=true;
     perso->editroute=false;
     perso->editmaison=false;
+    perso->editcentrale=false;
+    perso->editchateaudeau=false;
 
     perso->route=(int**)malloc(LIGNES*sizeof(int*));   ///allocation dynamique matrice entiers
     for(int i=0;i<LIGNES;i++)
@@ -949,8 +952,8 @@ int main()
 
     MenuDemarrage(homer,images);
     free(homer);
+    //Quitter(homer,images);
     return 0;
-
 }
 END_OF_MAIN();
 
