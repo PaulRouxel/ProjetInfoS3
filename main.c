@@ -392,6 +392,7 @@ void AffichageRoute(t_joueur* perso, BITMAP* back,t_bitmap* images) {
 
         }
     }
+    /*
     for (int i = 0; i < LIGNES; i++) {
         for (int j = 0; j < COLONNES; j++) ///ROUTE
         {
@@ -400,6 +401,7 @@ void AffichageRoute(t_joueur* perso, BITMAP* back,t_bitmap* images) {
         printf("\n");
     }
     printf("\n\n");
+     */
 }
 
 void AffichageCanalisations(t_joueur* perso, BITMAP* back,t_bitmap* images)
@@ -610,14 +612,14 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         clear_bitmap(buffer);
 
 
-        rectfill(images->fond0, 52, 11, 120, 30, makecol(255, 242, 0)); ///argent
-        textprintf_ex(images->fond0, font, 60, 20, makecol(0, 0, 0), -1, "%d", perso->flouz);
+        rectfill(images->fond0, 62, 11, 115, 30, makecol(255, 242, 0)); ///argent
+        textprintf_ex(images->fond0, font, 65, 20, makecol(0, 0, 0), -1, "%d", perso->flouz);
 
-        rectfill(images->fond0, 196, 11, 260, 30, makecol(255, 242, 0)); ///capacite eau
-        textprintf_ex(images->fond0, font, 200, 20, makecol(0, 0, 0), -1, "%d", perso->eau);
+        rectfill(images->fond0, 235, 11, 300, 30, makecol(255, 242, 0)); ///capacite eau
+        textprintf_ex(images->fond0, font, 250, 20, makecol(0, 0, 0), -1, "%d", perso->eau);
 
-        rectfill(images->fond0, 315, 11, 409, 30, makecol(255, 242, 0)); ///capacite elec
-        textprintf_ex(images->fond0, font, 320, 20, makecol(0, 0, 0), -1, "%d", perso->electricite);
+        rectfill(images->fond0, 355, 11, 420, 30, makecol(255, 242, 0)); ///capacite elec
+        textprintf_ex(images->fond0, font, 370, 20, makecol(0, 0, 0), -1, "%d", perso->electricite);
 
 
         rectfill(images->fond0, 873, 11, 991, 30, makecol(255, 242, 0)); ///nb_hab
@@ -629,24 +631,24 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         TestConnexionReseau(perso);
 
         //correspond aux cases de l'ecran
-        if ((mouse_b & 1) && (mouse_x >= 969) && (mouse_x <= 1015) && (mouse_y >= 317) && (mouse_y <= 360))  ///quitter
+        if ((mouse_b & 1) && (mouse_x >= 971) && (mouse_x <= 1018) && (mouse_y >= 712 && (mouse_y <= 756)) ) ///quitter
             next = 1;
 
         //corrrespond aux niveaux du jeu
-        if ((mouse_b & 1) && (mouse_x >= 969) && (mouse_x <= 1015) && (mouse_y >= 123) && (mouse_y <= 171)) ///niveau -1
+        if ((mouse_b & 1) && (mouse_x >= 966) && (mouse_x <= 1015) && (mouse_y >= 506) && (mouse_y <= 555)) ///niveau -1
         {
             rest(200);
             AffichageReseaudEau(perso, images);
         }
 
-        if ((mouse_b & 1) && (mouse_x >= 969) && (mouse_x <= 1015) && (mouse_y >= 55) && (mouse_y <= 103)) ///niveau -2
+        if ((mouse_b & 1) && (mouse_x >= 966) && (mouse_x <= 1015) && (mouse_y >= 571) && (mouse_y <= 613)) ///niveau -2
         {
             rest(200);
             AffichageReseauElec(perso, images);
         }
 
-        if ((mouse_b & 1) && (mouse_x >= 969) && (mouse_x <= 1015) && (mouse_y >= 190) &&
-            (mouse_y <= 240)) /// activation mode edition route
+        if ((mouse_b & 1) && (mouse_x >= 5) && (mouse_x <= 55) && (mouse_y >= 148) &&
+            (mouse_y <= 200)) /// activation mode edition route
         {
             rest(200);
             if (perso->editroute == false && perso->editmaison == false && perso->editchateaudeau==false &&
@@ -656,8 +658,8 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
                 perso->editroute = false;
         }
 
-        if ((mouse_b & 1) && (mouse_x >= 969) && (mouse_x <= 1015) && (mouse_y >= 259) &&
-            (mouse_y <= 306)) /// activation mode edition maison
+        if ((mouse_b & 1) && (mouse_x >= 5) && (mouse_x <= 55) && (mouse_y >= 221) &&
+            (mouse_y <= 270)) /// activation mode edition maison
         {
             rest(200);
             if (perso->editroute == false && perso->editmaison == false && perso->editchateaudeau==false &&
@@ -667,8 +669,8 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
                 perso->editmaison = false;
         }
 
-        if ((mouse_b & 1) && (mouse_x >= 0) && (mouse_x <= 50) && (mouse_y >= 0) &&
-            (mouse_y <= 50)) /// activation mode edition centrale
+        if ((mouse_b & 1) && (mouse_x >= 5) && (mouse_x <= 55) && (mouse_y >= 350) &&
+            (mouse_y <= 400)) /// activation mode edition centrale
         {
             rest(200);
             if (perso->editroute == false && perso->editmaison == false && perso->editchateaudeau==false &&
@@ -678,8 +680,8 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
                 perso->editcentrale = false;
         }
 
-        if ((mouse_b & 1) && (mouse_x >= 0) && (mouse_x <= 50) && (mouse_y >= 718) &&
-            (mouse_y <= 768)) /// activation mode edition chateau d'eau
+        if ((mouse_b & 1) && (mouse_x >= 5) && (mouse_x <= 55) && (mouse_y >= 287) &&
+            (mouse_y <= 335)) /// activation mode edition chateau d'eau
         {
             rest(200);
             if (perso->editroute == false && perso->editmaison == false && perso->editchateaudeau==false &&
@@ -691,6 +693,9 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 
         if (perso->editmaison == true)  ///placement des maisons
         {
+            if((mouse_x >=92 && mouse_x<932)&&(mouse_y>=64 && mouse_y<704)) ///affichage surbillance
+                draw_sprite(images->fond0,images->surbrillance3x3,mouse_x-30,mouse_y-30);
+
             if ((mouse_b & 1) && (mouse_x >= 62) && (mouse_x <= 922) && (mouse_y >= 34) && (mouse_y <= 694) &&
                 (perso->flouz >= 1000)) ///correspond à la taille de l'écran jouable
                 if ((perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 1] == 0) &&
@@ -716,6 +721,10 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 
         if (perso->editroute == true)  ///placement de la route
         {
+            if((mouse_x >=72 && mouse_x<952)&&(mouse_y>=44 && mouse_y<724)) ///affichage surbillance
+                draw_sprite(images->fond0,images->surbrillance1x1,mouse_x-10,mouse_y-10);
+
+
             if ((mouse_b & 1) && (mouse_x >= 62) && (mouse_x <= 962) && (mouse_y >= 34) && (mouse_y <= 734) &&
                 (perso->flouz >= 10) && (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)] ==
                                          0)) ///correspond à la taille de l'écran jouable
@@ -727,6 +736,10 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 
         if (perso->editcentrale == true)  ///placement des centrales
         {
+            if((mouse_x >=102 && mouse_x<922)&&(mouse_y>=104 && mouse_y<684)) ///affichage surbillance
+                draw_sprite(images->fond0,images->surbrillance4x6,mouse_x-40,mouse_y-70);
+
+
             if ((mouse_b & 1) && (mouse_x >= 62) && (mouse_x <= 922) && (mouse_y >= 34) && (mouse_y <= 694) &&
                 (perso->flouz >= 100000)) ///correspond à la taille de l'écran jouable
                 if ((perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 0) &&
@@ -783,6 +796,9 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 
         if (perso->editchateaudeau == true)  ///placement des chateau d'eau
         {
+            if((mouse_x >=102 && mouse_x<922)&&(mouse_y>=104 && mouse_y<684)) ///affichage surbillance
+                draw_sprite(images->fond0,images->surbrillance4x6,mouse_x-40,mouse_y-70);
+
             if ((mouse_b & 1) && (mouse_x >= 62) && (mouse_x <= 922) && (mouse_y >= 34) && (mouse_y <= 694) &&
                 (perso->flouz >= 100000)) ///correspond à la taille de l'écran jouable
                 if ((perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 0) &&
@@ -996,6 +1012,9 @@ void StructureBitmapInit(t_bitmap* images)
     images->route = load_bitmap("Bitmaps/road.bmp",NULL);
     images->eau = load_bitmap("Bitmaps/EAUVERTE.bmp",NULL);
     images->electricite = load_bitmap("Bitmaps/ZAAP.bmp",NULL);
+    images->surbrillance1x1 = load_bitmap("Bitmaps/surbrillance1x1.bmp",NULL);
+    images->surbrillance3x3 = load_bitmap("Bitmaps/surbrillance3x3.bmp",NULL);
+    images->surbrillance4x6 = load_bitmap("Bitmaps/surbrillance4x6.bmp",NULL);
 }
 
 void NouvellePartie(t_joueur* perso, t_bitmap* images)

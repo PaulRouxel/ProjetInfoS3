@@ -68,6 +68,10 @@ typedef struct bitmap
     BITMAP* route;
     BITMAP* eau;
     BITMAP* electricite;
+    BITMAP* surbrillance1x1;
+    BITMAP* surbrillance3x3;
+    BITMAP* surbrillance4x6;
+
 }t_bitmap;
 
 
