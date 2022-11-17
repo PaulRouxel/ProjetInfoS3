@@ -470,17 +470,17 @@ void AffichageTemps(BITMAP* back, int* temps, clock_t t1, t_joueur* perso)
 
     ///du mal avec le compteur des minutes vu qu'on peut pas le retourner (je regarde par strucutres ou sinon avec time.h)
 
-    rectfill(back, 706, 11, 810, 30, makecol(255,242,0));
+    rectfill(back, 680, 11, 740, 30, makecol(0,173,233));
 
     if(temps[0]%60<10)
-        textprintf_ex(back, font, 775, 22, makecol(0,0,0), -1, "0%d",temps[0]%60);
+        textprintf_ex(back, font, 715, 22, makecol(0,0,0), -1, "0%d",temps[0]%60);
     else
-        textprintf_ex(back, font, 775, 22, makecol(0,0,0), -1, "%d",temps[0]%60);
+        textprintf_ex(back, font, 715, 22, makecol(0,0,0), -1, "%d",temps[0]%60);
 
     if(temps[1]<10)
-        textprintf_ex(back, font, 745, 22, makecol(0,0,0), -1, "0%d:",temps[1]);
+        textprintf_ex(back, font, 685, 22, makecol(0,0,0), -1, "0%d:",temps[1]);
     else
-        textprintf_ex(back, font, 745, 22, makecol(0,0,0), -1, "%d:",temps[1]);
+        textprintf_ex(back, font, 685, 22, makecol(0,0,0), -1, "%d:",temps[1]);
 
 
 }
@@ -612,18 +612,18 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         clear_bitmap(buffer);
 
 
-        rectfill(images->fond0, 62, 11, 115, 30, makecol(255, 242, 0)); ///argent
-        textprintf_ex(images->fond0, font, 65, 20, makecol(0, 0, 0), -1, "%d", perso->flouz);
+        rectfill(images->fond0, 62, 11, 135, 30, makecol(1, 173, 232)); ///argent
+        textprintf_ex(images->fond0, font, 85, 20, makecol(0, 0, 0), -1, "%d", perso->flouz);
 
-        rectfill(images->fond0, 235, 11, 300, 30, makecol(255, 242, 0)); ///capacite eau
-        textprintf_ex(images->fond0, font, 250, 20, makecol(0, 0, 0), -1, "%d", perso->eau);
+        rectfill(images->fond0, 235, 11, 300, 30, makecol(1, 173, 232)); ///capacite eau
+        textprintf_ex(images->fond0, font, 290, 20, makecol(0, 0, 0), -1, "%d", perso->eau);
 
-        rectfill(images->fond0, 355, 11, 420, 30, makecol(255, 242, 0)); ///capacite elec
-        textprintf_ex(images->fond0, font, 370, 20, makecol(0, 0, 0), -1, "%d", perso->electricite);
+        rectfill(images->fond0, 355, 11, 420, 30, makecol(1, 173, 232)); ///capacite elec
+        textprintf_ex(images->fond0, font, 410, 20, makecol(0, 0, 0), -1, "%d", perso->electricite);
 
 
-        rectfill(images->fond0, 873, 11, 991, 30, makecol(255, 242, 0)); ///nb_hab
-        textprintf_ex(images->fond0, font, 882, 21, makecol(0, 0, 0), -1, "%d", perso->nb_habitants);
+        rectfill(images->fond0, 900, 11, 1010, 30, makecol(186, 209, 224)); ///nb_hab
+        textprintf_ex(images->fond0, font, 982, 21, makecol(0, 0, 0), -1, "%d", perso->nb_habitants);
 
         AffichageTemps(images->fond0,temps,t1,perso);
         RecupererImpots(perso,temps[0]);
