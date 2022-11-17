@@ -40,6 +40,8 @@ typedef struct joueur  //Cette structure gerera les donnees de joueurs tout au l
     bool antispam;
     bool editroute;
     bool editmaison;
+    bool editcentrale;
+    bool editchateaudeau;
     int** route;
 } t_joueur;
 
@@ -66,6 +68,10 @@ typedef struct bitmap
     BITMAP* route;
     BITMAP* eau;
     BITMAP* electricite;
+    BITMAP* surbrillance1x1;
+    BITMAP* surbrillance3x3;
+    BITMAP* surbrillance4x6;
+
 }t_bitmap;
 
 
@@ -75,12 +81,20 @@ typedef struct bitmap
 
 ///INFOS
 //libre -> 0
+
 //route -> 1
+
 //centre terrain -> 2
 //centre terrain connecté -> 20
 //autour terrain -> 21
 
+//centre (x=1;y=2) centrale -> 8
+//centre (x=1;y=2) connecté -> 80
+//autour centrale -> 81
 
+//centre (x=1;y=2) chateau d'eau -> 9
+//centre (x=1;y=2) connecté -> 90
+//autour chateau d'eau -> 91
 
 
 /*************************/
@@ -98,7 +112,7 @@ int xCoortoPixel(int xCoor); //pour traduire les coordonnes en pixels en X
 
 int yCoortoPixel(int yCoor); //pour traduire les coordonnes en pixels en Y
 
-void AffichageRoute(t_joueur* perso, BITMAP* grille); //pour afficher les routes sur la bitmap de fond
+void AffichageRoute(t_joueur* perso, BITMAP* back,t_bitmap* images); //pour afficher les routes sur la bitmap de fond
 
 void AffichageTemps(BITMAP* back, int* temps,clock_t t1, t_joueur* perso); //affiche le temps qui avance sur l'écran
 

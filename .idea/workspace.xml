@@ -17,11 +17,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="ca compile pas faut que je finisset_">
+    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="c bon paul 10h25">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ProjetInfoS3.dir/main.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ProjetInfoS3.dir/main.c.obj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/ProjetInfoS3.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/ProjetInfoS3.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
@@ -88,7 +87,10 @@
       <workItem from="1668517816001" duration="6391000" />
       <workItem from="1668530467272" duration="5128000" />
       <workItem from="1668545810486" duration="710000" />
-      <workItem from="1668585033876" duration="15336000" />
+      <workItem from="1668585033876" duration="20166000" />
+      <workItem from="1668618549349" duration="1172000" />
+      <workItem from="1668626397116" duration="1001000" />
+      <workItem from="1668670285549" duration="6997000" />
     </task>
     <task id="LOCAL-00001" summary="AlleZ gros marche">
       <created>1667906483137</created>
@@ -188,7 +190,49 @@
       <option name="project" value="LOCAL" />
       <updated>1668603152165</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="c bon 14h17">
+      <created>1668604674228</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1668604674228</updated>
+    </task>
+    <task id="LOCAL-00016" summary="c bon 14h17">
+      <created>1668606730765</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1668606730765</updated>
+    </task>
+    <task id="LOCAL-00017" summary="c pas bon paul 17h01">
+      <created>1668614522183</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1668614522183</updated>
+    </task>
+    <task id="LOCAL-00018" summary="c bon paul 18h28">
+      <created>1668619718978</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1668619718978</updated>
+    </task>
+    <task id="LOCAL-00019" summary="c bon paul 9h25">
+      <created>1668673513274</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1668673513274</updated>
+    </task>
+    <task id="LOCAL-00020" summary="c bon paul 10h25">
+      <created>1668677566471</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1668677566471</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -214,6 +258,11 @@
     <MESSAGE value="routes qui marchent bi1" />
     <MESSAGE value="ca compile pas faut que je finisse" />
     <MESSAGE value="ca compile pas faut que je finisset_" />
-    <option name="LAST_COMMIT_MESSAGE" value="ca compile pas faut que je finisset_" />
+    <MESSAGE value="c bon 14h17" />
+    <MESSAGE value="c pas bon paul 17h01" />
+    <MESSAGE value="c bon paul 18h28" />
+    <MESSAGE value="c bon paul 9h25" />
+    <MESSAGE value="c bon paul 10h25" />
+    <option name="LAST_COMMIT_MESSAGE" value="c bon paul 10h25" />
   </component>
 </project>
