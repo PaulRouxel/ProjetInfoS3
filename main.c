@@ -476,6 +476,22 @@ void AffichageTemps(BITMAP* back, int* temps, clock_t t1, t_joueur* perso)
 
 }
 
+/*
+void ruine(t_bitmaps* images, t_joueur* perso)
+{
+    => toutes les 15 secondes (cycles):
+
+        if(batiment == cabane)
+            if (eauEnvoyee < eauNecessaire)&&(elecEnvoyee < elecNecessaire)
+            {
+
+                cabane->ruines
+                AfficherRuine();(=> afficher sprite ruines au dessus du sprite cabane)
+             }
+}
+*/
+
+
 void RecupererImpots(t_joueur* perso, int time)
 {
     if(time%15==0 && perso->antispam==true)                         ///faire un antispam dessus
@@ -948,6 +964,8 @@ void MenuDemarrage(t_joueur* perso, t_bitmap* images)
     if(choix==4)
         QuitterBis();
 }
+
+
 
 int main()
 {
