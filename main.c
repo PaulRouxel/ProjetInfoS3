@@ -376,19 +376,19 @@ int yCoortoPixel(int yCoor)  //pour traduire les coordonnes en pixels en Y
 
 void AffichageRoute(t_joueur* perso, BITMAP* back,t_bitmap* images) {
     for (int i = 0; i < LIGNES; i++) {
-        for (int j = 0; j < COLONNES; j++) ///ROUTE
+        for (int j = 0; j < COLONNES; j++)
         {
-            if (perso->route[i][j] == 1)
+            if (perso->route[i][j] == 1)  ///ROUTE
                 draw_sprite(back, images->route, xCoortoPixel(j), yCoortoPixel(i));
 
             if (perso->route[i][j] == 2 || perso->route[i][j] == 20) ///TERRAIN
                 draw_sprite(back, images->terrain, xCoortoPixel(j - 1), yCoortoPixel(i - 1));
 
             if (perso->route[i][j] == 8 || perso->route[i][j] == 80)  ///CENTRALE
-                draw_sprite(back, images->centrale, xCoortoPixel(j - 2), yCoortoPixel(i-3));
+                draw_sprite(back, images->centrale, xCoortoPixel(j - 1), yCoortoPixel(i-2)); //-2 -3
 
             if (perso->route[i][j] == 9 || perso->route[i][j] == 90)  ///CHATEAU D'EAU
-                draw_sprite(back, images->chateaudeau, xCoortoPixel(j-2), yCoortoPixel(i-3));
+                draw_sprite(back, images->chateaudeau, xCoortoPixel(j-1), yCoortoPixel(i-2));
 
         }
     }
@@ -736,8 +736,8 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 
         if (perso->editcentrale == true)  ///placement des centrales
         {
-            if((mouse_x >=102 && mouse_x<922)&&(mouse_y>=104 && mouse_y<684)) ///affichage surbillance
-                draw_sprite(images->fond0,images->surbrillance4x6,mouse_x-40,mouse_y-70);
+            if((mouse_x >=92 && mouse_x<912)&&(mouse_y>=84 && mouse_y<664)) ///affichage surbillance
+                draw_sprite(images->fond0,images->surbrillance4x6,mouse_x-30,mouse_y-50); //40 70
 
 
             if ((mouse_b & 1) && (mouse_x >= 62) && (mouse_x <= 922) && (mouse_y >= 34) && (mouse_y <= 694) &&
@@ -796,8 +796,8 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 
         if (perso->editchateaudeau == true)  ///placement des chateau d'eau
         {
-            if((mouse_x >=102 && mouse_x<922)&&(mouse_y>=104 && mouse_y<684)) ///affichage surbillance
-                draw_sprite(images->fond0,images->surbrillance4x6,mouse_x-40,mouse_y-70);
+            if((mouse_x >=92 && mouse_x<912)&&(mouse_y>=84 && mouse_y<664)) ///affichage surbillance
+                draw_sprite(images->fond0,images->surbrillance4x6,mouse_x-30,mouse_y-50); //40 70
 
             if ((mouse_b & 1) && (mouse_x >= 62) && (mouse_x <= 922) && (mouse_y >= 34) && (mouse_y <= 694) &&
                 (perso->flouz >= 100000)) ///correspond à la taille de l'écran jouable
