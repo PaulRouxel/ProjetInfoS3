@@ -378,10 +378,10 @@ void AffichageRoute(t_joueur* perso, BITMAP* back,t_bitmap* images) {
     for (int i = 0; i < LIGNES; i++) {
         for (int j = 0; j < COLONNES; j++)
         {
-            if (perso->route[i][j] == 1)  ///ROUTE
+            if (perso->route[i][j] == 1 || perso->route[i][j] == 18 || perso->route[i][j] == 19 || perso->route[i][j] == 10)  ///ROUTE
                 draw_sprite(back, images->route, xCoortoPixel(j), yCoortoPixel(i));
 
-            if (perso->route[i][j] == 2 || perso->route[i][j] == 20) ///TERRAIN
+            if (perso->route[i][j] == 2 || perso->route[i][j] == 28 || perso->route[i][j] == 29 || perso->route[i][j] == 20) ///TERRAIN
                 draw_sprite(back, images->terrain, xCoortoPixel(j - 1), yCoortoPixel(i - 1));
 
             if (perso->route[i][j] == 8 || perso->route[i][j] == 80)  ///CENTRALE
@@ -390,18 +390,34 @@ void AffichageRoute(t_joueur* perso, BITMAP* back,t_bitmap* images) {
             if (perso->route[i][j] == 9 || perso->route[i][j] == 90)  ///CHATEAU D'EAU
                 draw_sprite(back, images->chateaudeau, xCoortoPixel(j-1), yCoortoPixel(i-2));
 
+            if (perso->route[i][j] == 3) ///CABANE
+                draw_sprite(back, images->cabane, xCoortoPixel(j - 1), yCoortoPixel(i - 1));
+
+            if (perso->route[i][j] == 4) ///MAISON
+                draw_sprite(back, images->maison, xCoortoPixel(j - 1), yCoortoPixel(i - 1));
+
+            if (perso->route[i][j] == 5) ///IMMEUBLE
+                draw_sprite(back, images->immeuble, xCoortoPixel(j - 1), yCoortoPixel(i - 1));
+
+            if (perso->route[i][j] == 6) ///GRATTE-CIEL
+                draw_sprite(back, images->gratteciel, xCoortoPixel(j - 1), yCoortoPixel(i - 1));
+
         }
     }
     /*
     for (int i = 0; i < LIGNES; i++) {
         for (int j = 0; j < COLONNES; j++) ///ROUTE
         {
-            printf("%d ", perso->route[i][j]);
+            if(perso->route[i][j]<10)
+                printf(" %d ", perso->route[i][j]);
+            else
+                printf("%d ", perso->route[i][j]);
         }
         printf("\n");
     }
     printf("\n\n");
-     */
+    */
+
 }
 
 void AffichageCanalisations(t_joueur* perso, BITMAP* back,t_bitmap* images)
@@ -410,10 +426,12 @@ void AffichageCanalisations(t_joueur* perso, BITMAP* back,t_bitmap* images)
     {
         for(int j=0;j<COLONNES;j++)
         {
-            if(perso->route[i][j]==1)
+            if(perso->route[i][j]==1 || perso->route[i][j]==18 || perso->route[i][j]==19 || perso->route[i][j]==10)
             {
                 draw_sprite(back,images->eau,xCoortoPixel(j),yCoortoPixel(i));   ///CHANGEMENT
             }
+            if (perso->route[i][j] == 9 || perso->route[i][j] == 90)  ///CHATEAU D'EAU
+                draw_sprite(back, images->chateaudeau, xCoortoPixel(j-1), yCoortoPixel(i-2));
         }
     }
 }
@@ -424,10 +442,46 @@ void AffichageEDF(t_joueur* perso, BITMAP* back,t_bitmap* images)
     {
         for(int j=0;j<COLONNES;j++)
         {
-            if(perso->route[i][j]==1)
+            if(perso->route[i][j]==1 || perso->route[i][j]==18 || perso->route[i][j]==19 || perso->route[i][j]==10)
             {
                 draw_sprite(back,images->electricite,xCoortoPixel(j),yCoortoPixel(i));   ///CHANGEMENT
             }
+            if (perso->route[i][j] == 8 || perso->route[i][j] == 80)  ///CENTRALE
+                draw_sprite(back, images->centrale, xCoortoPixel(j-1), yCoortoPixel(i-2));
+        }
+    }
+}
+
+void EvolutionBatiments(t_joueur* perso, int secondes)
+{
+    for (int i = 0; i < LIGNES; i++) {
+        for (int j = 0; j < COLONNES; j++) {
+            if (perso->route[i][j] == 20 && secondes % 15 == 0)  /// terrain -> cabane  (décalage de quelques secondes pour pas que tout se fasse d'affilé)
+            {
+                perso->route[i][j] = 3;
+                perso->nb_habitants+=10;
+            }
+
+            if (perso->route[i][j] == 3 && (secondes+1) % 15 == 0)  /// cabane -> maison
+            {
+                perso->route[i][j] = 4;
+                perso->nb_habitants+=50;
+            }
+
+
+            if (perso->route[i][j] == 4 && (secondes+2) % 15 == 0)  /// maison -> immeuble
+            {
+                perso->route[i][j] = 5;
+                perso->nb_habitants+=100;
+            }
+
+
+            if (perso->route[i][j] == 5 && (secondes+3) % 15 == 0)  /// immeuble -> gratte-ciel
+            {
+                perso->route[i][j] = 6;
+                perso->nb_habitants+=1000;
+            }
+
         }
     }
 }
@@ -436,18 +490,58 @@ void TestConnexionReseau(t_joueur* perso)
 {
     for(int i=0;i<LIGNES;i++)
     {
-        for(int j=0;j<COLONNES;j++) ///ROUTE
+        for(int j=0;j<COLONNES;j++)
         {
-            if(perso->route[i][j]==2)
+
+            if(perso->route[i][j]==1)  ///si route connecte à une centrale
             {
-                if ((perso->route[i - 1][j - 2] == 1) || (perso->route[i][j - 2] == 1) ||
-                    (perso->route[i + 1][j - 2] == 1) || (perso->route[i - 1][j + 2] == 1) ||
-                    (perso->route[i][j + 2] == 1) || (perso->route[i + 1][j + 2] == 1) ||
-                    (perso->route[i - 2][j - 1] == 1) || (perso->route[i - 2][j] == 1) ||
-                    (perso->route[i - 2][j + 1] == 1) || (perso->route[i + 2][j - 1] == 1) ||
-                    (perso->route[i + 2][j] == 1) || (perso->route[i + 2][j + 1] == 1))
+                if ((perso->route[i - 1][j] == 81) || (perso->route[i + 1][j] == 81) ||
+                    (perso->route[i][j - 1] == 81) || (perso->route[i][j + 1] == 81) ||
+                    (perso->route[i - 1][j] == 18) || (perso->route[i + 1][j] == 18) ||
+                    (perso->route[i][j - 1] == 18) || (perso->route[i][j + 1] == 18))
+                    perso->route[i][j] = 18;
+
+            }
+
+            if(perso->route[i][j]==1)  ///si route connecte à un chateau d'eau
+            {
+                if ((perso->route[i - 1][j] == 91) || (perso->route[i + 1][j] == 91) ||
+                    (perso->route[i][j - 1] == 91) || (perso->route[i][j + 1] == 91) ||
+                    (perso->route[i - 1][j] == 19) || (perso->route[i + 1][j] == 19) ||
+                    (perso->route[i][j - 1] == 19) || (perso->route[i][j + 1] == 19))
+                    perso->route[i][j] = 19;
+
+            }
+
+            if(perso->route[i][j]==18)  ///si route deja connecte à une centrale devient connecte en eau
+            {
+                if ((perso->route[i - 1][j] == 91) || (perso->route[i + 1][j] == 91) ||
+                    (perso->route[i][j - 1] == 91) || (perso->route[i][j + 1] == 91) ||
+                    (perso->route[i - 1][j] == 10) || (perso->route[i + 1][j] == 10) ||
+                    (perso->route[i][j - 1] == 10) || (perso->route[i][j + 1] == 10))
+                    perso->route[i][j] = 10;
+            }
+
+            if(perso->route[i][j]==19)  ///si route deja connecte à un chateau d'eau devient connecte en elec
+            {
+                if ((perso->route[i - 1][j] == 81) || (perso->route[i + 1][j] == 81) ||
+                    (perso->route[i][j - 1] == 81) || (perso->route[i][j + 1] == 81) ||
+                    (perso->route[i - 1][j] == 10) || (perso->route[i + 1][j] == 10) ||
+                    (perso->route[i][j - 1] == 10) || (perso->route[i][j + 1] == 10))
+                    perso->route[i][j] = 10;
+            }
+
+            if(perso->route[i][j]==2) ///si terrain connecté à route alimentée en elec
+            {
+                if ((perso->route[i - 1][j - 2] == 10) || (perso->route[i][j - 2] == 10) ||
+                    (perso->route[i + 1][j - 2] == 10) || (perso->route[i - 1][j + 2] == 10) ||
+                    (perso->route[i][j + 2] == 10) || (perso->route[i + 1][j + 2] == 10) ||
+                    (perso->route[i - 2][j - 1] == 10) || (perso->route[i - 2][j] == 10) ||
+                    (perso->route[i - 2][j + 1] == 10) || (perso->route[i + 2][j - 1] == 10) ||
+                    (perso->route[i + 2][j] == 10) || (perso->route[i + 2][j + 1] == 10))
                     perso->route[i][j] = 20;
             }
+
         }
     }
 }
@@ -629,6 +723,7 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         RecupererImpots(perso,temps[0]);
         AffichageRoute(perso, images->fond0, images);
         TestConnexionReseau(perso);
+        EvolutionBatiments(perso,temps[0]);
 
         //correspond aux cases de l'ecran
         if ((mouse_b & 1) && (mouse_x >= 971) && (mouse_x <= 1018) && (mouse_y >= 712 && (mouse_y <= 756)) ) ///quitter
@@ -791,6 +886,7 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
                     perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] = 81;
                     perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] = 81;
                     perso->flouz -= 100000;
+                    perso->electricite+=5000;
                 }
         }
 
@@ -850,6 +946,7 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
                     perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] = 91;
                     perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] = 91;
                     perso->flouz -= 100000;
+                    perso->eau+=5000;
                 }
 
         }
@@ -950,22 +1047,13 @@ void ChoixDuMode(t_joueur* perso,t_bitmap* images)
     }
 }
 
-/*
-void Song() //theme
-{
-    SAMPLE*son;
-    install_sound(DIGI_AUTODETECT,MIDI_AUTODETECT,"A");
-    son=load_sample("zikmu.wav"); //on lance le fichier audio          ///CHANGEMENT CHEMIN
-    play_sample(son,255,0,1000,0);
-}
-*/
 
 void StructureJoueurInit(t_joueur* perso)
 {
     perso->eau=0;
     perso->electricite=0;
     perso->flouz=500000;
-    perso->nb_habitants=500;
+    perso->nb_habitants=0;
     perso->antispam=true;
     for(int i=0;i<nbantispam;i++ )
     {
@@ -1004,11 +1092,11 @@ void StructureBitmapInit(t_bitmap* images)
     images->chateaudeau = load_bitmap("Bitmaps/binouze.bmp",NULL);
     images->centrale = load_bitmap("Bitmaps/NUCULAIRE.bmp",NULL);
     images->terrain = load_bitmap("Bitmaps/TVAAAGUE.bmp",NULL);
-    images->ruine = NULL;
+    images->ruine = load_bitmap("Bitmaps/ruine.bmp",NULL);
     images->cabane = load_bitmap("Bitmaps/cabane.bmp",NULL);
     images->maison = load_bitmap("Bitmaps/LAMAAAAIIISOONN.bmp",NULL);
-    images->immeuble = NULL;
-    images->gratteciel = NULL;
+    images->immeuble = load_bitmap("Bitmaps/immeuble.bmp",NULL);
+    images->gratteciel = load_bitmap("Bitmaps/gratteciel.bmp",NULL);
     images->route = load_bitmap("Bitmaps/road.bmp",NULL);
     images->eau = load_bitmap("Bitmaps/EAUVERTE.bmp",NULL);
     images->electricite = load_bitmap("Bitmaps/ZAAP.bmp",NULL);
@@ -1124,4 +1212,3 @@ int main()
     return 0;
 }
 END_OF_MAIN();
-
