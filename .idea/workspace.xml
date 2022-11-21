@@ -17,7 +17,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="c bon paul 10h25">
+    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="c bon paul 10h55">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
@@ -90,7 +90,14 @@
       <workItem from="1668585033876" duration="20166000" />
       <workItem from="1668618549349" duration="1172000" />
       <workItem from="1668626397116" duration="1001000" />
-      <workItem from="1668670285549" duration="6997000" />
+      <workItem from="1668670285549" duration="8844000" />
+      <workItem from="1668694314501" duration="109000" />
+      <workItem from="1668720508068" duration="981000" />
+      <workItem from="1668877111540" duration="142000" />
+      <workItem from="1668892416790" duration="113000" />
+      <workItem from="1668963482293" duration="5803000" />
+      <workItem from="1669024073819" duration="3879000" />
+      <workItem from="1669028969094" duration="721000" />
     </task>
     <task id="LOCAL-00001" summary="AlleZ gros marche">
       <created>1667906483137</created>
@@ -232,7 +239,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668677566471</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="c bon paul 10h55">
+      <created>1668678857699</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1668678857699</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -263,6 +277,7 @@
     <MESSAGE value="c bon paul 18h28" />
     <MESSAGE value="c bon paul 9h25" />
     <MESSAGE value="c bon paul 10h25" />
-    <option name="LAST_COMMIT_MESSAGE" value="c bon paul 10h25" />
+    <MESSAGE value="c bon paul 10h55" />
+    <option name="LAST_COMMIT_MESSAGE" value="c bon paul 10h55" />
   </component>
 </project>
