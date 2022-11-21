@@ -71,8 +71,8 @@ typedef struct bitmap
     BITMAP* surbrillance1x1;
     BITMAP* surbrillance3x3;
     BITMAP* surbrillance4x6;
-
 }t_bitmap;
+
 
 
 
@@ -83,10 +83,15 @@ typedef struct bitmap
 //libre -> 0
 
 //route -> 1
+//route connecte à une centrale -> 18
+//route connecte à un chateau d'eau ->19
+//route connecte en eau ET elec ->10
 
 //centre terrain -> 2
-//centre terrain connecté -> 20
+//centre terrain connecté en eau ET elec -> 20
 //autour terrain -> 21
+//centre terrain connecté en elec -> 28
+//centre terrain connecté en eau -> 29
 
 //centre (x=1;y=2) centrale -> 8
 //centre (x=1;y=2) connecté -> 80
