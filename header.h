@@ -71,6 +71,7 @@ typedef struct bitmap
     BITMAP* surbrillance1x1;
     BITMAP* surbrillance3x3;
     BITMAP* surbrillance4x6;
+    BITMAP* dieu;
 }t_bitmap;
 
 
@@ -121,6 +122,6 @@ void AffichageRoute(t_joueur* perso, BITMAP* back,t_bitmap* images); //pour affi
 
 void AffichageTemps(BITMAP* back, int* temps,clock_t t1, t_joueur* perso); //affiche le temps qui avance sur l'écran
 
-
+void AffichageDieu(t_bitmap* images);
 
 #endif

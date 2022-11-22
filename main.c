@@ -695,6 +695,27 @@ void AffichageReseaudEau(t_joueur* perso,t_bitmap* images)
 
 }
 
+void AffichageDieu(t_bitmap* images){
+
+    BITMAP *buffer;
+    buffer = create_bitmap(SCREEN_W, SCREEN_H);
+
+    int next=0;
+
+    while(next!=1) {
+
+        blit(images->dieu, buffer, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+        show_mouse(buffer);
+        blit(buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+        clear_bitmap(buffer);
+
+        if((mouse_b&1)&&(mouse_x>=714)&&(mouse_x<=936)&&(mouse_y>=620)&&(mouse_y<=740)){
+            next=1;
+        }
+    }
+
+}
+
 void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 {
     BITMAP *buffer;
@@ -756,6 +777,11 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         {
             rest(200);
             AffichageReseauElec(perso, images);
+        }
+        if ((mouse_b & 1) && (mouse_x >= 966) && (mouse_x <= 1015) && (mouse_y >= 628) && (mouse_y <= 670)) ///niveau +1
+        {
+            rest(200);
+            AffichageDieu(images);
         }
 
         if ((mouse_b & 1) && (mouse_x >= 5) && (mouse_x <= 55) && (mouse_y >= 148) &&
@@ -1119,6 +1145,7 @@ void StructureBitmapInit(t_bitmap* images)
     images->surbrillance1x1 = load_bitmap("Bitmaps/surbrillance1x1.bmp",NULL);
     images->surbrillance3x3 = load_bitmap("Bitmaps/surbrillance3x3.bmp",NULL);
     images->surbrillance4x6 = load_bitmap("Bitmaps/surbrillance4x6.bmp",NULL);
+    images->dieu = load_bitmap("Bitmaps/dieu.bmp",NULL);
 }
 
 void NouvellePartie(t_joueur* perso, t_bitmap* images)
