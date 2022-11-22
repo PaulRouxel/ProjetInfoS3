@@ -33,6 +33,8 @@ typedef struct maison
     ///coordonnées du centre du batiment
     int x;
     int y;
+    ///stade d'évolution
+    int stade;
     ///temps depuis sa dernière évolution
     clock_t temps;
 
