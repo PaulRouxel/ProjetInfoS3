@@ -64,6 +64,7 @@ typedef struct joueur  //Cette structure gerera les donnees de joueurs tout au l
     bool editcentrale;
     bool editchateaudeau;
     int** route;
+    t_bat4 batiments
 } t_joueur;
 
 typedef struct bitmap

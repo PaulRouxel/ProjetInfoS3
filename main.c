@@ -541,7 +541,6 @@ void TestConnexionReseau(t_joueur* perso)
                     (perso->route[i + 2][j] == 10) || (perso->route[i + 2][j + 1] == 10))
                     perso->route[i][j] = 20;
             }
-
         }
     }
 }
