@@ -193,7 +193,6 @@ int yPixeltoCoor(int yPixel)  //pour traduire les pixels en coordonnes en Y
     }
 }
 
-
 int xCoortoPixel(int xCoor) //pour traduire les coordonnes en pixels en X
 {
     if(xCoor==0)
@@ -375,22 +374,50 @@ int yCoortoPixel(int yCoor)  //pour traduire les coordonnes en pixels en Y
     }
 }
 
-void AffichageRoute(t_joueur* perso, BITMAP* back,t_bitmap* images)
-{
-    for(int i=0;i<LIGNES;i++)
-    {
-        for(int j=0;j<COLONNES;j++) ///ROUTE
+void AffichageRoute(t_joueur* perso, BITMAP* back,t_bitmap* images) {
+    for (int i = 0; i < LIGNES; i++) {
+        for (int j = 0; j < COLONNES; j++)
         {
-            if(perso->route[i][j]==1)
-            {
-                draw_sprite(back,images->route,xCoortoPixel(j),yCoortoPixel(i));
-            }
-            if(perso->route[i][j]==2 || perso->route[i][j]==20) ///TERRAIN
-            {
-                draw_sprite(back,images->terrain, xCoortoPixel(j-1), yCoortoPixel(i-1));
-            }
+            if (perso->route[i][j] == 1 || perso->route[i][j] == 18 || perso->route[i][j] == 19 || perso->route[i][j] == 10)  ///ROUTE
+                draw_sprite(back, images->route, xCoortoPixel(j), yCoortoPixel(i));
+
+            if (perso->route[i][j] == 2 || perso->route[i][j] == 28 || perso->route[i][j] == 29 || perso->route[i][j] == 20) ///TERRAIN
+                draw_sprite(back, images->terrain, xCoortoPixel(j - 1), yCoortoPixel(i - 1));
+
+            if (perso->route[i][j] == 8 || perso->route[i][j] == 80)  ///CENTRALE
+                draw_sprite(back, images->centrale, xCoortoPixel(j - 1), yCoortoPixel(i-2)); //-2 -3
+
+            if (perso->route[i][j] == 9 || perso->route[i][j] == 90)  ///CHATEAU D'EAU
+                draw_sprite(back, images->chateaudeau, xCoortoPixel(j-1), yCoortoPixel(i-2));
+
+            if (perso->route[i][j] == 3) ///CABANE
+                draw_sprite(back, images->cabane, xCoortoPixel(j - 1), yCoortoPixel(i - 1));
+
+            if (perso->route[i][j] == 4) ///MAISON
+                draw_sprite(back, images->maison, xCoortoPixel(j - 1), yCoortoPixel(i - 1));
+
+            if (perso->route[i][j] == 5) ///IMMEUBLE
+                draw_sprite(back, images->immeuble, xCoortoPixel(j - 1), yCoortoPixel(i - 1));
+
+            if (perso->route[i][j] == 6) ///GRATTE-CIEL
+                draw_sprite(back, images->gratteciel, xCoortoPixel(j - 1), yCoortoPixel(i - 1));
+
         }
     }
+    /*
+    for (int i = 0; i < LIGNES; i++) {
+        for (int j = 0; j < COLONNES; j++) ///ROUTE
+        {
+            if(perso->route[i][j]<10)
+                printf(" %d ", perso->route[i][j]);
+            else
+                printf("%d ", perso->route[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n\n");
+    */
+
 }
 
 void AffichageCanalisations(t_joueur* perso, BITMAP* back,t_bitmap* images)
@@ -399,10 +426,12 @@ void AffichageCanalisations(t_joueur* perso, BITMAP* back,t_bitmap* images)
     {
         for(int j=0;j<COLONNES;j++)
         {
-            if(perso->route[i][j]==1)
+            if(perso->route[i][j]==1 || perso->route[i][j]==18 || perso->route[i][j]==19 || perso->route[i][j]==10)
             {
                 draw_sprite(back,images->eau,xCoortoPixel(j),yCoortoPixel(i));   ///CHANGEMENT
             }
+            if (perso->route[i][j] == 9 || perso->route[i][j] == 90)  ///CHATEAU D'EAU
+                draw_sprite(back, images->chateaudeau, xCoortoPixel(j-1), yCoortoPixel(i-2));
         }
     }
 }
@@ -413,10 +442,46 @@ void AffichageEDF(t_joueur* perso, BITMAP* back,t_bitmap* images)
     {
         for(int j=0;j<COLONNES;j++)
         {
-            if(perso->route[i][j]==1)
+            if(perso->route[i][j]==1 || perso->route[i][j]==18 || perso->route[i][j]==19 || perso->route[i][j]==10)
             {
                 draw_sprite(back,images->electricite,xCoortoPixel(j),yCoortoPixel(i));   ///CHANGEMENT
             }
+            if (perso->route[i][j] == 8 || perso->route[i][j] == 80)  ///CENTRALE
+                draw_sprite(back, images->centrale, xCoortoPixel(j-1), yCoortoPixel(i-2));
+        }
+    }
+}
+
+void EvolutionBatiments(t_joueur* perso, int secondes)
+{
+    for (int i = 0; i < LIGNES; i++) {
+        for (int j = 0; j < COLONNES; j++) {
+            if (perso->route[i][j] == 20 && secondes % 15 == 0)  /// terrain -> cabane  (décalage de quelques secondes pour pas que tout se fasse d'affilé)
+            {
+                perso->route[i][j] = 3;
+                perso->nb_habitants+=10;
+            }
+
+            if (perso->route[i][j] == 3 && (secondes+1) % 15 == 0)  /// cabane -> maison
+            {
+                perso->route[i][j] = 4;
+                perso->nb_habitants+=50;
+            }
+
+
+            if (perso->route[i][j] == 4 && (secondes+2) % 15 == 0)  /// maison -> immeuble
+            {
+                perso->route[i][j] = 5;
+                perso->nb_habitants+=100;
+            }
+
+
+            if (perso->route[i][j] == 5 && (secondes+3) % 15 == 0)  /// immeuble -> gratte-ciel
+            {
+                perso->route[i][j] = 6;
+                perso->nb_habitants+=1000;
+            }
+
         }
     }
 }
@@ -425,18 +490,58 @@ void TestConnexionReseau(t_joueur* perso)
 {
     for(int i=0;i<LIGNES;i++)
     {
-        for(int j=0;j<COLONNES;j++) ///ROUTE
+        for(int j=0;j<COLONNES;j++)
         {
-            if(perso->route[i][j]==2)
+
+            if(perso->route[i][j]==1)  ///si route connecte à une centrale
             {
-                if ((perso->route[i - 1][j - 2] == 1) || (perso->route[i][j - 2] == 1) ||
-                    (perso->route[i + 1][j - 2] == 1) || (perso->route[i - 1][j + 2] == 1) ||
-                    (perso->route[i][j + 2] == 1) || (perso->route[i + 1][j + 2] == 1) ||
-                    (perso->route[i - 2][j - 1] == 1) || (perso->route[i - 2][j] == 1) ||
-                    (perso->route[i - 2][j + 1] == 1) || (perso->route[i + 2][j - 1] == 1) ||
-                    (perso->route[i + 2][j] == 1) || (perso->route[i + 2][j + 1] == 1))
+                if ((perso->route[i - 1][j] == 81) || (perso->route[i + 1][j] == 81) ||
+                    (perso->route[i][j - 1] == 81) || (perso->route[i][j + 1] == 81) ||
+                    (perso->route[i - 1][j] == 18) || (perso->route[i + 1][j] == 18) ||
+                    (perso->route[i][j - 1] == 18) || (perso->route[i][j + 1] == 18))
+                    perso->route[i][j] = 18;
+
+            }
+
+            if(perso->route[i][j]==1)  ///si route connecte à un chateau d'eau
+            {
+                if ((perso->route[i - 1][j] == 91) || (perso->route[i + 1][j] == 91) ||
+                    (perso->route[i][j - 1] == 91) || (perso->route[i][j + 1] == 91) ||
+                    (perso->route[i - 1][j] == 19) || (perso->route[i + 1][j] == 19) ||
+                    (perso->route[i][j - 1] == 19) || (perso->route[i][j + 1] == 19))
+                    perso->route[i][j] = 19;
+
+            }
+
+            if(perso->route[i][j]==18)  ///si route deja connecte à une centrale devient connecte en eau
+            {
+                if ((perso->route[i - 1][j] == 91) || (perso->route[i + 1][j] == 91) ||
+                    (perso->route[i][j - 1] == 91) || (perso->route[i][j + 1] == 91) ||
+                    (perso->route[i - 1][j] == 10) || (perso->route[i + 1][j] == 10) ||
+                    (perso->route[i][j - 1] == 10) || (perso->route[i][j + 1] == 10))
+                    perso->route[i][j] = 10;
+            }
+
+            if(perso->route[i][j]==19)  ///si route deja connecte à un chateau d'eau devient connecte en elec
+            {
+                if ((perso->route[i - 1][j] == 81) || (perso->route[i + 1][j] == 81) ||
+                    (perso->route[i][j - 1] == 81) || (perso->route[i][j + 1] == 81) ||
+                    (perso->route[i - 1][j] == 10) || (perso->route[i + 1][j] == 10) ||
+                    (perso->route[i][j - 1] == 10) || (perso->route[i][j + 1] == 10))
+                    perso->route[i][j] = 10;
+            }
+
+            if(perso->route[i][j]==2) ///si terrain connecté à route alimentée en elec
+            {
+                if ((perso->route[i - 1][j - 2] == 10) || (perso->route[i][j - 2] == 10) ||
+                    (perso->route[i + 1][j - 2] == 10) || (perso->route[i - 1][j + 2] == 10) ||
+                    (perso->route[i][j + 2] == 10) || (perso->route[i + 1][j + 2] == 10) ||
+                    (perso->route[i - 2][j - 1] == 10) || (perso->route[i - 2][j] == 10) ||
+                    (perso->route[i - 2][j + 1] == 10) || (perso->route[i + 2][j - 1] == 10) ||
+                    (perso->route[i + 2][j] == 10) || (perso->route[i + 2][j + 1] == 10))
                     perso->route[i][j] = 20;
             }
+
         }
     }
 }
@@ -457,21 +562,20 @@ void AffichageTemps(BITMAP* back, int* temps, clock_t t1, t_joueur* perso)
         perso->antisp.antispam[0]=true;
     }
 
-
     ///du mal avec le compteur des minutes vu qu'on peut pas le retourner (je regarde par strucutres ou sinon avec time.h)
 
-
-    rectfill(back, 706, 11, 810, 30, makecol(255,242,0));
+    rectfill(back, 680, 11, 740, 30, makecol(0,173,233));
 
     if(temps[0]%60<10)
-        textprintf_ex(back, font, 775, 22, makecol(0,0,0), -1, "0%d",temps[0]%60);
+        textprintf_ex(back, font, 715, 22, makecol(0,0,0), -1, "0%d",temps[0]%60);
     else
-        textprintf_ex(back, font, 775, 22, makecol(0,0,0), -1, "%d",temps[0]%60);
+        textprintf_ex(back, font, 715, 22, makecol(0,0,0), -1, "%d",temps[0]%60);
 
     if(temps[1]<10)
-        textprintf_ex(back, font, 745, 22, makecol(0,0,0), -1, "0%d:",temps[1]);
+        textprintf_ex(back, font, 685, 22, makecol(0,0,0), -1, "0%d:",temps[1]);
     else
-        textprintf_ex(back, font, 745, 22, makecol(0,0,0), -1, "%d:",temps[1]);
+        textprintf_ex(back, font, 685, 22, makecol(0,0,0), -1, "%d:",temps[1]);
+
 }
 
 void RecupererImpots(t_joueur* perso, int time)
@@ -536,7 +640,6 @@ void AffichageReseaudEau(t_joueur* perso,t_bitmap* images)
     BITMAP* buffer;
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
 
-
     //va nous permettre de sortir de la boucle d'affichage lorsqu'un choix est fait
     int next=0;
     int choix=0;
@@ -589,93 +692,118 @@ void verifevolution(t_bat4* bati)
 
 void EcranDeJeu(t_joueur* perso, t_bitmap* images, t_bat4* bati)
 {
-    BITMAP* buffer;
+    BITMAP *buffer;
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
 
     clock_t t1 = clock();
+
     int* temps= (int*)malloc(2*sizeof(int));
+    temps[0]=0;
+    temps[1]=0;
+
 
     //va nous permettre de sortir de la boucle d'affichage lorsqu'un choix est fait
-    int next=0;
+    int next = 0;
 
     //boucle d'affichage
-    while(next!=1){
+    while (next != 1) {
 
         //routine d'affichage
-        blit(images->fond0, buffer, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
+        blit(images->fond0, buffer, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
         //blit(grille,background, 0,0,GRILLE_W,GRILLE_H, SCREEN_W,SCREEN_H);
-        blit(images->map0,images->fond0, 0,0,GRILLE_W,GRILLE_H, SCREEN_W,SCREEN_H);
+        blit(images->map0, images->fond0, 0, 0, GRILLE_W, GRILLE_H, SCREEN_W, SCREEN_H);
         show_mouse(buffer);
-        blit(buffer, screen, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
+        blit(buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
         clear_bitmap(buffer);
 
-        rectfill(images->fond0, 52, 11, 120, 30, makecol(255,242,0)); ///argent
-        textprintf_ex(images->fond0, font, 60, 20, makecol(0,0,0), -1, "%d",perso->flouz);
 
-        rectfill(images->fond0, 196, 11, 260, 30, makecol(255,242,0)); ///capacite eau
-        textprintf_ex(images->fond0, font, 200, 20, makecol(0,0,0), -1, "%d",perso->eau);
+        rectfill(images->fond0, 62, 11, 135, 30, makecol(1, 173, 232)); ///argent
+        textprintf_ex(images->fond0, font, 85, 20, makecol(0, 0, 0), -1, "%d", perso->flouz);
 
-        rectfill(images->fond0, 315, 11, 409, 30, makecol(255,242,0)); ///capacite elec
-        textprintf_ex(images->fond0, font, 320, 20, makecol(0,0,0), -1, "%d",perso->electricite);
+        rectfill(images->fond0, 235, 11, 300, 30, makecol(1, 173, 232)); ///capacite eau
+        textprintf_ex(images->fond0, font, 290, 20, makecol(0, 0, 0), -1, "%d", perso->eau);
 
-        rectfill(images->fond0, 873, 11, 991, 30, makecol(255,242,0)); ///nb_hab
-        textprintf_ex(images->fond0, font, 882, 21, makecol(0,0,0), -1, "%d",perso->nb_habitants);
+
+        rectfill(images->fond0, 355, 11, 420, 30, makecol(1, 173, 232)); ///capacite elec
+        textprintf_ex(images->fond0, font, 410, 20, makecol(0, 0, 0), -1, "%d", perso->electricite);
+
+
+        rectfill(images->fond0, 900, 11, 1010, 30, makecol(186, 209, 224)); ///nb_hab
+        textprintf_ex(images->fond0, font, 982, 21, makecol(0, 0, 0), -1, "%d", perso->nb_habitants);
+
 
         AffichageTemps(images->fond0,temps,t1,perso);
         RecupererImpots(perso,temps[0]);
-        AffichageRoute(perso, images->fond0,images);
+        AffichageRoute(perso, images->fond0, images);
         TestConnexionReseau(perso);
+        EvolutionBatiments(perso,temps[0]);
 
         //correspond aux cases de l'ecran
-        if((mouse_b&1)&&(mouse_x>=969)&&(mouse_x<=1015)&&(mouse_y>=317)&&(mouse_y<=360))  ///quitter
-            next=1;
+        if ((mouse_b & 1) && (mouse_x >= 971) && (mouse_x <= 1018) && (mouse_y >= 712 && (mouse_y <= 756)) ) ///quitter
+            next = 1;
 
         //corrrespond aux niveaux du jeu
-        if((mouse_b&1)&&(mouse_x>=969)&&(mouse_x<=1015)&&(mouse_y>=123)&&(mouse_y<=171)) ///niveau -1
+        if ((mouse_b & 1) && (mouse_x >= 966) && (mouse_x <= 1015) && (mouse_y >= 506) && (mouse_y <= 555)) ///niveau -1
         {
             rest(200);
-            AffichageReseaudEau(perso,images);
+            AffichageReseaudEau(perso, images);
         }
 
-        if((mouse_b&1)&&(mouse_x>=969)&&(mouse_x<=1015)&&(mouse_y>=55)&&(mouse_y<=103)) ///niveau -2
+        if ((mouse_b & 1) && (mouse_x >= 966) && (mouse_x <= 1015) && (mouse_y >= 571) && (mouse_y <= 613)) ///niveau -2
         {
             rest(200);
-            AffichageReseauElec(perso,images);
+            AffichageReseauElec(perso, images);
         }
 
-        if((mouse_b&1)&&(mouse_x>=969)&&(mouse_x<=1015)&&(mouse_y>=190)&&(mouse_y<=240)) /// activation mode edition routes
+        if ((mouse_b & 1) && (mouse_x >= 5) && (mouse_x <= 55) && (mouse_y >= 148) &&
+            (mouse_y <= 200)) /// activation mode edition route
         {
             rest(200);
-            if (perso->editroute==false && perso->editmaison==false)
-            {
-                perso->editroute=true;
-                printf("mode edition activated");
-            }
-
+            if (perso->editroute == false && perso->editmaison == false && perso->editchateaudeau==false &&
+                perso->editcentrale == false)
+                perso->editroute = true;
             else
-            {
-                perso->editroute=false;
-                printf("mode edition desactivated");
-            }
+                perso->editroute = false;
         }
 
-        if((mouse_b&1)&&(mouse_x>=969)&&(mouse_x<=1015)&&(mouse_y>=259)&&(mouse_y<=306)) /// activation mode edition routes
+        if ((mouse_b & 1) && (mouse_x >= 5) && (mouse_x <= 55) && (mouse_y >= 221) &&
+            (mouse_y <= 270)) /// activation mode edition maison
         {
             rest(200);
-            if (perso->editmaison==false && perso->editroute==false)
-            {
-                perso->editmaison=true;
-                printf("mode edition activated");
-            }
+            if (perso->editroute == false && perso->editmaison == false && perso->editchateaudeau==false &&
+                perso->editcentrale== false)
+                perso->editmaison = true;
             else
-            {
-                perso->editmaison=false;
-                printf("mode edition desactivated");
-            }
+                perso->editmaison = false;
         }
 
-        if(perso->editmaison==true)  ///placement des maisons
+        if ((mouse_b & 1) && (mouse_x >= 5) && (mouse_x <= 55) && (mouse_y >= 350) &&
+            (mouse_y <= 400)) /// activation mode edition centrale
         {
+            rest(200);
+            if (perso->editroute == false && perso->editmaison == false && perso->editchateaudeau==false &&
+                perso->editcentrale== false)
+                perso->editcentrale = true;
+            else
+                perso->editcentrale = false;
+        }
+
+        if ((mouse_b & 1) && (mouse_x >= 5) && (mouse_x <= 55) && (mouse_y >= 287) &&
+            (mouse_y <= 335)) /// activation mode edition chateau d'eau
+        {
+            rest(200);
+            if (perso->editroute == false && perso->editmaison == false && perso->editchateaudeau==false &&
+                perso->editcentrale==false)
+                perso->editchateaudeau = true;
+            else
+                perso->editchateaudeau = false;
+        }
+
+        if (perso->editmaison == true)  ///placement des maisons
+        {
+            if((mouse_x >=92 && mouse_x<932)&&(mouse_y>=64 && mouse_y<704)) ///affichage surbillance
+                draw_sprite(images->fond0,images->surbrillance3x3,mouse_x-30,mouse_y-30);
+
             if ((mouse_b & 1) && (mouse_x >= 62) && (mouse_x <= 922) && (mouse_y >= 34) && (mouse_y <= 694) &&
                 (perso->flouz >= 1000)) ///correspond à la taille de l'écran jouable
                 if ((perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 1] == 0) &&
@@ -699,24 +827,152 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images, t_bat4* bati)
                     perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] = 21;
                     perso->flouz -= 1000;
                 }
-
         }
 
-        if(perso->editroute==true)  ///placement de la route
+        if (perso->editroute == true)  ///placement de la route
         {
-            if((mouse_b&1)&&(mouse_x>=62)&&(mouse_x<=962)&&(mouse_y>=34)&&(mouse_y<=734)&&(perso->flouz>=10)&&(perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)]==0)) ///correspond à la taille de l'écran jouable
+            if((mouse_x >=72 && mouse_x<952)&&(mouse_y>=44 && mouse_y<724)) ///affichage surbillance
+                draw_sprite(images->fond0,images->surbrillance1x1,mouse_x-10,mouse_y-10);
+
+
+            if ((mouse_b & 1) && (mouse_x >= 62) && (mouse_x <= 962) && (mouse_y >= 34) && (mouse_y <= 734) &&
+                (perso->flouz >= 10) && (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)] ==
+                                         0)) ///correspond à la taille de l'écran jouable
             {
-                perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)]=1;
-                perso->flouz-=10;
+                perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)] = 1;
+                perso->flouz -= 10;
             }
         }
 
+
         ///test si les maisons peuvent évoluer -> dépends du mode
 
+        if (perso->editcentrale == true)  ///placement des centrales
+        {
+            if((mouse_x >=92 && mouse_x<912)&&(mouse_y>=84 && mouse_y<664)) ///affichage surbillance
+                draw_sprite(images->fond0,images->surbrillance4x6,mouse_x-30,mouse_y-50); //40 70
 
+
+            if ((mouse_b & 1) && (mouse_x >= 62) && (mouse_x <= 922) && (mouse_y >= 34) && (mouse_y <= 694) &&
+                (perso->flouz >= 100000)) ///correspond à la taille de l'écran jouable
+                if ((perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 0] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 2] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 0] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) - 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 0] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 2] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 0] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 0] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 2] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) - 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 0] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] == 0)) {
+                    perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] = 81;
+                    perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 0] = 81;
+                    perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] = 81;
+                    perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 2] = 81;
+                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] = 81;
+                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 0] = 81;
+                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] = 81;
+                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] = 81;
+                    perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) - 1] = 81;
+                    perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 0] = 8;
+                    perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 1] = 81;
+                    perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 2] = 81;
+                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] = 81;
+                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 0] = 81;
+                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] = 81;
+                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] = 81;
+                    perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] = 81;
+                    perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 0] = 81;
+                    perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] = 81;
+                    perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 2] = 81;
+                    perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) - 1] = 81;
+                    perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 0] = 81;
+                    perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] = 81;
+                    perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] = 81;
+                    perso->flouz -= 100000;
+                    perso->electricite+=5000;
+                }
+        }
+
+        if (perso->editchateaudeau == true)  ///placement des chateau d'eau
+        {
+            if((mouse_x >=92 && mouse_x<912)&&(mouse_y>=84 && mouse_y<664)) ///affichage surbillance
+                draw_sprite(images->fond0,images->surbrillance4x6,mouse_x-30,mouse_y-50); //40 70
+
+            if ((mouse_b & 1) && (mouse_x >= 62) && (mouse_x <= 922) && (mouse_y >= 34) && (mouse_y <= 694) &&
+                (perso->flouz >= 100000)) ///correspond à la taille de l'écran jouable
+                if ((perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 0] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 2] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 0] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) - 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 0] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 2] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 0] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 0] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 2] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) - 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 0] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] == 0) &&
+                    (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] == 0)) {
+                    perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] = 91;
+                    perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 0] = 91;
+                    perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] = 91;
+                    perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 2] = 91;
+                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] = 91;
+                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 0] = 91;
+                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] = 91;
+                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] = 91;
+                    perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) - 1] = 91;
+                    perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 0] = 9;
+                    perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 1] = 91;
+                    perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 2] = 91;
+                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] = 91;
+                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 0] = 91;
+                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] = 91;
+                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] = 91;
+                    perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] = 91;
+                    perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 0] = 91;
+                    perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] = 91;
+                    perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 2] = 91;
+                    perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) - 1] = 91;
+                    perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 0] = 91;
+                    perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] = 91;
+                    perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] = 91;
+                    perso->flouz -= 100000;
+                    perso->eau+=5000;
+                }
+
+        }
     }
     allegro_exit();
 }
+
+
 
 
 void AffichageCapitaliste(t_bitmap* images)
@@ -809,22 +1065,13 @@ void ChoixDuMode(t_joueur* perso,t_bitmap* images)
     }
 }
 
-/*
-void Song() //theme
-{
-    SAMPLE*son;
-    install_sound(DIGI_AUTODETECT,MIDI_AUTODETECT,"A");
-    son=load_sample("zikmu.wav"); //on lance le fichier audio          ///CHANGEMENT CHEMIN
-    play_sample(son,255,0,1000,0);
-}
-*/
 
 void StructureJoueurInit(t_joueur* perso)
 {
     perso->eau=0;
     perso->electricite=0;
     perso->flouz=500000;
-    perso->nb_habitants=500;
+    perso->nb_habitants=0;
     perso->antispam=true;
     for(int i=0;i<nbantispam;i++ )
     {
@@ -832,6 +1079,8 @@ void StructureJoueurInit(t_joueur* perso)
     }
     perso->editroute=false;
     perso->editmaison=false;
+    perso->editcentrale=false;
+    perso->editchateaudeau=false;
 
     perso->route=(int**)malloc(LIGNES*sizeof(int*));   ///allocation dynamique matrice entiers
     for(int i=0;i<LIGNES;i++)
@@ -861,14 +1110,17 @@ void StructureBitmapInit(t_bitmap* images)
     images->chateaudeau = load_bitmap("Bitmaps/binouze.bmp",NULL);
     images->centrale = load_bitmap("Bitmaps/NUCULAIRE.bmp",NULL);
     images->terrain = load_bitmap("Bitmaps/TVAAAGUE.bmp",NULL);
-    images->ruine = NULL;
+    images->ruine = load_bitmap("Bitmaps/ruine.bmp",NULL);
     images->cabane = load_bitmap("Bitmaps/cabane.bmp",NULL);
     images->maison = load_bitmap("Bitmaps/LAMAAAAIIISOONN.bmp",NULL);
-    images->immeuble = NULL;
-    images->gratteciel = NULL;
+    images->immeuble = load_bitmap("Bitmaps/immeuble.bmp",NULL);
+    images->gratteciel = load_bitmap("Bitmaps/gratteciel.bmp",NULL);
     images->route = load_bitmap("Bitmaps/road.bmp",NULL);
     images->eau = load_bitmap("Bitmaps/EAUVERTE.bmp",NULL);
     images->electricite = load_bitmap("Bitmaps/ZAAP.bmp",NULL);
+    images->surbrillance1x1 = load_bitmap("Bitmaps/surbrillance1x1.bmp",NULL);
+    images->surbrillance3x3 = load_bitmap("Bitmaps/surbrillance3x3.bmp",NULL);
+    images->surbrillance4x6 = load_bitmap("Bitmaps/surbrillance4x6.bmp",NULL);
 }
 
 void StructurebatInit(t_bat4* bati)
@@ -987,8 +1239,8 @@ int main()
     free(homer);
     free(images);
     free(tchernono);
-    return 0;
+    //Quitter(homer,images);
 
+    return 0;
 }
 END_OF_MAIN();
-
