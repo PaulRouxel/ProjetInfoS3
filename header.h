@@ -64,7 +64,7 @@ typedef struct joueur  //Cette structure gerera les donnees de joueurs tout au l
     bool editcentrale;
     bool editchateaudeau;
     int** route;
-    t_bat4 batiments
+    t_bat4 batiments;
 } t_joueur;
 
 typedef struct bitmap
@@ -112,8 +112,6 @@ typedef struct bitmap
 //centre terrain -> 2
 //centre terrain connecté en eau ET elec -> 20
 //autour terrain -> 21
-//centre terrain connecté en elec -> 28
-//centre terrain connecté en eau -> 29
 
 //centre (x=1;y=2) centrale -> 8
 //centre (x=1;y=2) connecté -> 80
