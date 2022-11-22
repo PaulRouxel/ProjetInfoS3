@@ -17,12 +17,37 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="c bon paul 12H25">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="commit de vérif">
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/Bitmaps/dieu.bmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/Bitmaps/gratteciel.bmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/Bitmaps/immeuble.bmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/Bitmaps/regles.bmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/Bitmaps/ruine.bmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/Bitmaps/surbrillance1x1.bmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/Bitmaps/surbrillance3x3.bmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-debug/Bitmaps/surbrillance4x6.bmp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/cache-v2-afded8bb38354577d605.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-87cdd74848762271b931.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/target-ProjetInfoS3-Debug-dd133168a82f2bcc9ae7.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/toolchains-v1-af60f0c49947b249e4a6.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Bitmaps/EAUVERTE.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Bitmaps/EAUVERTE.bmp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Bitmaps/binouze.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Bitmaps/binouze.bmp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Bitmaps/ecrandejeu.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Bitmaps/ecrandejeu.bmp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.23.2/CMakeCCompiler.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.23.2/CMakeCCompiler.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.23.2/CMakeDetermineCompilerABI_C.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.23.2/CMakeDetermineCompilerABI_C.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.23.2/CMakeRCCompiler.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.23.2/CMakeRCCompiler.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.23.2/CMakeSystem.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.23.2/CMakeSystem.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.23.2/CompilerIdC/a.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.23.2/CompilerIdC/a.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/rules.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/rules.ninja" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/ProjetInfoS3.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/ProjetInfoS3.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/build.ninja" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/header.h" beforeDir="false" afterPath="$PROJECT_DIR$/header.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
@@ -30,6 +55,11 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" show_ignored="true">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
   </component>
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
@@ -75,6 +105,11 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -88,20 +123,7 @@
       <workItem from="1668517816001" duration="6391000" />
       <workItem from="1668530467272" duration="5128000" />
       <workItem from="1668545810486" duration="710000" />
-      <workItem from="1668585033876" duration="20166000" />
-      <workItem from="1668618549349" duration="1172000" />
-      <workItem from="1668626397116" duration="1001000" />
-      <workItem from="1668670285549" duration="8844000" />
-      <workItem from="1668694314501" duration="109000" />
-      <workItem from="1668720508068" duration="981000" />
-      <workItem from="1668877111540" duration="142000" />
-      <workItem from="1668892416790" duration="113000" />
-      <workItem from="1668963482293" duration="5803000" />
-      <workItem from="1669024073819" duration="3879000" />
-      <workItem from="1669028969094" duration="1057000" />
-      <workItem from="1669030057957" duration="595000" />
-      <workItem from="1669037521100" duration="391000" />
-      <workItem from="1669043613090" duration="10803000" />
+      <workItem from="1668585033876" duration="15336000" />
     </task>
     <task id="LOCAL-00001" summary="AlleZ gros marche">
       <created>1667906483137</created>
@@ -201,63 +223,7 @@
       <option name="project" value="LOCAL" />
       <updated>1668603152165</updated>
     </task>
-    <task id="LOCAL-00015" summary="c bon 14h17">
-      <created>1668604674228</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1668604674228</updated>
-    </task>
-    <task id="LOCAL-00016" summary="c bon 14h17">
-      <created>1668606730765</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1668606730765</updated>
-    </task>
-    <task id="LOCAL-00017" summary="c pas bon paul 17h01">
-      <created>1668614522183</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1668614522183</updated>
-    </task>
-    <task id="LOCAL-00018" summary="c bon paul 18h28">
-      <created>1668619718978</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1668619718978</updated>
-    </task>
-    <task id="LOCAL-00019" summary="c bon paul 9h25">
-      <created>1668673513274</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1668673513274</updated>
-    </task>
-    <task id="LOCAL-00020" summary="c bon paul 10h25">
-      <created>1668677566471</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1668677566471</updated>
-    </task>
-    <task id="LOCAL-00021" summary="c bon paul 10h55">
-      <created>1668678857699</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1668678857699</updated>
-    </task>
-    <task id="LOCAL-00022" summary="c bon paul 12H25">
-      <created>1669029952095</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1669029952095</updated>
-    </task>
-    <option name="localTasksCounter" value="23" />
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -283,13 +249,6 @@
     <MESSAGE value="routes qui marchent bi1" />
     <MESSAGE value="ca compile pas faut que je finisse" />
     <MESSAGE value="ca compile pas faut que je finisset_" />
-    <MESSAGE value="c bon 14h17" />
-    <MESSAGE value="c pas bon paul 17h01" />
-    <MESSAGE value="c bon paul 18h28" />
-    <MESSAGE value="c bon paul 9h25" />
-    <MESSAGE value="c bon paul 10h25" />
-    <MESSAGE value="c bon paul 10h55" />
-    <MESSAGE value="c bon paul 12H25" />
-    <option name="LAST_COMMIT_MESSAGE" value="c bon paul 12H25" />
+    <option name="LAST_COMMIT_MESSAGE" value="ca compile pas faut que je finisset_" />
   </component>
 </project>
