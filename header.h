@@ -27,6 +27,27 @@ typedef struct temps
     bool antispam[nbantispam];
 }t_temps;
 
+/// Structure d'une Maison ///
+typedef struct maison
+{
+    ///coordonnées du centre du batiment
+    int x;
+    int y;
+    ///stade d'évolution
+    int stade;
+    ///temps depuis sa dernière évolution
+    clock_t temps;
+
+}t_terter;
+
+/// STRUCTURE pour les batiments ///
+typedef struct batiments
+{
+    t_terter maisons[30];
+    int nbmaisons;
+
+}t_bat4;
+
 /// STRUCTURE DES JOUEURS ///
 typedef struct joueur  //Cette structure gerera les donnees de joueurs tout au long de la partie
 {

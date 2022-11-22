@@ -576,7 +576,6 @@ void AffichageTemps(BITMAP* back, int* temps, clock_t t1, t_joueur* perso)
     else
         textprintf_ex(back, font, 685, 22, makecol(0,0,0), -1, "%d:",temps[1]);
 
-
 }
 
 void RecupererImpots(t_joueur* perso, int time)
@@ -679,7 +678,19 @@ void AffichageReseaudEau(t_joueur* perso,t_bitmap* images)
 
 }
 
-void EcranDeJeu(t_joueur* perso, t_bitmap* images)
+void Creemaison(t_bat4* bati,int y, int x)
+{
+    bati->maisons[bati->nbmaisons].temps=clock()+1000;
+    bati->maisons[bati->nbmaisons].x=x;
+    bati->maisons[bati->nbmaisons].y=y;
+}
+
+void verifevolution(t_bat4* bati)
+{
+
+}
+
+void EcranDeJeu(t_joueur* perso, t_bitmap* images, t_bat4* bati)
 {
     BITMAP *buffer;
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
@@ -712,12 +723,14 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         rectfill(images->fond0, 235, 11, 300, 30, makecol(1, 173, 232)); ///capacite eau
         textprintf_ex(images->fond0, font, 290, 20, makecol(0, 0, 0), -1, "%d", perso->eau);
 
+
         rectfill(images->fond0, 355, 11, 420, 30, makecol(1, 173, 232)); ///capacite elec
         textprintf_ex(images->fond0, font, 410, 20, makecol(0, 0, 0), -1, "%d", perso->electricite);
 
 
         rectfill(images->fond0, 900, 11, 1010, 30, makecol(186, 209, 224)); ///nb_hab
         textprintf_ex(images->fond0, font, 982, 21, makecol(0, 0, 0), -1, "%d", perso->nb_habitants);
+
 
         AffichageTemps(images->fond0,temps,t1,perso);
         RecupererImpots(perso,temps[0]);
@@ -800,12 +813,14 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
                     (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
                     (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] == 0) &&
                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] == 0)) {
+                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] == 0))
+                {
                     perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 1] = 21;
                     perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 1] = 21;
                     perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x)] = 21;
                     perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x)] = 21;
                     perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)] = 2;
+                    Creemaison(bati, yPixeltoCoor(mouse_y),xPixeltoCoor(mouse_x));
                     perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] = 21;
                     perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] = 21;
                     perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] = 21;
@@ -828,6 +843,9 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
                 perso->flouz -= 10;
             }
         }
+
+
+        ///test si les maisons peuvent évoluer -> dépends du mode
 
         if (perso->editcentrale == true)  ///placement des centrales
         {
@@ -1105,12 +1123,22 @@ void StructureBitmapInit(t_bitmap* images)
     images->surbrillance4x6 = load_bitmap("Bitmaps/surbrillance4x6.bmp",NULL);
 }
 
-void NouvellePartie(t_joueur* perso, t_bitmap* images)
+void StructurebatInit(t_bat4* bati)
+{
+    for(int i=0;i<nbantispam;i++)
+    {
+        bati->maisons[i].x=50;
+        bati->maisons[i].y=50;
+    }
+}
+
+void NouvellePartie(t_joueur* perso, t_bitmap* images, t_bat4* bati)
 {
     StructureJoueurInit(perso);
     StructureBitmapInit(images);
+    StructurebatInit(bati);
     ChoixDuMode(perso,images);
-    EcranDeJeu(perso,images);
+    EcranDeJeu(perso,images,bati);
 }
 
 void ChargerUnePartie(t_joueur* perso)
@@ -1138,7 +1166,7 @@ void QuitterBis()
     allegro_exit();
 }
 
-void MenuDemarrage(t_joueur* perso, t_bitmap* images)
+void MenuDemarrage(t_joueur* perso, t_bitmap* images, t_bat4* bati)
 {
     //BITMAP
     BITMAP* accueil;
@@ -1190,7 +1218,7 @@ void MenuDemarrage(t_joueur* perso, t_bitmap* images)
     }
 
     if(choix==1)
-        NouvellePartie(perso,images);
+        NouvellePartie(perso,images,bati);
     if(choix==2)
         ChargerUnePartie(perso);
     if(choix==3)
@@ -1205,10 +1233,14 @@ int main()
     srand(time(NULL));
     t_joueur* homer=(t_joueur*)malloc(sizeof(t_joueur));
     t_bitmap* images=(t_bitmap*)malloc(sizeof(t_bitmap));
+    t_bat4* tchernono=(t_bat4*)malloc(sizeof(t_bat4));
 
-    MenuDemarrage(homer,images);
+    MenuDemarrage(homer,images,tchernono);
     free(homer);
+    free(images);
+    free(tchernono);
     //Quitter(homer,images);
+
     return 0;
 }
 END_OF_MAIN();
