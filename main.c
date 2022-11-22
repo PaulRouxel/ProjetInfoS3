@@ -417,7 +417,6 @@ void AffichageRoute(t_joueur* perso, BITMAP* back,t_bitmap* images) {
     }
     printf("\n\n");
     */
-
 }
 
 void AffichageCanalisations(t_joueur* perso, BITMAP* back,t_bitmap* images)
@@ -531,7 +530,7 @@ void TestConnexionReseau(t_joueur* perso)
                     perso->route[i][j] = 10;
             }
 
-            if(perso->route[i][j]==2) ///si terrain connecté à route alimentée en elec
+            if(perso->route[i][j]==2) ///si terrain connecté à route alimentée en elec et en eau
             {
                 if ((perso->route[i - 1][j - 2] == 10) || (perso->route[i][j - 2] == 10) ||
                     (perso->route[i + 1][j - 2] == 10) || (perso->route[i - 1][j + 2] == 10) ||
@@ -541,7 +540,6 @@ void TestConnexionReseau(t_joueur* perso)
                     (perso->route[i + 2][j] == 10) || (perso->route[i + 2][j + 1] == 10))
                     perso->route[i][j] = 20;
             }
-
         }
     }
 }
@@ -1085,6 +1083,7 @@ void StructureBitmapInit(t_bitmap* images)
     images->fond0 = load_bitmap("Bitmaps/ecrandejeu.bmp",NULL);
     images->fond1 = load_bitmap("Bitmaps/ecranreseaudeau.bmp",NULL);
     images->fond2 = load_bitmap("Bitmaps/ecranreseaudelec.bmp",NULL);
+    images->dieu = load_bitmap("Bitmaps/dieu.bmp",NULL);
     images->ecranaccueil = load_bitmap("Bitmaps/ecrandemarrageS3.bmp",NULL);
     images->ecranmode = load_bitmap("Bitmaps/ecranmodedejeu.bmp",NULL);
     images->ecrancapitaliste = load_bitmap("Bitmaps/Capitaliste.bmp",NULL);

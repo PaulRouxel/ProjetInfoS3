@@ -21,6 +21,15 @@
 
 #define nbantispam 30
 
+
+
+
+
+
+
+
+
+
 ///STUCTURE POUR LES VARIABLES DE TEMPS ///
 typedef struct temps
 {
@@ -53,6 +62,7 @@ typedef struct bitmap
     BITMAP* fond0;
     BITMAP* fond1;
     BITMAP* fond2;
+    BITMAP* dieu;
     BITMAP* ecranaccueil;
     BITMAP* ecranmode;
     BITMAP* ecrancommuniste;
