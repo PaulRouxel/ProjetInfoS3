@@ -1060,14 +1060,14 @@ void ChoixDuMode(t_joueur* perso,t_bitmap* images)
         clear_bitmap(buffer);
 
         //correspond aux cases de l'ecran
-        if((mouse_b&1)&&(mouse_x>=180)&&(mouse_x<=480)&&(mouse_y>=440)&&(mouse_y<=520))
+        if((mouse_b&1)&&(mouse_x>=144)&&(mouse_x<=440)&&(mouse_y>=354)&&(mouse_y<=528))
         {
             choix=1;
             next=1;
         }
 
         //correspond aux cases de l'ecran
-        if((mouse_b&1)&&(mouse_x>=571)&&(mouse_x<=837)&&(mouse_y>=440)&&(mouse_y<=520))
+        if((mouse_b&1)&&(mouse_x>=534)&&(mouse_x<=845)&&(mouse_y>=354)&&(mouse_y<=528))
         {
             choix=2;
             next=1;
