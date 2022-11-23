@@ -668,6 +668,26 @@ void AffichageReseaudEau(t_joueur* perso,t_bitmap* images);  ///on declare ici p
 
 void Quitter(t_joueur* perso, t_bitmap* images);
 
+void AffichageDieu(t_bitmap* images){
+
+    BITMAP *buffer;
+    buffer = create_bitmap(SCREEN_W, SCREEN_H);
+
+    int next=0;
+
+    while(next!=1) {
+
+        blit(images->dieu, buffer, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+        show_mouse(buffer);
+        blit(buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+        clear_bitmap(buffer);
+
+        if((mouse_b&1)&&(mouse_x>=714)&&(mouse_x<=936)&&(mouse_y>=620)&&(mouse_y<=740)){
+            next=1;
+        }
+    }
+}
+
 void AffichageReseauElec(t_joueur* perso,t_bitmap* images)
 {
     BITMAP* buffer;
@@ -822,6 +842,12 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         {
             rest(200);
             AffichageReseauElec(perso, images);
+        }
+
+        if ((mouse_b & 1) && (mouse_x >= 966) && (mouse_x <= 1015) && (mouse_y >= 628) && (mouse_y <= 670)) ///niveau +1
+        {
+            rest(200);
+            AffichageDieu(images);
         }
 
         if ((mouse_b & 1) && (mouse_x >= 5) && (mouse_x <= 55) && (mouse_y >= 148) &&
@@ -1117,14 +1143,14 @@ void ChoixDuMode(t_joueur* perso,t_bitmap* images)
         clear_bitmap(buffer);
 
         //correspond aux cases de l'ecran
-        if((mouse_b&1)&&(mouse_x>=180)&&(mouse_x<=480)&&(mouse_y>=440)&&(mouse_y<=520))
+        if((mouse_b&1)&&(mouse_x>=144)&&(mouse_x<=440)&&(mouse_y>=354)&&(mouse_y<=528))
         {
             choix=1;
             next=1;
         }
 
         //correspond aux cases de l'ecran
-        if((mouse_b&1)&&(mouse_x>=571)&&(mouse_x<=837)&&(mouse_y>=440)&&(mouse_y<=520))
+        if((mouse_b&1)&&(mouse_x>=534)&&(mouse_x<=845)&&(mouse_y>=354)&&(mouse_y<=528))
         {
             choix=2;
             next=1;
@@ -1249,9 +1275,25 @@ void ChargerUnePartie(t_joueur* perso)
     printf("charger une partie");
 }
 
-void AfficherRegles(t_joueur* perso)
+void AfficherRegles()
 {
-    printf("afficher regles");
+    BITMAP *buffer;
+    BITMAP *regles;
+    buffer = create_bitmap(SCREEN_W, SCREEN_H);
+    regles = load_bitmap("Bitmaps/regles.bmp",NULL);
+
+    int next=0;
+    while(next!=1) {
+
+        blit(regles, buffer, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+        show_mouse(buffer);
+        blit(buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+        clear_bitmap(buffer);
+
+        if((mouse_b&1)&&(mouse_x>=714)&&(mouse_x<=936)&&(mouse_y>=620)&&(mouse_y<=740)){
+            next=1;
+        }
+    }
 }
 
 void Quitter(t_joueur* perso, t_bitmap* images)
@@ -1322,7 +1364,7 @@ void MenuDemarrage(t_joueur* perso, t_bitmap* images)
     if(choix==2)
         ChargerUnePartie(perso);
     if(choix==3)
-        AfficherRegles(perso);
+        AfficherRegles();
     if(choix==4)
         QuitterBis();
 }
