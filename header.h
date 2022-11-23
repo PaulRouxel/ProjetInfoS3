@@ -124,4 +124,6 @@ void AffichageTemps(BITMAP* back, int* temps,clock_t t1, t_joueur* perso); //aff
 
 void AffichageDieu(t_bitmap* images);
 
+void AfficherRegles();
+
 #endif

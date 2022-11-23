@@ -1161,9 +1161,25 @@ void ChargerUnePartie(t_joueur* perso)
     printf("charger une partie");
 }
 
-void AfficherRegles(t_joueur* perso)
+void AfficherRegles()
 {
-    printf("afficher regles");
+    BITMAP *buffer;
+    BITMAP *regles;
+    buffer = create_bitmap(SCREEN_W, SCREEN_H);
+    regles = load_bitmap("Bitmaps/regles.bmp",NULL);
+
+    int next=0;
+    while(next!=1) {
+
+        blit(regles, buffer, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+        show_mouse(buffer);
+        blit(buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+        clear_bitmap(buffer);
+
+        if((mouse_b&1)&&(mouse_x>=714)&&(mouse_x<=936)&&(mouse_y>=620)&&(mouse_y<=740)){
+            next=1;
+        }
+    }
 }
 
 void Quitter(t_joueur* perso, t_bitmap* images)
