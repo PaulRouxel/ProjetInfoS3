@@ -83,6 +83,7 @@ typedef struct joueur  //Cette structure gerera les donnees de joueurs tout au l
     bool editmaison;
     bool editcentrale;
     bool editchateaudeau;
+    bool actualisationcapacites;
     int** route;
     t_temps antisp;
     t_bat4* batiments;

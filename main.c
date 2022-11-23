@@ -523,7 +523,12 @@ void AffichageEDF(t_joueur* perso, BITMAP* back,t_bitmap* images)
                 draw_sprite(back,images->electricite,xCoortoPixel(j),yCoortoPixel(i));   ///CHANGEMENT
             }
             if (perso->route[i][j] == 8 || perso->route[i][j] == 80)  ///CENTRALE
+            {
                 draw_sprite(back, images->centrale, xCoortoPixel(j-1), yCoortoPixel(i-2));
+                rectfill(back, xCoortoPixel(j-1), yCoortoPixel(i+4)+5, xCoortoPixel(j+3), yCoortoPixel(i+4)+15, makecol(0,0,0));
+                //textprintf(back,font, xCoortoPixel(j), yCoortoPixel(i+4)+8,makecol(255,255,255),"%d",perso->batiments->centrales[0].capacitemax);
+            }
+
         }
     }
 }
@@ -537,6 +542,7 @@ void EvolutionBatiments(t_joueur* perso, int secondes)
                 perso->route[i][j] = 3;
                 perso->nb_habitants+=10;
             }
+
 
             if (perso->route[i][j] == 3 && (secondes+1) % 15 == 0)  /// cabane -> maison
             {
@@ -568,7 +574,6 @@ void TestConnexionReseau(t_joueur* perso)
     {
         for(int j=0;j<COLONNES;j++)
         {
-
             if(perso->route[i][j]==1)  ///si route connecte à une centrale
             {
                 if ((perso->route[i - 1][j] == 81) || (perso->route[i + 1][j] == 81) ||
@@ -662,6 +667,25 @@ void RecupererImpots(t_joueur* perso, int time)
     }
     if((time+2)%15==0)
         perso->antispam=true;
+}
+
+void ActualisationCapacites(t_joueur* perso)
+{
+    ///ACTUALISATION DE L'ELECTRICITE
+    perso->electricite=0;
+    for(int i=0;i<perso->batiments->nbcentrales;i++)
+    {
+        perso->electricite+=perso->batiments->centrales[i].capacitemax;
+    }
+
+    ///ACTUALISATION DE L'EAU
+    perso->eau=0;
+    for(int i=0;i<perso->batiments->nbchateaux;i++)
+    {
+        perso->eau+=perso->batiments->chateaux[i].capacitemax;
+    }
+
+    perso->actualisationcapacites=false;
 }
 
 void AffichageReseaudEau(t_joueur* perso,t_bitmap* images);  ///on declare ici pour pouvoir l'appeler partout dans le programme, même si elle aprait après dans le code
@@ -775,7 +799,6 @@ void AffichageReseaudEau(t_joueur* perso,t_bitmap* images)
 
 }
 
-
 void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 {
     BITMAP *buffer;
@@ -825,6 +848,9 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         EvolutionBatiments(perso,temps[0]);
         SauvegardeMap(perso);
         SauvegardeInfos(perso);
+
+        if(perso->actualisationcapacites==true)
+            ActualisationCapacites(perso);
 
 
         //correspond aux cases de l'ecran
@@ -1004,11 +1030,11 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
                     perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] = 81;
                     perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] = 81;
                     perso->flouz -= 100000;
-                    perso->electricite+=5000;
                     perso->batiments->centrales[perso->batiments->nbcentrales].x= xPixeltoCoor(mouse_x-30);
                     perso->batiments->centrales[perso->batiments->nbcentrales].y= yPixeltoCoor(mouse_y-50);
                     perso->batiments->centrales[perso->batiments->nbcentrales].capacitemax= 5000;
                     perso->batiments->nbcentrales+=1;
+                    perso->actualisationcapacites=true;
                 }
         }
 
@@ -1068,11 +1094,11 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
                     perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] = 91;
                     perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] = 91;
                     perso->flouz -= 100000;
-                    perso->eau+=5000;
                     perso->batiments->chateaux[perso->batiments->nbchateaux].x= xPixeltoCoor(mouse_x-30);
                     perso->batiments->chateaux[perso->batiments->nbchateaux].y= yPixeltoCoor(mouse_y-50);
                     perso->batiments->chateaux[perso->batiments->nbchateaux].capacitemax= 5000;
                     perso->batiments->nbchateaux+=1;
+                    perso->actualisationcapacites=true;
                 }
         }
     }
@@ -1189,6 +1215,7 @@ void StructureJoueurInit(t_joueur* perso)
     perso->editmaison=false;
     perso->editcentrale=false;
     perso->editchateaudeau=false;
+    perso->actualisationcapacites=false;
 
     perso->route=(int**)malloc(LIGNES*sizeof(int*));   ///allocation dynamique matrice entiers
     for(int i=0;i<LIGNES;i++)
