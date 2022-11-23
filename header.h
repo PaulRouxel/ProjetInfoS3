@@ -117,7 +117,6 @@ typedef struct bitmap
     BITMAP* surbrillance1x1;
     BITMAP* surbrillance3x3;
     BITMAP* surbrillance4x6;
-    BITMAP* dieu;
 }t_bitmap;
 
 
