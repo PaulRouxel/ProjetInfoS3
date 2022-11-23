@@ -1,4 +1,3 @@
-
 #ifndef POINTH_H_INCLUDED
 #define POINTH_H_INCLUDED
 
@@ -21,13 +20,46 @@
 
 #define nbantispam 30
 
+/// Structure d'une Maison ///
+typedef struct maison
+{
+    int x;  ///coordonnées du centre du batiment
+    int y;
+    int stade; ///stade d'évolution
+    int nbhabitants;
+    clock_t temps;  ///temps depuis sa dernière évolution
+}t_terter;
+
+typedef struct centrale
+{
+    int x;  ///coordonnées du centre du batiment
+    int y;
+    int capacitemax;
+}t_centrale;
+
+typedef struct chateau
+{
+    int x;
+    int y;
+    int capacitemax;
+}t_chateau;
+
+typedef struct connexe
+{
+    int** tab;
+}t_connexe;
 
 
-
-
-
-
-
+/// STRUCTURE pour les batiments ///
+typedef struct batiments
+{
+    t_terter* maisons;
+    t_centrale* centrales;
+    t_chateau* chateaux;
+    int nbmaisons;
+    int nbcentrales;
+    int nbchateaux;
+}t_bat4;
 
 
 ///STUCTURE POUR LES VARIABLES DE TEMPS ///
@@ -45,13 +77,16 @@ typedef struct joueur  //Cette structure gerera les donnees de joueurs tout au l
     int eau;
     int electricite;
     int nb_habitants;
-    t_temps antisp;
     bool antispam;
     bool editroute;
     bool editmaison;
     bool editcentrale;
     bool editchateaudeau;
     int** route;
+    t_temps antisp;
+    t_bat4* batiments;
+    t_connexe* composante;
+
 } t_joueur;
 
 typedef struct bitmap
@@ -84,11 +119,6 @@ typedef struct bitmap
 }t_bitmap;
 
 
-
-
-
-
-
 ///INFOS
 //libre -> 0
 
@@ -100,8 +130,7 @@ typedef struct bitmap
 //centre terrain -> 2
 //centre terrain connecté en eau ET elec -> 20
 //autour terrain -> 21
-//centre terrain connecté en elec -> 28
-//centre terrain connecté en eau -> 29
+
 
 //centre (x=1;y=2) centrale -> 8
 //centre (x=1;y=2) connecté -> 80
