@@ -1331,22 +1331,22 @@ void StructureJoueurInit(t_joueur* perso)
     perso->batiments->nbcentrales=0;
     perso->batiments->nbchateaux=0;
 
-    perso->batiments->maisons=(t_terter*)malloc(30*sizeof(t_terter));
-    perso->batiments->centrales=(t_centrale*)malloc(10*sizeof(t_centrale));
-    perso->batiments->chateaux=(t_chateau*)malloc(10*sizeof(t_chateau));
+    perso->batiments->maisons=(t_terter*)malloc(NBMAISONSMAX*sizeof(t_terter));
+    perso->batiments->centrales=(t_centrale*)malloc(NBCENTRALESMAX*sizeof(t_centrale));
+    perso->batiments->chateaux=(t_chateau*)malloc(NBCHATEAUXMAX*sizeof(t_chateau));
 
 
     ///INITIALISATION STRUCTURE COMPOSANTE CONNEXE
 
-    perso->composante=(t_connexe*)malloc(5*sizeof(t_chateau));
+    perso->composante=(t_connexe*)malloc(NBCONNEXESMAX*sizeof(t_chateau));
 
-    perso->composante->tab=(int**)malloc(30*sizeof(int*));   ///allocation dynamique matrice entiers
-    for(int i=0;i<30;i++)
-        perso->composante->tab[i]=(int*)malloc(4*sizeof(int));
+    perso->composante->tab=(int**)malloc(NBMAISONSMAX*sizeof(int*));   ///allocation dynamique matrice entiers
+    for(int i=0;i<NBMAISONSMAX;i++)
+        perso->composante->tab[i]=(int*)malloc(NBCOLONNESMAXTABCONNEXE*sizeof(int));
 
-    for(int i=0;i<30;i++)
+    for(int i=0;i<NBMAISONSMAX;i++)
     {
-        for(int j=0;j<4;j++)
+        for(int j=0;j<NBCOLONNESMAXTABCONNEXE;j++)
         {
             perso->composante->tab[i][j]=0;
         }
@@ -1394,7 +1394,7 @@ void NouvellePartie(t_joueur* perso, t_bitmap* images)
 
 void ChargerUnePartie(t_joueur* perso,t_bitmap* images)
 {
-    int tmp=0;
+    int tmp=0; ///variable tampon pour lire les booleen
 
     StructureBitmapInit(images);
 
@@ -1405,6 +1405,38 @@ void ChargerUnePartie(t_joueur* perso,t_bitmap* images)
     perso->antispam=false;
     perso->actualisationcapacites=false;
 
+    for(int i=0;i<nbantispam;i++ )
+    {
+        perso->antisp.antispam[i]=true;
+    }
+
+    ///ALLOCATION DE LA MATRICE ROUTE
+    perso->route=(int**)malloc(LIGNES*sizeof(int*));   ///allocation dynamique matrice entiers
+    for(int i=0;i<LIGNES;i++)
+        perso->route[i]=(int*)malloc(COLONNES*sizeof(int));
+
+    ///ALLOCATION STRUCTURE BATIMENTS
+    perso->batiments=(t_bat4*)malloc(sizeof(t_bat4));
+    perso->batiments->maisons=(t_terter*)malloc(NBMAISONSMAX*sizeof(t_terter));
+    perso->batiments->centrales=(t_centrale*)malloc(NBCENTRALESMAX*sizeof(t_centrale));
+    perso->batiments->chateaux=(t_chateau*)malloc(NBCHATEAUXMAX*sizeof(t_chateau));
+
+    ///ALLOCATION STRUCTURE COMPOSANTE CONNEXE
+    perso->composante=(t_connexe*)malloc(NBCONNEXESMAX*sizeof(t_chateau));
+    perso->composante->tab=(int**)malloc(NBMAISONSMAX*sizeof(int*));   ///allocation dynamique matrice entiers
+    for(int i=0;i<NBMAISONSMAX;i++)
+        perso->composante->tab[i]=(int*)malloc(NBCOLONNESMAXTABCONNEXE*sizeof(int));
+
+    ///REMPLISSAGE STRUCTURE TAB CONNEXE EN ATTENDANT DE L'UTILISER
+    for(int i=0;i<NBMAISONSMAX;i++)
+    {
+        for(int j=0;j<NBCOLONNESMAXTABCONNEXE;j++)
+        {
+            perso->composante->tab[i][j]=0;
+        }
+    }
+
+    ///LECTURE DES INFOS NECESSAIRES
     FILE* fichier5 = NULL;
     fichier5 = fopen("infosbis.txt", "r");
 
@@ -1430,10 +1462,29 @@ void ChargerUnePartie(t_joueur* perso,t_bitmap* images)
         fscanf(fichier5,"%d",&perso->batiments->nbcentrales);
         fscanf(fichier5,"%d",&perso->batiments->nbchateaux);
 
+        for(int i=0;i<perso->batiments->nbmaisons;i++)
+        {
+            fscanf(fichier5,"%d",&perso->batiments->maisons[i].x);
+            fscanf(fichier5,"%d",&perso->batiments->maisons[i].y);
+            fscanf(fichier5,"%d",&perso->batiments->maisons[i].stade);
+            fscanf(fichier5,"%d",&perso->batiments->maisons[i].nbhabitants);
+        }
 
+        for(int i=0;i<perso->batiments->nbcentrales;i++)
+        {
+            fscanf(fichier5,"%d",&perso->batiments->centrales[i].x);
+            fscanf(fichier5,"%d",&perso->batiments->centrales[i].y);
+            fscanf(fichier5,"%d",&perso->batiments->centrales[i].capacitemax);
+        }
 
+        for(int i=0;i<perso->batiments->nbchateaux;i++)
+        {
+            fscanf(fichier5,"%d",&perso->batiments->chateaux[i].x);
+            fscanf(fichier5,"%d",&perso->batiments->chateaux[i].y);
+            fscanf(fichier5,"%d",&perso->batiments->chateaux[i].capacitemax);
+        }
+        fclose(fichier5);
     }
-
 }
 
 void AfficherRegles()
