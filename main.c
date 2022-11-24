@@ -812,20 +812,28 @@ void Creemaison(t_bat4* bati,int y, int x)
  */
 int capacitelec(t_joueur* perso,int numero)
 {
-    for(int i=0;i<5;i++)
+    int chargetot=0;
+    for(int i=0;i<=perso->batiments->nbcentrales;i++)///parcours des centrales
     {
-        for(int j=0;j<perso->batiments->nbmaisons;j++)
+        for(int j=0;j<perso->batiments->centrales[i].nbalim;j++)///parcours des maisons liées à la centrale
         {
-            if(numero==perso->composante[i]->tab[j][0])
+            if(numero==perso->batiments->centrales[i]->alimentees[j][0])///si la maison est trouvée dans une des centrales
             {
-                if(perso->composante[i]->tab[j][4] != 0)
+                for(int k=0;k<j;k++)
+                {
+                    chargetot+=perso->batiments->centrales[i]->alimentees[k][1];///on calcule la charges prise par les maisons précedentes
+                }
+                if(perso->batiments->centrales[i]->alimentees[j][1]==0 && chargetot+10<=5000 ||
+                   perso->batiments->centrales[i]->alimentees[j][1]==10 && chargetot+50<=5000 ||
+                   perso->batiments->centrales[i]->alimentees[j][1]==50 && chargetot+100<=5000 ||
+                   perso->batiments->centrales[i]->alimentees[j][1]==100 && chargetot+1000<=5000 ||)///on vérifie que le batiment puisse évoluer avce
                 {
                     /*
                      * vérifier que la quantité d'elec de la centrale permette de de faire évoluer le batiment
                      * en allant chercher ca dans le tableau de la centrale concernée la
                      *
                      */
-                    perso->batiments->centrales[perso->composante[i].tab[j][4]]
+                    perso->batiments->centrales[perso->composante[i].tab[j][4]].alimentees[]
                 }
             }
         }

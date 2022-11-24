@@ -35,7 +35,8 @@ typedef struct centrale
     int x;  ///coordonnées du centre du batiment
     int y;
     int capacitemax;
-    int** alimentees;///id puis quantité d'hab puis distance trié par distance croissante
+    int** alimentees;///id puis quantité d'hab puis distance -> tableau trié par distance croissante
+    int nbalim;///nombre de maisons alimentées par la centrale
 }t_centrale;
 
 typedef struct chateau
