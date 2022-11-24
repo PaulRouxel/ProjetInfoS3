@@ -776,14 +776,14 @@ void AffichageReseaudEau(t_joueur* perso,t_bitmap* images)
         AffichageCanalisations(perso, images->fond1,images);
 
         //correspond aux cases de l'ecran
-        if((mouse_b&1)&&(mouse_x>=983)&&(mouse_x<=1020)&&(mouse_y>=114)&&(mouse_y<=153)) ///niveau -2
+        if((mouse_b&1)&&(mouse_x>=967)&&(mouse_x<=1015)&&(mouse_y>=613)&&(mouse_y<=657)) ///niveau -2
         {
             choix=1;
             next=1;
         }
 
         //correspond aux cases de l'ecran
-        if((mouse_b&1)&&(mouse_x>=983)&&(mouse_x<=1020)&&(mouse_y>=63)&&(mouse_y<=105)) ///reseau 0
+        if((mouse_b&1)&&(mouse_x>=967)&&(mouse_x<=1015)&&(mouse_y>=546)&&(mouse_y<=593)) ///reseau 0
             next=1;
     }
 
@@ -817,16 +817,16 @@ int capacitelec(t_joueur* perso,int numero)
     {
         for(int j=0;j<perso->batiments->centrales[i].nbalim;j++)///parcours des maisons liées à la centrale
         {
-            if(numero==perso->batiments->centrales[i]->alimentees[j][0])///si la maison est trouvée dans une des centrales
+            if(numero==perso->batiments->centrales[i].alimentees[j][0])///si la maison est trouvée dans une des centrales
             {
                 for(int k=0;k<j;k++)
                 {
-                    chargetot+=perso->batiments->centrales[i]->alimentees[k][1];///on calcule la charges prise par les maisons précedentes
+                    chargetot+=perso->batiments->centrales[i].alimentees[k][1];///on calcule la charges prise par les maisons précedentes
                 }
-                if(perso->batiments->centrales[i]->alimentees[j][1]==0 && chargetot+10<=5000 ||
-                   perso->batiments->centrales[i]->alimentees[j][1]==10 && chargetot+50<=5000 ||
-                   perso->batiments->centrales[i]->alimentees[j][1]==50 && chargetot+100<=5000 ||
-                   perso->batiments->centrales[i]->alimentees[j][1]==100 && chargetot+1000<=5000 ||)///on vérifie que le batiment puisse évoluer avce
+                if(perso->batiments->centrales[i].alimentees[j][1]==0 && chargetot+10<=5000 ||
+                   perso->batiments->centrales[i].alimentees[j][1]==10 && chargetot+50<=5000 ||
+                   perso->batiments->centrales[i].alimentees[j][1]==50 && chargetot+100<=5000 ||
+                   perso->batiments->centrales[i].alimentees[j][1]==100 && chargetot+1000<=5000)///on vérifie que le batiment puisse évoluer avce
                 {
                     /*
                      * vérifier que la quantité d'elec de la centrale permette de de faire évoluer le batiment
