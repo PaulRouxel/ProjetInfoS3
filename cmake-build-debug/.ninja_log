@@ -1,0 +1,8 @@
+# ninja log v5
+1	260	6910080006428254	build.ninja	88cf9e38f0d34ca
+11	246	6903109505633883	CMakeFiles/ProjetInfoS3.dir/source.c.obj	50a92ab30dd422b5
+2	423	6903176154108624	CMakeFiles/ProjetInfoS3.dir/main.c.obj	30056f90c2e5f54e
+423	548	6903176155320857	ProjetInfoS3.exe	3ecfb9d1e06695f4
+4	64	6910080102191390	CMakeFiles/ProjetInfoS3.dir/source.c.obj	50a92ab30dd422b5
+12	232	6910080103854890	CMakeFiles/ProjetInfoS3.dir/main.c.obj	30056f90c2e5f54e
+232	354	6910080105051568	ProjetInfoS3.exe	3ecfb9d1e06695f4
