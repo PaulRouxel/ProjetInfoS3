@@ -152,6 +152,14 @@ typedef struct bitmap
 //centre (x=1;y=2) connecté -> 90
 //autour chateau d'eau -> 91
 
+//crash lorsque on construit en bordures du terrain (barrière ou blindage en +)
+//map de fond niveau -2
+
+
+
+
+
+
 
 /*************************/
 /*     PROTOTYPES        */
