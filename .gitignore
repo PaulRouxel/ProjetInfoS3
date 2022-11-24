@@ -39,7 +39,6 @@
 
 # CMake
 cmake-build-*/
-cmake-build-debug/ProjetInfoS3.exe
 CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles
