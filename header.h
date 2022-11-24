@@ -35,6 +35,8 @@ typedef struct centrale
     int x;  ///coordonnées du centre du batiment
     int y;
     int capacitemax;
+    int** alimentees;///id puis quantité d'hab puis distance -> tableau trié par distance croissante
+    int nbalim;///nombre de maisons alimentées par la centrale
 }t_centrale;
 
 typedef struct chateau
@@ -46,7 +48,7 @@ typedef struct chateau
 
 typedef struct connexe
 {
-    int** tab;
+    int** tab; ///d'abord id puis nb habitants puis distance à la centrale la plus proche puis numéro de la centrale qui l'alimente
 }t_connexe;
 
 
@@ -68,7 +70,6 @@ typedef struct temps
     bool antispam[nbantispam];
 }t_temps;
 
-
 /// STRUCTURE DES JOUEURS ///
 typedef struct joueur  //Cette structure gerera les donnees de joueurs tout au long de la partie
 {
@@ -83,6 +84,7 @@ typedef struct joueur  //Cette structure gerera les donnees de joueurs tout au l
     bool editmaison;
     bool editcentrale;
     bool editchateaudeau;
+    bool actualisationcapacites;
     int** route;
     t_temps antisp;
     t_bat4* batiments;

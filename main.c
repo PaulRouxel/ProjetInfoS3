@@ -12,6 +12,8 @@ void initialisationAllegro(){
     install_mouse();
 }
 
+void verifevolution(t_joueur* perso,int numero);
+
 int xPixeltoCoor(int xPixel) //pour traduire les pixels en coordonnes en X
 {
     if((xPixel>=62)&&(xPixel<82)) //retourne la case en question
@@ -523,7 +525,12 @@ void AffichageEDF(t_joueur* perso, BITMAP* back,t_bitmap* images)
                 draw_sprite(back,images->electricite,xCoortoPixel(j),yCoortoPixel(i));   ///CHANGEMENT
             }
             if (perso->route[i][j] == 8 || perso->route[i][j] == 80)  ///CENTRALE
+            {
                 draw_sprite(back, images->centrale, xCoortoPixel(j-1), yCoortoPixel(i-2));
+                rectfill(back, xCoortoPixel(j-1), yCoortoPixel(i+4)+5, xCoortoPixel(j+3), yCoortoPixel(i+4)+15, makecol(0,0,0));
+                //textprintf(back,font, xCoortoPixel(j), yCoortoPixel(i+4)+8,makecol(255,255,255),"%d",perso->batiments->centrales[0].capacitemax);
+            }
+
         }
     }
 }
@@ -535,27 +542,24 @@ void EvolutionBatiments(t_joueur* perso, int secondes)
             if (perso->route[i][j] == 20 && secondes % 15 == 0)  /// terrain -> cabane  (décalage de quelques secondes pour pas que tout se fasse d'affilé)
             {
                 perso->route[i][j] = 3;
-                perso->nb_habitants+=10;
             }
+
 
             if (perso->route[i][j] == 3 && (secondes+1) % 15 == 0)  /// cabane -> maison
             {
                 perso->route[i][j] = 4;
-                perso->nb_habitants+=50;
             }
 
 
             if (perso->route[i][j] == 4 && (secondes+2) % 15 == 0)  /// maison -> immeuble
             {
                 perso->route[i][j] = 5;
-                perso->nb_habitants+=100;
             }
 
 
             if (perso->route[i][j] == 5 && (secondes+3) % 15 == 0)  /// immeuble -> gratte-ciel
             {
                 perso->route[i][j] = 6;
-                perso->nb_habitants+=1000;
             }
 
         }
@@ -568,7 +572,6 @@ void TestConnexionReseau(t_joueur* perso)
     {
         for(int j=0;j<COLONNES;j++)
         {
-
             if(perso->route[i][j]==1)  ///si route connecte à une centrale
             {
                 if ((perso->route[i - 1][j] == 81) || (perso->route[i + 1][j] == 81) ||
@@ -662,6 +665,25 @@ void RecupererImpots(t_joueur* perso, int time)
     }
     if((time+2)%15==0)
         perso->antispam=true;
+}
+
+void ActualisationCapacites(t_joueur* perso)
+{
+    ///ACTUALISATION DE L'ELECTRICITE
+    perso->electricite=0;
+    for(int i=0;i<perso->batiments->nbcentrales;i++)
+    {
+        perso->electricite+=perso->batiments->centrales[i].capacitemax;
+    }
+
+    ///ACTUALISATION DE L'EAU
+    perso->eau=0;
+    for(int i=0;i<perso->batiments->nbchateaux;i++)
+    {
+        perso->eau+=perso->batiments->chateaux[i].capacitemax;
+    }
+
+    perso->actualisationcapacites=false;
 }
 
 void AffichageReseaudEau(t_joueur* perso,t_bitmap* images);  ///on declare ici pour pouvoir l'appeler partout dans le programme, même si elle aprait après dans le code
@@ -775,6 +797,79 @@ void AffichageReseaudEau(t_joueur* perso,t_bitmap* images)
 
 }
 
+void Creemaison(t_bat4* bati,int y, int x)
+{
+    bati->maisons[bati->nbmaisons].temps=clock()+1000;
+    bati->maisons[bati->nbmaisons].x=x;
+    bati->maisons[bati->nbmaisons].y=y;
+}
+
+/*
+ * écrire le S-P pour vérifier si la maison en parametre pourrai passer au niveau supp avec la capacité eau
+ * chercher ca dans les différentes composantes connexes
+ * si la maison est dans le taleau maison d'une C-C on vérifie si son alimentation est ON (tab[indice][3]==1)
+ * ensuite on vérifie si ca passera après évolution
+ */
+int capacitelec(t_joueur* perso,int numero)
+{
+    int chargetot=0;
+    for(int i=0;i<=perso->batiments->nbcentrales;i++)///parcours des centrales
+    {
+        for(int j=0;j<perso->batiments->centrales[i].nbalim;j++)///parcours des maisons liées à la centrale
+        {
+            if(numero==perso->batiments->centrales[i]->alimentees[j][0])///si la maison est trouvée dans une des centrales
+            {
+                for(int k=0;k<j;k++)
+                {
+                    chargetot+=perso->batiments->centrales[i]->alimentees[k][1];///on calcule la charges prise par les maisons précedentes
+                }
+                if(perso->batiments->centrales[i]->alimentees[j][1]==0 && chargetot+10<=5000 ||
+                   perso->batiments->centrales[i]->alimentees[j][1]==10 && chargetot+50<=5000 ||
+                   perso->batiments->centrales[i]->alimentees[j][1]==50 && chargetot+100<=5000 ||
+                   perso->batiments->centrales[i]->alimentees[j][1]==100 && chargetot+1000<=5000 ||)///on vérifie que le batiment puisse évoluer avce
+                {
+                    /*
+                     * vérifier que la quantité d'elec de la centrale permette de de faire évoluer le batiment
+                     * en allant chercher ca dans le tableau de la centrale concernée la
+                     *
+                     */
+                    perso->batiments->centrales[perso->composante[i].tab[j][4]].alimentees[]
+                }
+            }
+        }
+    }
+}
+
+///permet de faire évoluer les maisons si toute les condition sont réunies
+void verifevolution(t_joueur* perso,int numero)
+{
+    ///si le terain peut évoluer
+    if(perso->batiments->maisons[numero].stade==2 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capacitelec(perso,numero)==1)
+    {
+        perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
+        perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
+    }
+    ///si la cabane peut évoluer
+    else if(perso->batiments->maisons[numero].stade==3 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capacitelec(perso,numero)==1)
+    {
+        perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
+        perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
+    }
+    ///si la maison peut évoluer
+    else if(perso->batiments->maisons[numero].stade==4 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capacitelec(perso,numero)==1)
+    {
+        perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
+        perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
+    }
+    ///si l'immeuble peut évoluer
+    else if(perso->batiments->maisons[numero].stade==5 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capacitelec(perso,numero)==1)
+    {
+        perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
+        perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
+    }
+}
+
+
 
 void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 {
@@ -825,6 +920,9 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         EvolutionBatiments(perso,temps[0]);
         SauvegardeMap(perso);
         SauvegardeInfos(perso);
+
+        if(perso->actualisationcapacites==true)
+            ActualisationCapacites(perso);
 
 
         //correspond aux cases de l'ecran
@@ -946,7 +1044,10 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 
 
         ///test si les maisons peuvent évoluer -> dépends du mode
-
+        for(int i=0;i<=perso->batiments->nbmaisons;i++)
+        {
+            verifevolution(perso,i);
+        }
         if (perso->editcentrale == true)  ///placement des centrales
         {
             if((mouse_x >=92 && mouse_x<912)&&(mouse_y>=84 && mouse_y<664)) ///affichage surbillance
@@ -1004,11 +1105,11 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
                     perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] = 81;
                     perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] = 81;
                     perso->flouz -= 100000;
-                    perso->electricite+=5000;
                     perso->batiments->centrales[perso->batiments->nbcentrales].x= xPixeltoCoor(mouse_x-30);
                     perso->batiments->centrales[perso->batiments->nbcentrales].y= yPixeltoCoor(mouse_y-50);
                     perso->batiments->centrales[perso->batiments->nbcentrales].capacitemax= 5000;
                     perso->batiments->nbcentrales+=1;
+                    perso->actualisationcapacites=true;
                 }
         }
 
@@ -1068,11 +1169,11 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
                     perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] = 91;
                     perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] = 91;
                     perso->flouz -= 100000;
-                    perso->eau+=5000;
                     perso->batiments->chateaux[perso->batiments->nbchateaux].x= xPixeltoCoor(mouse_x-30);
                     perso->batiments->chateaux[perso->batiments->nbchateaux].y= yPixeltoCoor(mouse_y-50);
                     perso->batiments->chateaux[perso->batiments->nbchateaux].capacitemax= 5000;
                     perso->batiments->nbchateaux+=1;
+                    perso->actualisationcapacites=true;
                 }
         }
     }
@@ -1189,6 +1290,7 @@ void StructureJoueurInit(t_joueur* perso)
     perso->editmaison=false;
     perso->editcentrale=false;
     perso->editchateaudeau=false;
+    perso->actualisationcapacites=false;
 
     perso->route=(int**)malloc(LIGNES*sizeof(int*));   ///allocation dynamique matrice entiers
     for(int i=0;i<LIGNES;i++)
