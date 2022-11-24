@@ -814,10 +814,14 @@ int capaciteeau(t_joueur* perso,int numero)
 {
     for(int i=0;i<5;i++)
     {
-        if(numero==perso->composante->tab[i][0])
+        for(int j=0;j<30;)
         {
+            if(numero==perso->composante[i]->tab[j][0])
+            {
 
+            }
         }
+
     }
 }
 
@@ -1025,7 +1029,10 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 
 
         ///test si les maisons peuvent évoluer -> dépends du mode
-
+        for(int i=0;i<=perso->batiments->nbmaisons;i++)
+        {
+            verifevolution(perso,i);
+        }
         if (perso->editcentrale == true)  ///placement des centrales
         {
             if((mouse_x >=92 && mouse_x<912)&&(mouse_y>=84 && mouse_y<664)) ///affichage surbillance
