@@ -810,34 +810,40 @@ void Creemaison(t_bat4* bati,int y, int x)
  * si la maison est dans le taleau maison d'une C-C on vérifie si son alimentation est ON (tab[indice][3]==1)
  * ensuite on vérifie si ca passera après évolution
  */
-int capaciteeau(t_terter maison,int numero)
+int capaciteeau(t_joueur* perso,int numero)
 {
+    for(int i=0;i<5;i++)
+    {
+        if(numero==perso->composante->tab[i][0])
+        {
 
+        }
+    }
 }
 
 ///permet de faire évoluer les maisons si toute les condition sont réunies
 void verifevolution(t_joueur* perso,int numero)
 {
     ///si le terain peut évoluer
-    if(perso->batiments->maisons[numero].stade==2 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capaciteeau(perso->batiments->maisons[numero],numero)==1)
+    if(perso->batiments->maisons[numero].stade==2 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capaciteeau(perso,numero)==1)
     {
         perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
         perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
     }
     ///si la cabane peut évoluer
-    else if(perso->batiments->maisons[numero].stade==3 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capaciteeau(perso->batiments->maisons[numero],numero)==1)
+    else if(perso->batiments->maisons[numero].stade==3 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capaciteeau(perso,numero)==1)
     {
         perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
         perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
     }
     ///si la maison peut évoluer
-    else if(perso->batiments->maisons[numero].stade==4 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capaciteeau(perso->batiments->maisons[numero],numero)==1)
+    else if(perso->batiments->maisons[numero].stade==4 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capaciteeau(perso,numero)==1)
     {
         perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
         perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
     }
     ///si l'immeuble peut évoluer
-    else if(perso->batiments->maisons[numero].stade==5 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capaciteeau(perso->batiments->maisons[numero],numero)==1)
+    else if(perso->batiments->maisons[numero].stade==5 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capaciteeau(perso,numero)==1)
     {
         perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
         perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
