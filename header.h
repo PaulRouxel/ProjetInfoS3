@@ -43,7 +43,7 @@ typedef struct maison
 /// STRUCTURE pour les batiments ///
 typedef struct batiments
 {
-    t_terter maisons[30];
+    t_terter* maisons;
     int nbmaisons;
 
 }t_bat4;
