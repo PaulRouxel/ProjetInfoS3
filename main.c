@@ -1436,7 +1436,7 @@ void ChargerUnePartie(t_joueur* perso,t_bitmap* images)
         }
     }
 
-    ///LECTURE DES INFOS NECESSAIRES
+    ///LECTURE DES INFOS NECESSAIRES DANS INFOSBIS
     FILE* fichier5 = NULL;
     fichier5 = fopen("infosbis.txt", "r");
 
@@ -1448,7 +1448,7 @@ void ChargerUnePartie(t_joueur* perso,t_bitmap* images)
         else
             perso->communiste=false;
 
-        fscanf(fichier5,"%d",&tmp);  //capitaliste
+        fscanf(fichier5,"%d",&tmp);  ///capitaliste
         if(tmp==1)
             perso->capitaliste=true;
         else
@@ -1485,6 +1485,25 @@ void ChargerUnePartie(t_joueur* perso,t_bitmap* images)
         }
         fclose(fichier5);
     }
+
+    ///REMPLISSAGE DE LA MATRICE ROUTE VIA LE FICHIER MAPBIS
+
+    FILE* fichier6 = NULL;
+    fichier6 = fopen("mapbis.txt", "r");
+
+    ///LECTURE ROUTE DU FICHIER MAP BIS
+    if (fichier6 != NULL)
+    {
+        for(int i=0;i<LIGNES;i++)
+        {
+            for(int j=0;j<COLONNES;j++)
+            {
+                fscanf(fichier6,"%d",&perso->route[i][j]);
+            }
+        }
+        fclose(fichier6);
+    }
+    EcranDeJeu(perso,images);
 }
 
 void AfficherRegles()
