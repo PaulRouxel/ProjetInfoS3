@@ -419,7 +419,83 @@ void AffichageRoute(t_joueur* perso, BITMAP* back,t_bitmap* images) {
     }
     printf("\n\n");
     */
+}
 
+void SauvegardeMap(t_joueur* perso)
+{
+    FILE* fichier1 = NULL;
+    fichier1 = fopen("map.txt", "w+");
+
+    if (fichier1 != NULL)
+    {
+        for (int i = 0; i < LIGNES; i++) {
+            for (int j = 0; j < COLONNES; j++) ///ROUTE
+            {
+                if(perso->route[i][j]<10)
+                    fprintf(fichier1," %d ", perso->route[i][j]);
+                else
+                    fprintf(fichier1,"%d ", perso->route[i][j]);
+            }
+            fprintf(fichier1,"\n");
+        }
+        fclose(fichier1);
+    }
+}
+
+void SauvegardeInfos(t_joueur* perso)
+{
+
+    FILE* fichier2 = NULL;
+    fichier2 = fopen("infos.txt", "w+");
+
+    if (fichier2 != NULL)
+    {
+        ///STRUCUTURE JOUEUR
+        fprintf(fichier2,"Communiste:                %d\n",perso->communiste);
+        fprintf(fichier2,"Capitaliste:               %d\n",perso->capitaliste);
+        fprintf(fichier2,"ECEflouz:                  %d\n",perso->flouz);
+        fprintf(fichier2,"Capacité de l'eau:         %d\n",perso->eau);
+        fprintf(fichier2,"Capacité de l'électricité: %d\n",perso->electricite);
+        fprintf(fichier2,"Nombre d'habitants:        %d\n",perso->nb_habitants);
+        fprintf(fichier2,"Premier antispam:          %d\n",perso->antispam);
+        fprintf(fichier2,"Mode édition route:        %d\n",perso->editroute);
+        fprintf(fichier2,"Mode édition maison:       %d\n",perso->editmaison);
+        fprintf(fichier2,"Mode édition centrale:     %d\n",perso->editcentrale);
+        fprintf(fichier2,"Mode édition chateau:      %d\n\n",perso->editchateaudeau);
+        ///la route se charge dans l'autre fichier
+
+        ///STRUCTURE BATIMENTS
+        fprintf(fichier2,"Nombre de maisons:         %d\n",perso->batiments->nbmaisons);
+        fprintf(fichier2,"Nombre de centrales:       %d\n",perso->batiments->nbcentrales);
+        fprintf(fichier2,"Nombre de chateaux d'eau:  %d\n\n",perso->batiments->nbchateaux);
+
+        for(int i=0;i<perso->batiments->nbmaisons;i++)
+        {
+            fprintf(fichier2,"Infos maison N°%d:\n",i);
+            fprintf(fichier2,"Coordonnées:            (%d,%d)\n",perso->batiments->maisons[i].x,perso->batiments->maisons[i].y);
+            fprintf(fichier2,"Niveau d'évolution:         %d\n",perso->batiments->maisons[i].stade-2);
+            fprintf(fichier2,"Nombre d'habitants:         %d\n\n",perso->batiments->maisons[i].nbhabitants);
+        }
+        fprintf(fichier2,"\n");
+
+        for(int i=0;i<perso->batiments->nbcentrales;i++)
+        {
+            fprintf(fichier2,"Infos centrale N°%d:\n",i);
+            fprintf(fichier2,"Coordonnées:            (%d,%d)\n",perso->batiments->centrales[i].x,perso->batiments->centrales[i].y);
+            fprintf(fichier2,"Capacité maximale:          %d\n\n",perso->batiments->centrales[i].capacitemax);
+        }
+        fprintf(fichier2,"\n");
+
+        for(int i=0;i<perso->batiments->nbchateaux;i++)
+        {
+            fprintf(fichier2,"Infos chateaux d'eau N°%d:\n",i);
+            fprintf(fichier2,"Coordonnées:               (%d,%d)\n",perso->batiments->chateaux[i].x,perso->batiments->chateaux[i].y);
+            fprintf(fichier2,"Capacité maximale:           %d\n\n",perso->batiments->chateaux[i].capacitemax);
+        }
+        fprintf(fichier2,"\n");
+
+        fclose(fichier2);
+    }
 }
 
 void AffichageCanalisations(t_joueur* perso, BITMAP* back,t_bitmap* images)
@@ -449,7 +525,12 @@ void AffichageEDF(t_joueur* perso, BITMAP* back,t_bitmap* images)
                 draw_sprite(back,images->electricite,xCoortoPixel(j),yCoortoPixel(i));   ///CHANGEMENT
             }
             if (perso->route[i][j] == 8 || perso->route[i][j] == 80)  ///CENTRALE
+            {
                 draw_sprite(back, images->centrale, xCoortoPixel(j-1), yCoortoPixel(i-2));
+                rectfill(back, xCoortoPixel(j-1), yCoortoPixel(i+4)+5, xCoortoPixel(j+3), yCoortoPixel(i+4)+15, makecol(0,0,0));
+                //textprintf(back,font, xCoortoPixel(j), yCoortoPixel(i+4)+8,makecol(255,255,255),"%d",perso->batiments->centrales[0].capacitemax);
+            }
+
         }
     }
 }
@@ -462,6 +543,7 @@ void EvolutionBatiments(t_joueur* perso, int secondes)
             {
                 perso->route[i][j] = 3;
             }
+
 
             if (perso->route[i][j] == 3 && (secondes+1) % 15 == 0)  /// cabane -> maison
             {
@@ -490,7 +572,6 @@ void TestConnexionReseau(t_joueur* perso)
     {
         for(int j=0;j<COLONNES;j++)
         {
-
             if(perso->route[i][j]==1)  ///si route connecte à une centrale
             {
                 if ((perso->route[i - 1][j] == 81) || (perso->route[i + 1][j] == 81) ||
@@ -529,7 +610,7 @@ void TestConnexionReseau(t_joueur* perso)
                     perso->route[i][j] = 10;
             }
 
-            if(perso->route[i][j]==2) ///si terrain connecté à route alimentée en elec
+            if(perso->route[i][j]==2) ///si terrain connecté à route alimentée en elec et en eau
             {
                 if ((perso->route[i - 1][j - 2] == 10) || (perso->route[i][j - 2] == 10) ||
                     (perso->route[i + 1][j - 2] == 10) || (perso->route[i - 1][j + 2] == 10) ||
@@ -586,7 +667,48 @@ void RecupererImpots(t_joueur* perso, int time)
         perso->antispam=true;
 }
 
+void ActualisationCapacites(t_joueur* perso)
+{
+    ///ACTUALISATION DE L'ELECTRICITE
+    perso->electricite=0;
+    for(int i=0;i<perso->batiments->nbcentrales;i++)
+    {
+        perso->electricite+=perso->batiments->centrales[i].capacitemax;
+    }
+
+    ///ACTUALISATION DE L'EAU
+    perso->eau=0;
+    for(int i=0;i<perso->batiments->nbchateaux;i++)
+    {
+        perso->eau+=perso->batiments->chateaux[i].capacitemax;
+    }
+
+    perso->actualisationcapacites=false;
+}
+
 void AffichageReseaudEau(t_joueur* perso,t_bitmap* images);  ///on declare ici pour pouvoir l'appeler partout dans le programme, même si elle aprait après dans le code
+
+void Quitter(t_joueur* perso, t_bitmap* images);
+
+void AffichageDieu(t_bitmap* images){
+
+    BITMAP *buffer;
+    buffer = create_bitmap(SCREEN_W, SCREEN_H);
+
+    int next=0;
+
+    while(next!=1) {
+
+        blit(images->dieu, buffer, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+        show_mouse(buffer);
+        blit(buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+        clear_bitmap(buffer);
+
+        if((mouse_b&1)&&(mouse_x>=714)&&(mouse_x<=936)&&(mouse_y>=620)&&(mouse_y<=740)){
+            next=1;
+        }
+    }
+}
 
 void AffichageReseauElec(t_joueur* perso,t_bitmap* images)
 {
@@ -697,32 +819,34 @@ int capaciteeau(t_terter maison,int numero)
 void verifevolution(t_joueur* perso,int numero)
 {
     ///si le terain peut évoluer
-    if(perso->batiments.maisons[numero].stade==2 && (perso->batiments.maisons[numero].temps-clock())/1000>=15 && capaciteeau(perso->batiments.maisons[numero],numero)==1)
+    if(perso->batiments->maisons[numero].stade==2 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capaciteeau(perso->batiments->maisons[numero],numero)==1)
     {
-        perso->batiments.maisons[numero].temps=clock();///nouveau timer de départ
-        perso->batiments.maisons[numero].stade+=1;///évolution au stade sup
+        perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
+        perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
     }
     ///si la cabane peut évoluer
-    else if(perso->batiments.maisons[numero].stade==3 && (perso->batiments.maisons[numero].temps-clock())/1000>=15 && capaciteeau(perso->batiments.maisons[numero],numero)==1)
+    else if(perso->batiments->maisons[numero].stade==3 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capaciteeau(perso->batiments->maisons[numero],numero)==1)
     {
-        perso->batiments.maisons[numero].temps=clock();///nouveau timer de départ
-        perso->batiments.maisons[numero].stade+=1;///évolution au stade sup
+        perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
+        perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
     }
     ///si la maison peut évoluer
-    else if(perso->batiments.maisons[numero].stade==4 && (perso->batiments.maisons[numero].temps-clock())/1000>=15 && capaciteeau(perso->batiments.maisons[numero],numero)==1)
+    else if(perso->batiments->maisons[numero].stade==4 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capaciteeau(perso->batiments->maisons[numero],numero)==1)
     {
-        perso->batiments.maisons[numero].temps=clock();///nouveau timer de départ
-        perso->batiments.maisons[numero].stade+=1;///évolution au stade sup
+        perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
+        perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
     }
     ///si l'immeuble peut évoluer
-    else if(perso->batiments.maisons[numero].stade==5 && (perso->batiments.maisons[numero].temps-clock())/1000>=15 && capaciteeau(perso->batiments.maisons[numero],numero)==1)
+    else if(perso->batiments->maisons[numero].stade==5 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capaciteeau(perso->batiments->maisons[numero],numero)==1)
     {
-        perso->batiments.maisons[numero].temps=clock();///nouveau timer de départ
-        perso->batiments.maisons[numero].stade+=1;///évolution au stade sup
+        perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
+        perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
     }
 }
 
-void EcranDeJeu(t_joueur* perso, t_bitmap* images, t_bat4* bati)
+
+
+void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 {
     BITMAP *buffer;
     buffer = create_bitmap(SCREEN_W, SCREEN_H);
@@ -769,6 +893,12 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images, t_bat4* bati)
         AffichageRoute(perso, images->fond0, images);
         TestConnexionReseau(perso);
         EvolutionBatiments(perso,temps[0]);
+        SauvegardeMap(perso);
+        SauvegardeInfos(perso);
+
+        if(perso->actualisationcapacites==true)
+            ActualisationCapacites(perso);
+
 
         //correspond aux cases de l'ecran
         if ((mouse_b & 1) && (mouse_x >= 971) && (mouse_x <= 1018) && (mouse_y >= 712 && (mouse_y <= 756)) ) ///quitter
@@ -785,6 +915,12 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images, t_bat4* bati)
         {
             rest(200);
             AffichageReseauElec(perso, images);
+        }
+
+        if ((mouse_b & 1) && (mouse_x >= 966) && (mouse_x <= 1015) && (mouse_y >= 628) && (mouse_y <= 670)) ///niveau +1
+        {
+            rest(200);
+            AffichageDieu(images);
         }
 
         if ((mouse_b & 1) && (mouse_x >= 5) && (mouse_x <= 55) && (mouse_y >= 148) &&
@@ -852,12 +988,17 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images, t_bat4* bati)
                     perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x)] = 21;
                     perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x)] = 21;
                     perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)] = 2;
-                    Creemaison(bati, yPixeltoCoor(mouse_y),xPixeltoCoor(mouse_x));
                     perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] = 21;
                     perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] = 21;
                     perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] = 21;
                     perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] = 21;
                     perso->flouz -= 1000;
+                    perso->batiments->maisons[perso->batiments->nbmaisons].stade=2;
+                    perso->batiments->maisons[perso->batiments->nbmaisons].nbhabitants=0;
+                    perso->batiments->maisons[perso->batiments->nbmaisons].x = xPixeltoCoor(mouse_x);
+                    perso->batiments->maisons[perso->batiments->nbmaisons].y = yPixeltoCoor(mouse_y);
+                    perso->batiments->maisons[perso->batiments->nbmaisons].temps = clock();
+                    perso->batiments->nbmaisons+=1;
                 }
         }
 
@@ -936,7 +1077,11 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images, t_bat4* bati)
                     perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] = 81;
                     perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] = 81;
                     perso->flouz -= 100000;
-                    perso->electricite+=5000;
+                    perso->batiments->centrales[perso->batiments->nbcentrales].x= xPixeltoCoor(mouse_x-30);
+                    perso->batiments->centrales[perso->batiments->nbcentrales].y= yPixeltoCoor(mouse_y-50);
+                    perso->batiments->centrales[perso->batiments->nbcentrales].capacitemax= 5000;
+                    perso->batiments->nbcentrales+=1;
+                    perso->actualisationcapacites=true;
                 }
         }
 
@@ -996,12 +1141,15 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images, t_bat4* bati)
                     perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] = 91;
                     perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] = 91;
                     perso->flouz -= 100000;
-                    perso->eau+=5000;
+                    perso->batiments->chateaux[perso->batiments->nbchateaux].x= xPixeltoCoor(mouse_x-30);
+                    perso->batiments->chateaux[perso->batiments->nbchateaux].y= yPixeltoCoor(mouse_y-50);
+                    perso->batiments->chateaux[perso->batiments->nbchateaux].capacitemax= 5000;
+                    perso->batiments->nbchateaux+=1;
+                    perso->actualisationcapacites=true;
                 }
-
         }
     }
-    allegro_exit();
+    Quitter(perso,images);
 }
 
 
@@ -1068,14 +1216,14 @@ void ChoixDuMode(t_joueur* perso,t_bitmap* images)
         clear_bitmap(buffer);
 
         //correspond aux cases de l'ecran
-        if((mouse_b&1)&&(mouse_x>=180)&&(mouse_x<=480)&&(mouse_y>=440)&&(mouse_y<=520))
+        if((mouse_b&1)&&(mouse_x>=144)&&(mouse_x<=440)&&(mouse_y>=354)&&(mouse_y<=528))
         {
             choix=1;
             next=1;
         }
 
         //correspond aux cases de l'ecran
-        if((mouse_b&1)&&(mouse_x>=571)&&(mouse_x<=837)&&(mouse_y>=440)&&(mouse_y<=520))
+        if((mouse_b&1)&&(mouse_x>=534)&&(mouse_x<=845)&&(mouse_y>=354)&&(mouse_y<=528))
         {
             choix=2;
             next=1;
@@ -1100,6 +1248,7 @@ void ChoixDuMode(t_joueur* perso,t_bitmap* images)
 
 void StructureJoueurInit(t_joueur* perso)
 {
+    ///INITIALISATION STRUCTURE JOUEUR
     perso->eau=0;
     perso->electricite=0;
     perso->flouz=500000;
@@ -1113,6 +1262,7 @@ void StructureJoueurInit(t_joueur* perso)
     perso->editmaison=false;
     perso->editcentrale=false;
     perso->editchateaudeau=false;
+    perso->actualisationcapacites=false;
 
     perso->route=(int**)malloc(LIGNES*sizeof(int*));   ///allocation dynamique matrice entiers
     for(int i=0;i<LIGNES;i++)
@@ -1125,6 +1275,35 @@ void StructureJoueurInit(t_joueur* perso)
             perso->route[i][j]=0;
         }
     }
+
+    ///INITIALISATION STRUCTURE BATIMENTS
+    perso->batiments=(t_bat4*)malloc(sizeof(t_bat4));
+
+    perso->batiments->nbmaisons=0;
+    perso->batiments->nbcentrales=0;
+    perso->batiments->nbchateaux=0;
+
+    perso->batiments->maisons=(t_terter*)malloc(30*sizeof(t_terter));
+    perso->batiments->centrales=(t_centrale*)malloc(10*sizeof(t_centrale));
+    perso->batiments->chateaux=(t_chateau*)malloc(10*sizeof(t_chateau));
+
+
+    ///INITIALISATION STRUCTURE COMPOSANTE CONNEXE
+
+    perso->composante=(t_connexe*)malloc(5*sizeof(t_chateau));
+
+    perso->composante->tab=(int**)malloc(30*sizeof(int*));   ///allocation dynamique matrice entiers
+    for(int i=0;i<30;i++)
+        perso->composante->tab[i]=(int*)malloc(4*sizeof(int));
+
+    for(int i=0;i<30;i++)
+    {
+        for(int j=0;j<4;j++)
+        {
+            perso->composante->tab[i][j]=0;
+        }
+    }
+
 }
 
 void StructureBitmapInit(t_bitmap* images)
@@ -1135,6 +1314,7 @@ void StructureBitmapInit(t_bitmap* images)
     images->fond0 = load_bitmap("Bitmaps/ecrandejeu.bmp",NULL);
     images->fond1 = load_bitmap("Bitmaps/ecranreseaudeau.bmp",NULL);
     images->fond2 = load_bitmap("Bitmaps/ecranreseaudelec.bmp",NULL);
+    images->dieu = load_bitmap("Bitmaps/dieu.bmp",NULL);
     images->ecranaccueil = load_bitmap("Bitmaps/ecrandemarrageS3.bmp",NULL);
     images->ecranmode = load_bitmap("Bitmaps/ecranmodedejeu.bmp",NULL);
     images->ecrancapitaliste = load_bitmap("Bitmaps/Capitaliste.bmp",NULL);
@@ -1155,22 +1335,13 @@ void StructureBitmapInit(t_bitmap* images)
     images->surbrillance4x6 = load_bitmap("Bitmaps/surbrillance4x6.bmp",NULL);
 }
 
-void StructurebatInit(t_bat4* bati)
-{
-    for(int i=0;i<nbantispam;i++)
-    {
-        bati->maisons[i].x=50;
-        bati->maisons[i].y=50;
-    }
-}
 
-void NouvellePartie(t_joueur* perso, t_bitmap* images, t_bat4* bati)
+void NouvellePartie(t_joueur* perso, t_bitmap* images)
 {
     StructureJoueurInit(perso);
     StructureBitmapInit(images);
-    StructurebatInit(bati);
     ChoixDuMode(perso,images);
-    EcranDeJeu(perso,images,bati);
+    EcranDeJeu(perso,images);
 }
 
 void ChargerUnePartie(t_joueur* perso)
@@ -1178,18 +1349,31 @@ void ChargerUnePartie(t_joueur* perso)
     printf("charger une partie");
 }
 
-void AfficherRegles(t_joueur* perso)
+void AfficherRegles()
 {
-    printf("afficher regles");
+    BITMAP *buffer;
+    BITMAP *regles;
+    buffer = create_bitmap(SCREEN_W, SCREEN_H);
+    regles = load_bitmap("Bitmaps/regles.bmp",NULL);
+
+    int next=0;
+    while(next!=1) {
+
+        blit(regles, buffer, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+        show_mouse(buffer);
+        blit(buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+        clear_bitmap(buffer);
+
+        if((mouse_b&1)&&(mouse_x>=714)&&(mouse_x<=936)&&(mouse_y>=620)&&(mouse_y<=740)){
+            next=1;
+        }
+    }
 }
 
 void Quitter(t_joueur* perso, t_bitmap* images)
 {
     free(perso);
     free(images);
-    for(int i = 0; i < LIGNES; ++i)
-        free(perso->route[i]);
-    free(perso->route);
     allegro_exit();
 }
 
@@ -1198,7 +1382,7 @@ void QuitterBis()
     allegro_exit();
 }
 
-void MenuDemarrage(t_joueur* perso, t_bitmap* images, t_bat4* bati)
+void MenuDemarrage(t_joueur* perso, t_bitmap* images)
 {
     //BITMAP
     BITMAP* accueil;
@@ -1250,11 +1434,11 @@ void MenuDemarrage(t_joueur* perso, t_bitmap* images, t_bat4* bati)
     }
 
     if(choix==1)
-        NouvellePartie(perso,images,bati);
+        NouvellePartie(perso,images);
     if(choix==2)
         ChargerUnePartie(perso);
     if(choix==3)
-        AfficherRegles(perso);
+        AfficherRegles();
     if(choix==4)
         QuitterBis();
 }
@@ -1265,14 +1449,9 @@ int main()
     srand(time(NULL));
     t_joueur* homer=(t_joueur*)malloc(sizeof(t_joueur));
     t_bitmap* images=(t_bitmap*)malloc(sizeof(t_bitmap));
-    t_bat4* tchernono=(t_bat4*)malloc(sizeof(t_bat4));
 
-    MenuDemarrage(homer,images,tchernono);
-    free(homer);
-    free(images);
-    free(tchernono);
-    //Quitter(homer,images);
-
+    MenuDemarrage(homer,images);
+    allegro_exit();
     return 0;
 }
 END_OF_MAIN();
