@@ -865,23 +865,19 @@ int capacitelec(t_joueur* perso,int numero)
     {
         for(int j=0;j<perso->batiments->centrales[i].nbalim;j++)///parcours des maisons liées à la centrale
         {
-            if(numero==perso->batiments->centrales[i]->alimentees[j][0])///si la maison est trouvée dans une des centrales
+            if(numero==perso->batiments->centrales[i].alimentees[j][0])///si la maison est trouvée dans une des centrales
             {
                 for(int k=0;k<j;k++)
                 {
-                    chargetot+=perso->batiments->centrales[i]->alimentees[k][1];///on calcule la charges prise par les maisons précedentes
+                    chargetot+=perso->batiments->centrales[i].alimentees[k][1];///on calcule la charges prise par les maisons précedentes
                 }
-                if(perso->batiments->centrales[i]->alimentees[j][1]==0 && chargetot+10<=5000 ||
-                   perso->batiments->centrales[i]->alimentees[j][1]==10 && chargetot+50<=5000 ||
-                   perso->batiments->centrales[i]->alimentees[j][1]==50 && chargetot+100<=5000 ||
-                   perso->batiments->centrales[i]->alimentees[j][1]==100 && chargetot+1000<=5000)///on vérifie que le batiment puisse évoluer avec la quantité d'elec suffisante
-                {
+                if(perso->batiments->centrales[i].alimentees[j][1]==0 && chargetot+10<=5000 ||
+                   perso->batiments->centrales[i].alimentees[j][1]==10 && chargetot+50<=5000 ||
+                   perso->batiments->centrales[i].alimentees[j][1]==50 && chargetot+100<=5000 ||
+                   perso->batiments->centrales[i].alimentees[j][1]==100 && chargetot+1000<=5000)///on vérifie que le batiment puisse évoluer avec la quantité d'elec suffisante
                     peutevo=1;
-                }
                 else
-                {
                     peutevo=0;
-                }
             }
         }
     }
