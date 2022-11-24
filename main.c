@@ -12,6 +12,8 @@ void initialisationAllegro(){
     install_mouse();
 }
 
+void verifevolution(t_joueur* perso,int numero);
+
 int xPixeltoCoor(int xPixel) //pour traduire les pixels en coordonnes en X
 {
     if((xPixel>=62)&&(xPixel<82)) //retourne la case en question
@@ -540,28 +542,24 @@ void EvolutionBatiments(t_joueur* perso, int secondes)
             if (perso->route[i][j] == 20 && secondes % 15 == 0)  /// terrain -> cabane  (décalage de quelques secondes pour pas que tout se fasse d'affilé)
             {
                 perso->route[i][j] = 3;
-                perso->nb_habitants+=10;
             }
 
 
             if (perso->route[i][j] == 3 && (secondes+1) % 15 == 0)  /// cabane -> maison
             {
                 perso->route[i][j] = 4;
-                perso->nb_habitants+=50;
             }
 
 
             if (perso->route[i][j] == 4 && (secondes+2) % 15 == 0)  /// maison -> immeuble
             {
                 perso->route[i][j] = 5;
-                perso->nb_habitants+=100;
             }
 
 
             if (perso->route[i][j] == 5 && (secondes+3) % 15 == 0)  /// immeuble -> gratte-ciel
             {
                 perso->route[i][j] = 6;
-                perso->nb_habitants+=1000;
             }
 
         }
@@ -799,6 +797,80 @@ void AffichageReseaudEau(t_joueur* perso,t_bitmap* images)
 
 }
 
+void Creemaison(t_bat4* bati,int y, int x)
+{
+    bati->maisons[bati->nbmaisons].temps=clock()+1000;
+    bati->maisons[bati->nbmaisons].x=x;
+    bati->maisons[bati->nbmaisons].y=y;
+}
+
+/*
+ * écrire le S-P pour vérifier si la maison en parametre pourrai passer au niveau supp avec la capacité eau
+ * chercher ca dans les différentes composantes connexes
+ * si la maison est dans le taleau maison d'une C-C on vérifie si son alimentation est ON (tab[indice][3]==1)
+ * ensuite on vérifie si ca passera après évolution
+ */
+int capacitelec(t_joueur* perso,int numero)
+{
+    int chargetot=0;
+    for(int i=0;i<=perso->batiments->nbcentrales;i++)///parcours des centrales
+    {
+        for(int j=0;j<perso->batiments->centrales[i].nbalim;j++)///parcours des maisons liées à la centrale
+        {
+            if(numero==perso->batiments->centrales[i]->alimentees[j][0])///si la maison est trouvée dans une des centrales
+            {
+                for(int k=0;k<j;k++)
+                {
+                    chargetot+=perso->batiments->centrales[i]->alimentees[k][1];///on calcule la charges prise par les maisons précedentes
+                }
+                if(perso->batiments->centrales[i]->alimentees[j][1]==0 && chargetot+10<=5000 ||
+                   perso->batiments->centrales[i]->alimentees[j][1]==10 && chargetot+50<=5000 ||
+                   perso->batiments->centrales[i]->alimentees[j][1]==50 && chargetot+100<=5000 ||
+                   perso->batiments->centrales[i]->alimentees[j][1]==100 && chargetot+1000<=5000 ||)///on vérifie que le batiment puisse évoluer avce
+                {
+                    /*
+                     * vérifier que la quantité d'elec de la centrale permette de de faire évoluer le batiment
+                     * en allant chercher ca dans le tableau de la centrale concernée la
+                     *
+                     */
+                    perso->batiments->centrales[perso->composante[i].tab[j][4]].alimentees[]
+                }
+            }
+        }
+    }
+}
+
+///permet de faire évoluer les maisons si toute les condition sont réunies
+void verifevolution(t_joueur* perso,int numero)
+{
+    ///si le terain peut évoluer
+    if(perso->batiments->maisons[numero].stade==2 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capacitelec(perso,numero)==1)
+    {
+        perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
+        perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
+    }
+    ///si la cabane peut évoluer
+    else if(perso->batiments->maisons[numero].stade==3 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capacitelec(perso,numero)==1)
+    {
+        perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
+        perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
+    }
+    ///si la maison peut évoluer
+    else if(perso->batiments->maisons[numero].stade==4 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capacitelec(perso,numero)==1)
+    {
+        perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
+        perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
+    }
+    ///si l'immeuble peut évoluer
+    else if(perso->batiments->maisons[numero].stade==5 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capacitelec(perso,numero)==1)
+    {
+        perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
+        perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
+    }
+}
+
+
+
 void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 {
     BITMAP *buffer;
@@ -972,7 +1044,10 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 
 
         ///test si les maisons peuvent évoluer -> dépends du mode
-
+        for(int i=0;i<=perso->batiments->nbmaisons;i++)
+        {
+            verifevolution(perso,i);
+        }
         if (perso->editcentrale == true)  ///placement des centrales
         {
             if((mouse_x >=92 && mouse_x<912)&&(mouse_y>=84 && mouse_y<664)) ///affichage surbillance
