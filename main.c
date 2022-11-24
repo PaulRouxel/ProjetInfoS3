@@ -822,14 +822,14 @@ void AffichageReseaudEau(t_joueur* perso,t_bitmap* images)
 
         AffichageCanalisations(perso, images->fond1,images);
 
-        if((mouse_b&1)&&(mouse_x>=967)&&(mouse_x<=1015)&&(mouse_y>=556)&&(mouse_y<=60)) ///niveau -2
+        if((mouse_b&1)&&(mouse_x>=967)&&(mouse_x<=1015)&&(mouse_y>=590)&&(mouse_y<=632)) ///niveau -2
         {
             choix=1;
             next=1;
         }
 
         //correspond aux cases de l'ecran
-        if((mouse_b&1)&&(mouse_x>=967)&&(mouse_x<=1015)&&(mouse_y>=494)&&(mouse_y<=541)) ///reseau 0
+        if((mouse_b&1)&&(mouse_x>=967)&&(mouse_x<=1015)&&(mouse_y>=530)&&(mouse_y<=575)) ///reseau 0
             next=1;
     }
 
