@@ -852,7 +852,7 @@ void Creemaison(t_bat4* bati,int y, int x)
 }
 
 /*
- * écrire le S-P pour vérifier si la maison en parametre pourrai passer au niveau supp avec la capacité eau
+ * S-P pour vérifier si la maison en parametre pourrai passer au niveau supp avec la capacité eau
  * chercher ca dans les différentes composantes connexes
  * si la maison est dans le taleau maison d'une C-C on vérifie si son alimentation est ON (tab[indice][3]==1)
  * ensuite on vérifie si ca passera après évolution
@@ -860,6 +860,7 @@ void Creemaison(t_bat4* bati,int y, int x)
 int capacitelec(t_joueur* perso,int numero)
 {
     int chargetot=0;
+    int peutevo=0;
     for(int i=0;i<=perso->batiments->nbcentrales;i++)///parcours des centrales
     {
         for(int j=0;j<perso->batiments->centrales[i].nbalim;j++)///parcours des maisons liées à la centrale
@@ -873,18 +874,18 @@ int capacitelec(t_joueur* perso,int numero)
                 if(perso->batiments->centrales[i]->alimentees[j][1]==0 && chargetot+10<=5000 ||
                    perso->batiments->centrales[i]->alimentees[j][1]==10 && chargetot+50<=5000 ||
                    perso->batiments->centrales[i]->alimentees[j][1]==50 && chargetot+100<=5000 ||
-                   perso->batiments->centrales[i]->alimentees[j][1]==100 && chargetot+1000<=5000 ||)///on vérifie que le batiment puisse évoluer avce
+                   perso->batiments->centrales[i]->alimentees[j][1]==100 && chargetot+1000<=5000)///on vérifie que le batiment puisse évoluer avec la quantité d'elec suffisante
                 {
-                    /*
-                     * vérifier que la quantité d'elec de la centrale permette de de faire évoluer le batiment
-                     * en allant chercher ca dans le tableau de la centrale concernée la
-                     *
-                     */
-                    perso->batiments->centrales[perso->composante[i].tab[j][4]].alimentees[]
+                    peutevo=1;
+                }
+                else
+                {
+                    peutevo=0;
                 }
             }
         }
     }
+    return peutevo;
 }
 
 ///permet de faire évoluer les maisons si toute les condition sont réunies
