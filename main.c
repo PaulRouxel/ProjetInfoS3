@@ -376,6 +376,22 @@ int yCoortoPixel(int yCoor)  //pour traduire les coordonnes en pixels en Y
     }
 }
 
+/**********************/
+/*      Dijkstra      */
+/**********************/
+
+graphe * creaGraphe()
+{
+    graphe * g;
+    g=(graphe*)malloc(sizeof(graphe));
+
+    g->tab_sommet=(sommet*)malloc(500*sizeof(sommet));
+    g->tab_arete=(arete*)malloc(1500*sizeof(arete));
+    g->ordre=0;
+    g->taille=0;
+    return g;
+}
+
 void AffichageRoute(t_joueur* perso, BITMAP* back,t_bitmap* images) {
     for (int i = 0; i < LIGNES; i++) {
         for (int j = 0; j < COLONNES; j++)
@@ -905,7 +921,23 @@ void verifevolution(t_joueur* perso,int numero)
     }
 }
 
-
+void editgraphe(t_joueur* perso,int indice)
+{
+    /*
+     * prendre ce qui arrive en parametre
+     * savoir ce que c'est d'une manière ou d'une autre
+     *  - avec les coordonnées
+     * l'enregistrer en tant que sommet
+     * chercher les autres sommets connexes
+     * rentré le tab_succ avec ca
+     *
+     * puis s'occuper en meme temps des aretes
+     *
+     * il faut d'abord modifier la structure
+     *
+     */
+    perso->g->tab_sommet[perso->g->ordre].num;
+}
 
 void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 {
@@ -953,7 +985,18 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         RecupererImpots(perso,temps[0]);
         AffichageRoute(perso, images->fond0, images);
         TestConnexionReseau(perso);
-        EvolutionBatiments(perso,temps[0]);
+        //EvolutionBatiments(perso,temps[0]);
+        for(int i=0;i<perso->batiments->nbmaisons;i++)
+        {
+            verifevolution(perso,i);
+            //printf("%ld \n",(perso->batiments->maisons[i].temps-clock())/1000);
+            if(perso->batiments->maisons[i].stade == 2 && (clock()-perso->batiments->maisons[i].temps)/1000 >= 15)
+            {
+                printf("temps bon pour evo maison %d \n",i);
+                perso->batiments->maisons[i].temps=clock();///nouveau timer de départ
+            }
+        }
+
         SauvegardeMap(perso);
         SauvegardeInfos(perso);
 
@@ -1107,6 +1150,7 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
                     perso->batiments->maisons[perso->batiments->nbmaisons].y = yPixeltoCoor(mouse_y);
                     perso->batiments->maisons[perso->batiments->nbmaisons].temps = clock();
                     perso->batiments->nbmaisons += 1;
+
                 }
             }
         }
@@ -1394,6 +1438,8 @@ void StructureJoueurInit(t_joueur* perso)
     perso->batiments->nbmaisons=0;
     perso->batiments->nbcentrales=0;
     perso->batiments->nbchateaux=0;
+
+    perso->g = creaGraphe();
 
     perso->batiments->maisons=(t_terter*)malloc(NBMAISONSMAX*sizeof(t_terter));
     perso->batiments->centrales=(t_centrale*)malloc(NBCENTRALESMAX*sizeof(t_centrale));
