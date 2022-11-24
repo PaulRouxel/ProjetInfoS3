@@ -438,11 +438,26 @@ void SauvegardeMap(t_joueur* perso)
         }
         fclose(fichier1);
     }
+
+    ///FICHIER TEXTE LISIBLE PAR ORDI
+    FILE* fichier4 = NULL;
+    fichier4 = fopen("mapbis.txt", "w+");
+
+    if (fichier4 != NULL)
+    {
+        for (int i = 0; i < LIGNES; i++) {
+            for (int j = 0; j < COLONNES; j++) ///ROUTE
+            {
+                    fprintf(fichier4,"%d ", perso->route[i][j]);
+            }
+            fprintf(fichier4,"\n");
+        }
+        fclose(fichier4);
+    }
 }
 
 void SauvegardeInfos(t_joueur* perso)
 {
-
     FILE* fichier2 = NULL;
     fichier2 = fopen("infos.txt", "w+");
 
@@ -454,12 +469,7 @@ void SauvegardeInfos(t_joueur* perso)
         fprintf(fichier2,"ECEflouz:                  %d\n",perso->flouz);
         fprintf(fichier2,"Capacité de l'eau:         %d\n",perso->eau);
         fprintf(fichier2,"Capacité de l'électricité: %d\n",perso->electricite);
-        fprintf(fichier2,"Nombre d'habitants:        %d\n",perso->nb_habitants);
-        fprintf(fichier2,"Premier antispam:          %d\n",perso->antispam);
-        fprintf(fichier2,"Mode édition route:        %d\n",perso->editroute);
-        fprintf(fichier2,"Mode édition maison:       %d\n",perso->editmaison);
-        fprintf(fichier2,"Mode édition centrale:     %d\n",perso->editcentrale);
-        fprintf(fichier2,"Mode édition chateau:      %d\n\n",perso->editchateaudeau);
+        fprintf(fichier2,"Nombre d'habitants:        %d\n\n",perso->nb_habitants);
         ///la route se charge dans l'autre fichier
 
         ///STRUCTURE BATIMENTS
@@ -490,9 +500,47 @@ void SauvegardeInfos(t_joueur* perso)
             fprintf(fichier2,"Coordonnées:               (%d,%d)\n",perso->batiments->chateaux[i].x,perso->batiments->chateaux[i].y);
             fprintf(fichier2,"Capacité maximale:           %d\n\n",perso->batiments->chateaux[i].capacitemax);
         }
-        fprintf(fichier2,"\n");
-
         fclose(fichier2);
+
+        ///VERSION LISIBLE PAR ORDINATEUR
+        FILE* fichier3 = NULL;
+        fichier3 = fopen("infosbis.txt", "w+");
+
+        if (fichier3 != NULL) {
+            ///STRUCUTURE JOUEUR
+            fprintf(fichier3, "%d\n", perso->communiste);
+            fprintf(fichier3, "%d\n", perso->capitaliste);
+            fprintf(fichier3, "%d\n", perso->flouz);
+            fprintf(fichier3, "%d\n", perso->eau);
+            fprintf(fichier3, "%d\n", perso->electricite);
+            fprintf(fichier3, "%d\n", perso->nb_habitants);
+            ///la route se charge dans l'autre fichier
+
+            ///STRUCTURE BATIMENTS
+            fprintf(fichier3, "%d\n", perso->batiments->nbmaisons);
+            fprintf(fichier3, "%d\n", perso->batiments->nbcentrales);
+            fprintf(fichier3, "%d\n", perso->batiments->nbchateaux);
+
+            for (int i = 0; i < perso->batiments->nbmaisons; i++) {
+                fprintf(fichier3, "%d\n", perso->batiments->maisons[i].x);
+                fprintf(fichier3, "%d\n", perso->batiments->maisons[i].y);
+                fprintf(fichier3, "%d\n", perso->batiments->maisons[i].stade);
+                fprintf(fichier3, "%d\n", perso->batiments->maisons[i].nbhabitants);
+            }
+
+            for (int i = 0; i < perso->batiments->nbcentrales; i++) {
+                fprintf(fichier3, "%d\n", perso->batiments->centrales[i].x);
+                fprintf(fichier3, "%d\n", perso->batiments->centrales[i].y);
+                fprintf(fichier3, "%d\n", perso->batiments->centrales[i].capacitemax);
+            }
+
+            for (int i = 0; i < perso->batiments->nbchateaux; i++) {
+                fprintf(fichier3, "%d\n", perso->batiments->chateaux[i].x);
+                fprintf(fichier3, "%d\n", perso->batiments->chateaux[i].y);
+                fprintf(fichier3, "%d\n", perso->batiments->chateaux[i].capacitemax);
+            }
+            fclose(fichier3);
+        }
     }
 }
 
@@ -528,7 +576,6 @@ void AffichageEDF(t_joueur* perso, BITMAP* back,t_bitmap* images)
                 rectfill(back, xCoortoPixel(j-1), yCoortoPixel(i+4)+5, xCoortoPixel(j+3), yCoortoPixel(i+4)+15, makecol(0,0,0));
                 //textprintf(back,font, xCoortoPixel(j), yCoortoPixel(i+4)+8,makecol(255,255,255),"%d",perso->batiments->centrales[0].capacitemax);
             }
-
         }
     }
 }
@@ -926,16 +973,63 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
                 draw_sprite(images->fond0,images->surbrillance3x3,mouse_x-30,mouse_y-30);
 
             if ((mouse_b & 1) && (mouse_x >= 62) && (mouse_x <= 922) && (mouse_y >= 34) && (mouse_y <= 694) &&
-                (perso->flouz >= 1000)) ///correspond à la taille de l'écran jouable
-                if ((perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x)] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x)] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] == 0))
-                {
+                (perso->flouz >= 1000)) { ///correspond à la taille de l'écran jouable
+                if (((perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 1] == 0) &&
+                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x)] == 0) &&
+                     (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x)] == 0) &&
+                     (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)] == 0) &&
+                     (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
+                     (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] == 0) &&
+                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
+                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] == 0)) &&
+                    ((perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 1) &&
+                     (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 2] == 1) &&
+                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 1) ||
+                     (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] == 1) &&
+                     (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 2] == 1) &&
+                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] == 1) ||
+                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 1) &&
+                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x)] == 1) &&
+                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] == 1) ||
+                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] == 1) &&
+                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x)] == 1) &&
+                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 1) ||
+                     (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 10) &&
+                     (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 2] == 10) &&
+                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 10) ||
+                     (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] == 10) &&
+                     (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 2] == 10) &&
+                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] == 10) ||
+                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 10) &&
+                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x)] == 10) &&
+                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] == 10) ||
+                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] == 10) &&
+                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x)] == 10) &&
+                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 10) ||
+                     (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 18) &&
+                     (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 2] == 18) &&
+                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 18) ||
+                     (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] == 18) &&
+                     (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 2] == 18) &&
+                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] == 18) ||
+                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 18) &&
+                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x)] == 18) &&
+                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] == 18) ||
+                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] == 18) &&
+                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x)] == 18) &&
+                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 18) ||
+                     (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 19) &&
+                     (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 2] == 19) &&
+                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 19) ||
+                     (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] == 19) &&
+                     (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 2] == 19) &&
+                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] == 19) ||
+                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 19) &&
+                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x)] == 19) &&
+                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] == 19) ||
+                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] == 19) &&
+                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x)] == 19) &&
+                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 19))) {
                     perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 1] = 21;
                     perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 1] = 21;
                     perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x)] = 21;
@@ -946,13 +1040,14 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
                     perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] = 21;
                     perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] = 21;
                     perso->flouz -= 1000;
-                    perso->batiments->maisons[perso->batiments->nbmaisons].stade=2;
-                    perso->batiments->maisons[perso->batiments->nbmaisons].nbhabitants=0;
+                    perso->batiments->maisons[perso->batiments->nbmaisons].stade = 2;
+                    perso->batiments->maisons[perso->batiments->nbmaisons].nbhabitants = 0;
                     perso->batiments->maisons[perso->batiments->nbmaisons].x = xPixeltoCoor(mouse_x);
                     perso->batiments->maisons[perso->batiments->nbmaisons].y = yPixeltoCoor(mouse_y);
                     perso->batiments->maisons[perso->batiments->nbmaisons].temps = clock();
-                    perso->batiments->nbmaisons+=1;
+                    perso->batiments->nbmaisons += 1;
                 }
+            }
         }
 
         if (perso->editroute == true)  ///placement de la route
@@ -1297,9 +1392,48 @@ void NouvellePartie(t_joueur* perso, t_bitmap* images)
     EcranDeJeu(perso,images);
 }
 
-void ChargerUnePartie(t_joueur* perso)
+void ChargerUnePartie(t_joueur* perso,t_bitmap* images)
 {
-    printf("charger une partie");
+    int tmp=0;
+
+    StructureBitmapInit(images);
+
+    perso->editchateaudeau=false;
+    perso->editcentrale=false;
+    perso->editmaison=false;
+    perso->editroute=false;
+    perso->antispam=false;
+    perso->actualisationcapacites=false;
+
+    FILE* fichier5 = NULL;
+    fichier5 = fopen("infosbis.txt", "r");
+
+    if (fichier5 != NULL)
+    {
+        fscanf(fichier5,"%d",&tmp); ///communiste
+        if(tmp==1)
+            perso->communiste=true;
+        else
+            perso->communiste=false;
+
+        fscanf(fichier5,"%d",&tmp);  //capitaliste
+        if(tmp==1)
+            perso->capitaliste=true;
+        else
+            perso->capitaliste=false;
+
+        fscanf(fichier5,"%d",&perso->flouz);
+        fscanf(fichier5,"%d",&perso->eau);
+        fscanf(fichier5,"%d",&perso->electricite);
+        fscanf(fichier5,"%d",&perso->nb_habitants);
+        fscanf(fichier5,"%d",&perso->batiments->nbmaisons);
+        fscanf(fichier5,"%d",&perso->batiments->nbcentrales);
+        fscanf(fichier5,"%d",&perso->batiments->nbchateaux);
+
+
+
+    }
+
 }
 
 void AfficherRegles()
@@ -1389,7 +1523,7 @@ void MenuDemarrage(t_joueur* perso, t_bitmap* images)
     if(choix==1)
         NouvellePartie(perso,images);
     if(choix==2)
-        ChargerUnePartie(perso);
+        ChargerUnePartie(perso,images);
     if(choix==3)
         AfficherRegles();
     if(choix==4)
