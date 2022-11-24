@@ -822,15 +822,14 @@ void AffichageReseaudEau(t_joueur* perso,t_bitmap* images)
 
         AffichageCanalisations(perso, images->fond1,images);
 
-        //correspond aux cases de l'ecran
-        if((mouse_b&1)&&(mouse_x>=983)&&(mouse_x<=1020)&&(mouse_y>=114)&&(mouse_y<=153)) ///niveau -2
+        if((mouse_b&1)&&(mouse_x>=967)&&(mouse_x<=1015)&&(mouse_y>=590)&&(mouse_y<=632)) ///niveau -2
         {
             choix=1;
             next=1;
         }
 
         //correspond aux cases de l'ecran
-        if((mouse_b&1)&&(mouse_x>=983)&&(mouse_x<=1020)&&(mouse_y>=63)&&(mouse_y<=105)) ///reseau 0
+        if((mouse_b&1)&&(mouse_x>=967)&&(mouse_x<=1015)&&(mouse_y>=530)&&(mouse_y<=575)) ///reseau 0
             next=1;
     }
 
@@ -841,15 +840,8 @@ void AffichageReseaudEau(t_joueur* perso,t_bitmap* images)
     }
     else          ///niveau 0
         rest(200);
-
 }
 
-void Creemaison(t_bat4* bati,int y, int x)
-{
-    bati->maisons[bati->nbmaisons].temps=clock()+1000;
-    bati->maisons[bati->nbmaisons].x=x;
-    bati->maisons[bati->nbmaisons].y=y;
-}
 
 /*
  * S-P pour vérifier si la maison en parametre pourrai passer au niveau supp avec la capacité eau
@@ -1407,10 +1399,28 @@ void StructureJoueurInit(t_joueur* perso)
     perso->batiments->centrales=(t_centrale*)malloc(NBCENTRALESMAX*sizeof(t_centrale));
     perso->batiments->chateaux=(t_chateau*)malloc(NBCHATEAUXMAX*sizeof(t_chateau));
 
+    perso->batiments->centrales->nbalim=0;
+
+
+
+    perso->batiments->centrales->alimentees=(int**)malloc(NBMAISONSMAX*sizeof(int*));
+
+    for(int i=0;i<NBMAISONSMAX;i++)
+        perso->batiments->centrales->alimentees[i]=(int*)malloc(NBCOLONNESMAXMATRICEALIMENTEES*sizeof(int));
+
+    for(int i=0;i<NBMAISONSMAX;i++)
+    {
+        for(int j=0;j<NBCOLONNESMAXMATRICEALIMENTEES;j++)
+        {
+            perso->batiments->centrales->alimentees[i][j]=0;
+        }
+    }
+
+
 
     ///INITIALISATION STRUCTURE COMPOSANTE CONNEXE
 
-    perso->composante=(t_connexe*)malloc(NBCONNEXESMAX*sizeof(t_chateau));
+    perso->composante=(t_connexe*)malloc(NBCONNEXESMAX*sizeof(t_connexe));
 
     perso->composante->tab=(int**)malloc(NBMAISONSMAX*sizeof(int*));   ///allocation dynamique matrice entiers
     for(int i=0;i<NBMAISONSMAX;i++)
@@ -1575,6 +1585,7 @@ void ChargerUnePartie(t_joueur* perso,t_bitmap* images)
         }
         fclose(fichier6);
     }
+    ///il faut encore ecrire et lire la matrice alimentees
     EcranDeJeu(perso,images);
 }
 
