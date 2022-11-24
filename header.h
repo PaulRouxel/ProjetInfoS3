@@ -20,6 +20,13 @@
 
 #define nbantispam 30
 
+#define NBMAISONSMAX 30
+#define NBCENTRALESMAX 10
+#define NBCHATEAUXMAX 10
+
+#define NBCONNEXESMAX 5
+#define NBCOLONNESMAXTABCONNEXE 4
+
 /// Structure d'une Maison ///
 typedef struct maison
 {
