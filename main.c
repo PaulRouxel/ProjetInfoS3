@@ -844,12 +844,6 @@ void AffichageReseaudEau(t_joueur* perso,t_bitmap* images)
 
 }
 
-void Creemaison(t_bat4* bati,int y, int x)
-{
-    bati->maisons[bati->nbmaisons].temps=clock()+1000;
-    bati->maisons[bati->nbmaisons].x=x;
-    bati->maisons[bati->nbmaisons].y=y;
-}
 
 /*
  * S-P pour vérifier si la maison en parametre pourrai passer au niveau supp avec la capacité eau
@@ -1407,6 +1401,23 @@ void StructureJoueurInit(t_joueur* perso)
     perso->batiments->centrales=(t_centrale*)malloc(NBCENTRALESMAX*sizeof(t_centrale));
     perso->batiments->chateaux=(t_chateau*)malloc(NBCHATEAUXMAX*sizeof(t_chateau));
 
+    perso->batiments->centrales->nbalim=0;
+
+    /*
+    perso->batiments->centrales->alimentees=(int**)malloc(NBMAISONSMAX*sizeof(int*));
+
+    for(int i=0;i<NBMAISONSMAX;i++)
+        perso->batiments->centrales->alimentees=(int*)malloc(NBCOLONNESMAXMATRICEALIMENTEES*sizeof(int));
+
+    for(int i=0;i<NBMAISONSMAX;i++)
+    {
+        for(int j=0;j<NBCOLONNESMAXMATRICEALIMENTEES;j++)
+        {
+            perso->batiments->centrales->alimentees[i][j]=0;
+        }
+    }
+     */
+
 
     ///INITIALISATION STRUCTURE COMPOSANTE CONNEXE
 
@@ -1575,6 +1586,7 @@ void ChargerUnePartie(t_joueur* perso,t_bitmap* images)
         }
         fclose(fichier6);
     }
+    ///il faut encore ecrire et lire la matrice alimentees
     EcranDeJeu(perso,images);
 }
 
