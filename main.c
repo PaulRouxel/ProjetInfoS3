@@ -870,21 +870,7 @@ int capacitelec(t_joueur* perso,int numero)
                 for(int k=0;k<j;k++)
                 {
                     chargetot+=perso->batiments->centrales[i].alimentees[k][1];///on calcule la charges prise par les maisons précedentes
-<<<<<<< HEAD
-                }
-                if(perso->batiments->centrales[i].alimentees[j][1]==0 && chargetot+10<=5000 ||
-                   perso->batiments->centrales[i].alimentees[j][1]==10 && chargetot+50<=5000 ||
-                   perso->batiments->centrales[i].alimentees[j][1]==50 && chargetot+100<=5000 ||
-                   perso->batiments->centrales[i].alimentees[j][1]==100 && chargetot+1000<=5000)///on vérifie que le batiment puisse évoluer avce
-                {
-                    /*
-                     * vérifier que la quantité d'elec de la centrale permette de de faire évoluer le batiment
-                     * en allant chercher ca dans le tableau de la centrale concernée la
-                     *
-                     */
-                    perso->batiments->centrales[perso->composante[i].tab[j][4]].alimentees[]
-=======
->>>>>>> main
+
                 }
                 if(perso->batiments->centrales[i].alimentees[j][1]==0 && chargetot+10<=5000 ||
                    perso->batiments->centrales[i].alimentees[j][1]==10 && chargetot+50<=5000 ||
@@ -1287,9 +1273,6 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
     Quitter(perso,images);
 }
 
-
-
-
 void AffichageCapitaliste(t_bitmap* images)
 {
     BITMAP* buffer;
@@ -1379,7 +1362,6 @@ void ChoixDuMode(t_joueur* perso,t_bitmap* images)
         AffichageCommuniste(images);
     }
 }
-
 
 void StructureJoueurInit(t_joueur* perso)
 {
