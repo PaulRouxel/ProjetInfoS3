@@ -1403,11 +1403,12 @@ void StructureJoueurInit(t_joueur* perso)
 
     perso->batiments->centrales->nbalim=0;
 
-    /*
+
+
     perso->batiments->centrales->alimentees=(int**)malloc(NBMAISONSMAX*sizeof(int*));
 
     for(int i=0;i<NBMAISONSMAX;i++)
-        perso->batiments->centrales->alimentees=(int*)malloc(NBCOLONNESMAXMATRICEALIMENTEES*sizeof(int));
+        perso->batiments->centrales->alimentees[i]=(int*)malloc(NBCOLONNESMAXMATRICEALIMENTEES*sizeof(int));
 
     for(int i=0;i<NBMAISONSMAX;i++)
     {
@@ -1416,12 +1417,12 @@ void StructureJoueurInit(t_joueur* perso)
             perso->batiments->centrales->alimentees[i][j]=0;
         }
     }
-     */
+
 
 
     ///INITIALISATION STRUCTURE COMPOSANTE CONNEXE
 
-    perso->composante=(t_connexe*)malloc(NBCONNEXESMAX*sizeof(t_chateau));
+    perso->composante=(t_connexe*)malloc(NBCONNEXESMAX*sizeof(t_connexe));
 
     perso->composante->tab=(int**)malloc(NBMAISONSMAX*sizeof(int*));   ///allocation dynamique matrice entiers
     for(int i=0;i<NBMAISONSMAX;i++)
