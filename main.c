@@ -827,7 +827,7 @@ int capacitelec(t_joueur* perso,int numero)
                 if(perso->batiments->centrales[i]->alimentees[j][1]==0 && chargetot+10<=5000 ||
                    perso->batiments->centrales[i]->alimentees[j][1]==10 && chargetot+50<=5000 ||
                    perso->batiments->centrales[i]->alimentees[j][1]==50 && chargetot+100<=5000 ||
-                   perso->batiments->centrales[i]->alimentees[j][1]==100 && chargetot+1000<=5000 ||)///on vérifie que le batiment puisse évoluer avec la quantité d'elec suffisante
+                   perso->batiments->centrales[i]->alimentees[j][1]==100 && chargetot+1000<=5000)///on vérifie que le batiment puisse évoluer avec la quantité d'elec suffisante
                 {
                     peutevo=1;
                 }
