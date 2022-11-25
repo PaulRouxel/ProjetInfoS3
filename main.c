@@ -1,5 +1,6 @@
 #include "header.h"
 
+///INITIALISATION D'ALLEGRO
 void initialisationAllegro(){
     allegro_init();
     set_color_depth(desktop_color_depth());
@@ -14,6 +15,7 @@ void initialisationAllegro(){
 
 void verifevolution(t_joueur* perso,int numero);
 
+///FONCTION PERMETTANT DE CONVERTIR LES PIXELS (62;962) EN COORDONNEES (0,45)
 int xPixeltoCoor(int xPixel) //pour traduire les pixels en coordonnes en X
 {
     if((xPixel>=62)&&(xPixel<82)) //retourne la case en question
@@ -115,6 +117,7 @@ int xPixeltoCoor(int xPixel) //pour traduire les pixels en coordonnes en X
 
 }
 
+///FONCTION PERMETTANT DE CONVERTIR LES PIXELS (34;734) EN COORDONNEES (0;35)
 int yPixeltoCoor(int yPixel)  //pour traduire les pixels en coordonnes en Y
 {
     if((yPixel>=34)&&(yPixel<54))
@@ -195,6 +198,7 @@ int yPixeltoCoor(int yPixel)  //pour traduire les pixels en coordonnes en Y
     }
 }
 
+///FONCTION PERMETTANT DE CONVERTIR LES COORDONNEES (0,45) EN PIXELS (62,962)
 int xCoortoPixel(int xCoor) //pour traduire les coordonnes en pixels en X
 {
     if(xCoor==0)
@@ -295,6 +299,7 @@ int xCoortoPixel(int xCoor) //pour traduire les coordonnes en pixels en X
     }
 }
 
+///FONCTION PERMETTANT DE CONVERTIR LES COORDONNEES (0,35) EN PIXELS (34,734)
 int yCoortoPixel(int yCoor)  //pour traduire les coordonnes en pixels en Y
 {
 
@@ -392,6 +397,8 @@ graphe * creaGraphe()
     return g;
 }
 
+
+///AFFICHAGE DE TOUTES LES BITMAPS DE LA ROUTE ET DES BATIMENTS
 void AffichageRoute(t_joueur* perso, BITMAP* back,t_bitmap* images) {
     for (int i = 0; i < LIGNES; i++) {
         for (int j = 0; j < COLONNES; j++)
@@ -437,6 +444,7 @@ void AffichageRoute(t_joueur* perso, BITMAP* back,t_bitmap* images) {
     */
 }
 
+///ECRITURE DE L'ETAT DE LA CARTE DANS UN FICHIER TEXTE, UNE VERSION LISIBLE POUR L'HUMAIN ET L'AUTRE PAR L'ORDINATEUR
 void SauvegardeMap(t_joueur* perso)
 {
     FILE* fichier1 = NULL;
@@ -445,10 +453,10 @@ void SauvegardeMap(t_joueur* perso)
     if (fichier1 != NULL)
     {
         for (int i = 0; i < LIGNES; i++) {
-            for (int j = 0; j < COLONNES; j++) ///ROUTE
+            for (int j = 0; j < COLONNES; j++)
             {
                 if(perso->route[i][j]<10)
-                    fprintf(fichier1," %d ", perso->route[i][j]);
+                    fprintf(fichier1," %d ", perso->route[i][j]); ///permet d'avoir une matrice bien affichée et régulière
                 else
                     fprintf(fichier1,"%d ", perso->route[i][j]);
             }
@@ -464,9 +472,9 @@ void SauvegardeMap(t_joueur* perso)
     if (fichier4 != NULL)
     {
         for (int i = 0; i < LIGNES; i++) {
-            for (int j = 0; j < COLONNES; j++) ///ROUTE
+            for (int j = 0; j < COLONNES; j++)
             {
-                    fprintf(fichier4,"%d ", perso->route[i][j]);
+                    fprintf(fichier4,"%d ", perso->route[i][j]); ///matrice écrite telle que
             }
             fprintf(fichier4,"\n");
         }
@@ -474,6 +482,7 @@ void SauvegardeMap(t_joueur* perso)
     }
 }
 
+///ECRITURE DES INFORMATIONS DU JOUEUR DANS UN FICHIER TEXTE, UNE VERSION LISIBLE PAR L'HUMAIN ET L'AUTRE PAR L'ORDINATEUR
 void SauvegardeInfos(t_joueur* perso)
 {
     FILE* fichier2 = NULL;
@@ -562,6 +571,7 @@ void SauvegardeInfos(t_joueur* perso)
     }
 }
 
+///AFFICHAGE DES SPRITES DE CANALISATIONS ET CHATEAU D'EAU AU NIVEAU -1
 void AffichageCanalisations(t_joueur* perso, BITMAP* back,t_bitmap* images)
 {
     for(int i=0;i<LIGNES;i++)
@@ -570,7 +580,7 @@ void AffichageCanalisations(t_joueur* perso, BITMAP* back,t_bitmap* images)
         {
             if(perso->route[i][j]==1 || perso->route[i][j]==18 || perso->route[i][j]==19 || perso->route[i][j]==10)
             {
-                draw_sprite(back,images->eau,xCoortoPixel(j),yCoortoPixel(i));   ///CHANGEMENT
+                draw_sprite(back,images->eau,xCoortoPixel(j),yCoortoPixel(i));
             }
             if (perso->route[i][j] == 9 || perso->route[i][j] == 90)  ///CHATEAU D'EAU
                 draw_sprite(back, images->chateaudeau, xCoortoPixel(j-1), yCoortoPixel(i-2));
@@ -578,6 +588,7 @@ void AffichageCanalisations(t_joueur* perso, BITMAP* back,t_bitmap* images)
     }
 }
 
+///AFFICHAGE DES SPRITES DU RESEAU ELECTRIQUE ET CENTRALE AU NIVEAU -2
 void AffichageEDF(t_joueur* perso, BITMAP* back,t_bitmap* images)
 {
     for(int i=0;i<LIGNES;i++)
@@ -598,6 +609,7 @@ void AffichageEDF(t_joueur* perso, BITMAP* back,t_bitmap* images)
     }
 }
 
+///PROCEDURE POUR FAIRE EVOLUER LES BATIMENT SI LES CONDITIONS SONT REUNIS (COMMUNISTE)
 void EvolutionBatiments(t_joueur* perso, int secondes)
 {
     for (int i = 0; i < LIGNES; i++) {
@@ -629,6 +641,7 @@ void EvolutionBatiments(t_joueur* perso, int secondes)
     }
 }
 
+///PROCEDURE QUI VERIFIE LA CONNEXION DES MAISONS AU RESEAU ROUTIER/D'EAU/ELECTRIQUE
 void TestConnexionReseau(t_joueur* perso)
 {
     for(int i=0;i<LIGNES;i++)
@@ -642,7 +655,6 @@ void TestConnexionReseau(t_joueur* perso)
                     (perso->route[i - 1][j] == 18) || (perso->route[i + 1][j] == 18) ||
                     (perso->route[i][j - 1] == 18) || (perso->route[i][j + 1] == 18))
                     perso->route[i][j] = 18;
-
             }
 
             if(perso->route[i][j]==1)  ///si route connecte à un chateau d'eau
@@ -652,7 +664,6 @@ void TestConnexionReseau(t_joueur* perso)
                     (perso->route[i - 1][j] == 19) || (perso->route[i + 1][j] == 19) ||
                     (perso->route[i][j - 1] == 19) || (perso->route[i][j + 1] == 19))
                     perso->route[i][j] = 19;
-
             }
 
             if(perso->route[i][j]==18)  ///si route deja connecte à une centrale devient connecte en eau
@@ -687,10 +698,11 @@ void TestConnexionReseau(t_joueur* perso)
     }
 }
 
+///AFFICHAGE DU TEMPS SUR L'ECRAN DE JEU
 void AffichageTemps(BITMAP* back, int* temps, clock_t t1, t_joueur* perso)
 {
-    clock_t t2=clock()+1000;
-    temps[0]=(int)(t2-t1)/1000;
+    clock_t t2=clock()+1000;            ///on décale d'une seconde pour commencer la partie à 00:01
+    temps[0]=(int)(t2-t1)/1000;         ///on calcule la différence de tick depuis le lancement de l'écran de jeu
 
     if(temps[0]%60==0 && perso->antisp.antispam[0]==true && temps[0]!=1)
     {
@@ -702,8 +714,6 @@ void AffichageTemps(BITMAP* back, int* temps, clock_t t1, t_joueur* perso)
     {
         perso->antisp.antispam[0]=true;
     }
-
-    ///du mal avec le compteur des minutes vu qu'on peut pas le retourner (je regarde par strucutres ou sinon avec time.h)
 
     rectfill(back, 680, 11, 740, 30, makecol(0,173,233));
 
@@ -719,17 +729,19 @@ void AffichageTemps(BITMAP* back, int* temps, clock_t t1, t_joueur* perso)
 
 }
 
+///CALCUL LES IMPOTS EN FONCTION DES HABITANTS
 void RecupererImpots(t_joueur* perso, int time)
 {
-    if(time%15==0 && perso->antispam==true)                         ///faire un antispam dessus
+    if(time%15==0 && perso->antispam==true)        ///toutes les 15 secondes et une fois grâce à un antispam
     {
         perso->flouz+=10*perso->nb_habitants;
         perso->antispam=false;
     }
-    if((time+2)%15==0)
+    if((time+2)%15==0)                            ///on actualise l'antispam
         perso->antispam=true;
 }
 
+///CALCUL DES CAPACITES EN FONCTION DES CAPACITES DE CHAQUE CENTRALES/CHATEAUX D'EAU
 void ActualisationCapacites(t_joueur* perso)
 {
     ///ACTUALISATION DE L'ELECTRICITE
@@ -745,14 +757,22 @@ void ActualisationCapacites(t_joueur* perso)
     {
         perso->eau+=perso->batiments->chateaux[i].capacitemax;
     }
-
-    perso->actualisationcapacites=false;
 }
 
-void AffichageReseaudEau(t_joueur* perso,t_bitmap* images);  ///on declare ici pour pouvoir l'appeler partout dans le programme, même si elle aprait après dans le code
+void ActualisationHabitants(t_joueur* perso)
+{
+    perso->nb_habitants=0;
+    for(int i=0;i<perso->batiments->nbmaisons;i++)
+    {
+        perso->nb_habitants+=perso->batiments->maisons[i].nbhabitants;
+    }
+}
 
-void Quitter(t_joueur* perso, t_bitmap* images);
+void AffichageReseaudEau(t_joueur* perso,t_bitmap* images);  ///on declare ici pour pouvoir l'appeler partout dans le programme, même si elle après dans le code
 
+void Quitter(t_joueur* perso, t_bitmap* images);  ///on declare ici pour pouvoir l'appeler partout dans le programme, même si elle après dans le code
+
+///AFFICHAGE DU NIVEAU +1
 void AffichageDieu(t_bitmap* images){
 
     BITMAP *buffer;
@@ -773,6 +793,7 @@ void AffichageDieu(t_bitmap* images){
     }
 }
 
+///AFFICHAGE DU NIVEAU -2
 void AffichageReseauElec(t_joueur* perso,t_bitmap* images)
 {
     BITMAP* buffer;
@@ -814,9 +835,9 @@ void AffichageReseauElec(t_joueur* perso,t_bitmap* images)
     }
     else             ///niveau 0 (on skip la fonction)
         rest(200);
-
 }
 
+///AFFICHAGE DU NIVEAU -1
 void AffichageReseaudEau(t_joueur* perso,t_bitmap* images)
 {
     BITMAP* buffer;
@@ -892,10 +913,10 @@ int capacitelec(t_joueur* perso,int numero)
     return peutevo;
 }
 
-///permet de faire évoluer les maisons si toute les condition sont réunies
+///PERMET DE FAIRE EVOLUER LES MAISONS SI LES CNDTIONS SONT REUNIS (COMMUNISTE)
 void verifevolution(t_joueur* perso,int numero)
 {
-    ///si le terain peut évoluer
+    ///si le terrain peut évoluer
     if(perso->batiments->maisons[numero].stade==2 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capacitelec(perso,numero)==1)
     {
         perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
@@ -921,8 +942,8 @@ void verifevolution(t_joueur* perso,int numero)
     }
 }
 
-void editgraphe(t_joueur* perso,int indice)
-{
+
+void editgraphe(t_joueur* perso,int indice) {
     /*
      * prendre ce qui arrive en parametre
      * savoir ce que c'est d'une manière ou d'une autre
@@ -938,7 +959,367 @@ void editgraphe(t_joueur* perso,int indice)
      */
     perso->g->tab_sommet[perso->g->ordre].num;
 }
+///PERMET DE VERIFIER SI LA CONSTRUCTION DE LA MAISON EST VIABLE: TOUTE LA PLACE EST DISPONIBLE ET EST CONNECTE A UN RESEAU ROUTIER
+void VerifMaison(t_joueur* perso)
+{
+    if (((perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 1] == 0) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x)] == 0) &&
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x)] == 0) &&
+         (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)] == 0) &&
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] == 0) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] == 0)) &&
+        ((perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 1) &&
+         (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 2] == 1) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] == 1) &&
+         (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 2] == 1) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 1) &&
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x)] == 1) &&
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] == 1) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x)] == 1) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 10) &&
+         (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 2] == 10) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] == 10) &&
+         (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 2] == 10) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 10) &&
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x)] == 10) &&
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] == 10) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x)] == 10) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 18) &&
+         (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 2] == 18) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] == 18) &&
+         (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 2] == 18) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 18) &&
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x)] == 18) &&
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] == 18) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x)] == 18) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 19) &&
+         (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 2] == 19) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] == 19) &&
+         (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 2] == 19) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 19) &&
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x)] == 19) &&
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] == 19) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x)] == 19) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 19))) {
+        perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 1] = 21;
+        perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 1] = 21;
+        perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x)] = 21;
+        perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x)] = 21;
+        perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)] = 2;
+        perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] = 21;
+        perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] = 21;
+        perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] = 21;
+        perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] = 21;
+        perso->flouz -= 1000;
+        perso->batiments->maisons[perso->batiments->nbmaisons].stade = 2;
+        perso->batiments->maisons[perso->batiments->nbmaisons].nbhabitants = 0;
+        perso->batiments->maisons[perso->batiments->nbmaisons].x = xPixeltoCoor(mouse_x);
+        perso->batiments->maisons[perso->batiments->nbmaisons].y = yPixeltoCoor(mouse_y);
+        perso->batiments->maisons[perso->batiments->nbmaisons].temps = clock();
+        perso->batiments->nbmaisons += 1;
+    }
+}
 
+///PERMET DE VERIFIER SI LA CONSTRUCTION DU CHATEAU D'EAU EST VIABLE: TOUTE LA PLACE EST DISPONIBLE ET EST CONNECTE A UN RESEAU ROUTIER
+void VerifChateaux(t_joueur* perso)
+{
+        if ((perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 0] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 2] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 0] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) - 1] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 0] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 1] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 2] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 0] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 0] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 2] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) - 1] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 0] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] == 0) &&
+            (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] == 0) &&
+            ((perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) - 1] == 1) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 0] == 1) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 1] == 1) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 2] == 1) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) - 1] == 1) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 0] == 1) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 1] == 1) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 2] == 1) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 2] == 1) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 1) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) - 2] == 1) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 1) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 2] == 1) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) - 2] == 1) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 3] == 1) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 3] == 1) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 3] == 1) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 3] == 1) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 3] == 1) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 3] == 1) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) - 1] == 18) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 0] == 18) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 1] == 18) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 2] == 18) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) - 1] == 18) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 0] == 18) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 1] == 18) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 2] == 18) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 2] == 18) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 18) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) - 2] == 18) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 18) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 2] == 18) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) - 2] == 18) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 3] == 18) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 3] == 18) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 3] == 18) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 3] == 18) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 3] == 18) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 3] == 18) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) - 1] == 19) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 0] == 19) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 1] == 19) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 2] == 19) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) - 1] == 19) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 0] == 19) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 1] == 19) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 2] == 19) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 2] == 19) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 19) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) - 2] == 19) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 19) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 2] == 19) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) - 2] == 19) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 3] == 19) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 3] == 19) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 3] == 19) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 3] == 19) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 3] == 19) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 3] == 19) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) - 1] == 10) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 0] == 10) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 1] == 10) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 2] == 10) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) - 1] == 10) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 0] == 10) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 1] == 10) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 2] == 10) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 2] == 10) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 10) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) - 2] == 10) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 10) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 2] == 10) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) - 2] == 10) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 3] == 10) ||
+             (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 3] == 10) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 3] == 10) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 3] == 10) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 3] == 10) ||
+             (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 3] == 10)))
+        {
+            perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] = 91;
+            perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 0] = 91;
+            perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] = 91;
+            perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 2] = 91;
+            perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] = 91;
+            perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 0] = 91;
+            perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] = 91;
+            perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] = 91;
+            perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) - 1] = 91;
+            perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 0] = 9;
+            perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 1] = 91;
+            perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 2] = 91;
+            perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] = 91;
+            perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 0] = 91;
+            perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] = 91;
+            perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] = 91;
+            perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] = 91;
+            perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 0] = 91;
+            perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] = 91;
+            perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 2] = 91;
+            perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) - 1] = 91;
+            perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 0] = 91;
+            perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] = 91;
+            perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] = 91;
+            perso->flouz -= 100000;
+            perso->batiments->chateaux[perso->batiments->nbchateaux].x= xPixeltoCoor(mouse_x-30);
+            perso->batiments->chateaux[perso->batiments->nbchateaux].y= yPixeltoCoor(mouse_y-50);
+            perso->batiments->chateaux[perso->batiments->nbchateaux].capacitemax= 5000;
+            perso->batiments->nbchateaux+=1;
+            perso->actualisationcapacites=true;
+        }
+}
+
+///PERMET DE VERIFIER SI LA CONSTRUCTION DE LA CENTRALE EST VIABLE: TOUTE LA PLACE EST DISPONIBLE ET EST CONNECTE A UN RESEAU ROUTIER
+void VerifCentrale(t_joueur* perso)
+{
+    if ((perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 0] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 2] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 0] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) - 1] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 0] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 1] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 2] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 0] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 0] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 2] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) - 1] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 0] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] == 0) &&
+        (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] == 0) &&
+        ((perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) - 1] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 0] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 1] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 2] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) - 1] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 0] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 1] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 2] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 2] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) - 2] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 2] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) - 2] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 3] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 3] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 3] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 3] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 3] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 3] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) - 1] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 0] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 1] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 2] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) - 1] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 0] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 1] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 2] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 2] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) - 2] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 2] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) - 2] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 3] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 3] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 3] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 3] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 3] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 3] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) - 1] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 0] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 1] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 2] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) - 1] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 0] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 1] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 2] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 2] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) - 2] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 2] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) - 2] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 3] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 3] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 3] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 3] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 3] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 3] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) - 1] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 0] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 1] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 3][xPixeltoCoor(mouse_x) + 2] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) - 1] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 0] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 1] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 4][xPixeltoCoor(mouse_x) + 2] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 2] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) - 2] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 2] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) - 2] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 3] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 3] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 3] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 3] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 3] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 3] == 10)))
+    {
+        perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] = 81;
+        perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 0] = 81;
+        perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] = 81;
+        perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 2] = 81;
+        perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] = 81;
+        perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 0] = 81;
+        perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] = 81;
+        perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] = 81;
+        perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) - 1] = 81;
+        perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 0] = 8;
+        perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 1] = 81;
+        perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 2] = 81;
+        perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] = 81;
+        perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 0] = 81;
+        perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] = 81;
+        perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] = 81;
+        perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] = 81;
+        perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 0] = 81;
+        perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] = 81;
+        perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 2] = 81;
+        perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) - 1] = 81;
+        perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 0] = 81;
+        perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] = 81;
+        perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] = 81;
+        perso->flouz -= 100000;
+        perso->batiments->centrales[perso->batiments->nbcentrales].x= xPixeltoCoor(mouse_x-30);
+        perso->batiments->centrales[perso->batiments->nbcentrales].y= yPixeltoCoor(mouse_y-50);
+        perso->batiments->centrales[perso->batiments->nbcentrales].capacitemax= 5000;
+        perso->batiments->nbcentrales+=1;
+        perso->actualisationcapacites=true;
+    }
+}
+
+///AFFICHAGE PRINCIPAL: ECRAN DU JEU ET CENTRALISE TOUTES LES FONCTIONS
 void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 {
     BITMAP *buffer;
@@ -949,7 +1330,6 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
     int* temps= (int*)malloc(2*sizeof(int));
     temps[0]=0;
     temps[1]=0;
-
 
     //va nous permettre de sortir de la boucle d'affichage lorsqu'un choix est fait
     int next = 0;
@@ -966,18 +1346,18 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         clear_bitmap(buffer);
 
 
-        rectfill(images->fond0, 62, 11, 135, 30, makecol(1, 173, 232)); ///argent
+        rectfill(images->fond0, 62, 11, 135, 30, makecol(1, 173, 232));                                     ///argent
         textprintf_ex(images->fond0, font, 85, 20, makecol(0, 0, 0), -1, "%d", perso->flouz);
 
-        rectfill(images->fond0, 235, 11, 300, 30, makecol(1, 173, 232)); ///capacite eau
+        rectfill(images->fond0, 235, 11, 300, 30, makecol(1, 173, 232));                                    ///capacite eau
         textprintf_ex(images->fond0, font, 290, 20, makecol(0, 0, 0), -1, "%d", perso->eau);
 
 
-        rectfill(images->fond0, 355, 11, 420, 30, makecol(1, 173, 232)); ///capacite elec
+        rectfill(images->fond0, 355, 11, 420, 30, makecol(1, 173, 232));                                    ///capacite elec
         textprintf_ex(images->fond0, font, 410, 20, makecol(0, 0, 0), -1, "%d", perso->electricite);
 
 
-        rectfill(images->fond0, 900, 11, 1010, 30, makecol(186, 209, 224)); ///nb_hab
+        rectfill(images->fond0, 900, 11, 1010, 30, makecol(186, 209, 224));                                 ///nb_hab
         textprintf_ex(images->fond0, font, 982, 21, makecol(0, 0, 0), -1, "%d", perso->nb_habitants);
 
 
@@ -1001,8 +1381,11 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         SauvegardeInfos(perso);
 
         if(perso->actualisationcapacites==true)
+        {
             ActualisationCapacites(perso);
-
+            ActualisationHabitants(perso);
+            perso->actualisationcapacites=false;
+        }
 
         //correspond aux cases de l'ecran
         if ((mouse_b & 1) && (mouse_x >= 971) && (mouse_x <= 1018) && (mouse_y >= 712 && (mouse_y <= 756)) ) ///quitter
@@ -1077,81 +1460,8 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
                 draw_sprite(images->fond0,images->surbrillance3x3,mouse_x-30,mouse_y-30);
 
             if ((mouse_b & 1) && (mouse_x >= 62) && (mouse_x <= 922) && (mouse_y >= 34) && (mouse_y <= 694) &&
-                (perso->flouz >= 1000)) { ///correspond à la taille de l'écran jouable
-                if (((perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 1] == 0) &&
-                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x)] == 0) &&
-                     (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x)] == 0) &&
-                     (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)] == 0) &&
-                     (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
-                     (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] == 0) &&
-                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
-                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] == 0)) &&
-                    ((perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 1) &&
-                     (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 2] == 1) &&
-                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 1) ||
-                     (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] == 1) &&
-                     (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 2] == 1) &&
-                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] == 1) ||
-                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 1) &&
-                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x)] == 1) &&
-                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] == 1) ||
-                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] == 1) &&
-                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x)] == 1) &&
-                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 1) ||
-                     (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 10) &&
-                     (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 2] == 10) &&
-                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 10) ||
-                     (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] == 10) &&
-                     (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 2] == 10) &&
-                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] == 10) ||
-                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 10) &&
-                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x)] == 10) &&
-                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] == 10) ||
-                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] == 10) &&
-                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x)] == 10) &&
-                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 10) ||
-                     (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 18) &&
-                     (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 2] == 18) &&
-                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 18) ||
-                     (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] == 18) &&
-                     (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 2] == 18) &&
-                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] == 18) ||
-                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 18) &&
-                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x)] == 18) &&
-                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] == 18) ||
-                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] == 18) &&
-                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x)] == 18) &&
-                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 18) ||
-                     (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 19) &&
-                     (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 2] == 19) &&
-                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 19) ||
-                     (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] == 19) &&
-                     (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 2] == 19) &&
-                     (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] == 19) ||
-                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 19) &&
-                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x)] == 19) &&
-                     (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] == 19) ||
-                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] == 19) &&
-                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x)] == 19) &&
-                     (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 19))) {
-                    perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 1] = 21;
-                    perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 1] = 21;
-                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x)] = 21;
-                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x)] = 21;
-                    perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)] = 2;
-                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] = 21;
-                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] = 21;
-                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] = 21;
-                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] = 21;
-                    perso->flouz -= 1000;
-                    perso->batiments->maisons[perso->batiments->nbmaisons].stade = 2;
-                    perso->batiments->maisons[perso->batiments->nbmaisons].nbhabitants = 0;
-                    perso->batiments->maisons[perso->batiments->nbmaisons].x = xPixeltoCoor(mouse_x);
-                    perso->batiments->maisons[perso->batiments->nbmaisons].y = yPixeltoCoor(mouse_y);
-                    perso->batiments->maisons[perso->batiments->nbmaisons].temps = clock();
-                    perso->batiments->nbmaisons += 1;
-
-                }
+            (perso->flouz >= 1000)) { ///correspond à la taille de l'écran jouable
+                VerifMaison(perso);
             }
         }
 
@@ -1160,10 +1470,8 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
             if((mouse_x >=72 && mouse_x<952)&&(mouse_y>=44 && mouse_y<724)) ///affichage surbillance
                 draw_sprite(images->fond0,images->surbrillance1x1,mouse_x-10,mouse_y-10);
 
-
             if ((mouse_b & 1) && (mouse_x >= 62) && (mouse_x <= 962) && (mouse_y >= 34) && (mouse_y <= 734) &&
-                (perso->flouz >= 10) && (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)] ==
-                                         0)) ///correspond à la taille de l'écran jouable
+                (perso->flouz >= 10) && (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)] == 0)) ///correspond à la taille de l'écran jouable
             {
                 perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)] = 1;
                 perso->flouz -= 10;
@@ -1176,6 +1484,8 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         {
             verifevolution(perso,i);
         }
+
+
         if (perso->editcentrale == true)  ///placement des centrales
         {
             if((mouse_x >=92 && mouse_x<912)&&(mouse_y>=84 && mouse_y<664)) ///affichage surbillance
@@ -1184,61 +1494,7 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 
             if ((mouse_b & 1) && (mouse_x >= 62) && (mouse_x <= 922) && (mouse_y >= 34) && (mouse_y <= 694) &&
                 (perso->flouz >= 100000)) ///correspond à la taille de l'écran jouable
-                if ((perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 0] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 2] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 0] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) - 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 0] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 2] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 0] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 0] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 2] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) - 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 0] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] == 0)) {
-                    perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] = 81;
-                    perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 0] = 81;
-                    perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] = 81;
-                    perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 2] = 81;
-                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] = 81;
-                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 0] = 81;
-                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] = 81;
-                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] = 81;
-                    perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) - 1] = 81;
-                    perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 0] = 8;
-                    perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 1] = 81;
-                    perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 2] = 81;
-                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] = 81;
-                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 0] = 81;
-                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] = 81;
-                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] = 81;
-                    perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] = 81;
-                    perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 0] = 81;
-                    perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] = 81;
-                    perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 2] = 81;
-                    perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) - 1] = 81;
-                    perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 0] = 81;
-                    perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] = 81;
-                    perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] = 81;
-                    perso->flouz -= 100000;
-                    perso->batiments->centrales[perso->batiments->nbcentrales].x= xPixeltoCoor(mouse_x-30);
-                    perso->batiments->centrales[perso->batiments->nbcentrales].y= yPixeltoCoor(mouse_y-50);
-                    perso->batiments->centrales[perso->batiments->nbcentrales].capacitemax= 5000;
-                    perso->batiments->nbcentrales+=1;
-                    perso->actualisationcapacites=true;
-                }
+                VerifCentrale(perso);
         }
 
         if (perso->editchateaudeau == true)  ///placement des chateau d'eau
@@ -1248,69 +1504,14 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 
             if ((mouse_b & 1) && (mouse_x >= 62) && (mouse_x <= 922) && (mouse_y >= 34) && (mouse_y <= 694) &&
                 (perso->flouz >= 100000)) ///correspond à la taille de l'écran jouable
-                if ((perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 0] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 2] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 0] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) - 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 0] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 2] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 0] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 0] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 2] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) - 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 0] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] == 0) &&
-                    (perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] == 0)) {
-                    perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] = 91;
-                    perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 0] = 91;
-                    perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] = 91;
-                    perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 2] = 91;
-                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] = 91;
-                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 0] = 91;
-                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 1] = 91;
-                    perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] = 91;
-                    perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) - 1] = 91;
-                    perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 0] = 9;
-                    perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 1] = 91;
-                    perso->route[yPixeltoCoor(mouse_y) + 0][xPixeltoCoor(mouse_x) + 2] = 91;
-                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] = 91;
-                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 0] = 91;
-                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] = 91;
-                    perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] = 91;
-                    perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] = 91;
-                    perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 0] = 91;
-                    perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] = 91;
-                    perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 2] = 91;
-                    perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) - 1] = 91;
-                    perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 0] = 91;
-                    perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] = 91;
-                    perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] = 91;
-                    perso->flouz -= 100000;
-                    perso->batiments->chateaux[perso->batiments->nbchateaux].x= xPixeltoCoor(mouse_x-30);
-                    perso->batiments->chateaux[perso->batiments->nbchateaux].y= yPixeltoCoor(mouse_y-50);
-                    perso->batiments->chateaux[perso->batiments->nbchateaux].capacitemax= 5000;
-                    perso->batiments->nbchateaux+=1;
-                    perso->actualisationcapacites=true;
-                }
+            VerifChateaux(perso);
+
         }
     }
     Quitter(perso,images);
 }
 
-
-
-
+///AFFICHAGE DE L'ECRAN DE TRANSITION DU MODE CAPITALISTE
 void AffichageCapitaliste(t_bitmap* images)
 {
     BITMAP* buffer;
@@ -1332,6 +1533,7 @@ void AffichageCapitaliste(t_bitmap* images)
     }
 }
 
+///AFFICHAGE DE L'ECRAN DE TRANSITION DU MODE COMMUNISTE
 void AffichageCommuniste(t_bitmap* images)
 {
     BITMAP* buffer;
@@ -1353,6 +1555,7 @@ void AffichageCommuniste(t_bitmap* images)
     }
 }
 
+///ECRAN DE CHOIX DU MODE DE JEU
 void ChoixDuMode(t_joueur* perso,t_bitmap* images)
 {
     BITMAP* buffer;
@@ -1401,7 +1604,7 @@ void ChoixDuMode(t_joueur* perso,t_bitmap* images)
     }
 }
 
-
+///ALLOCATION ET INITIALISATION DE LA STRUCTURE DU JOUEUR (PERSO)
 void StructureJoueurInit(t_joueur* perso)
 {
     ///INITIALISATION STRUCTURE JOUEUR
@@ -1447,8 +1650,6 @@ void StructureJoueurInit(t_joueur* perso)
 
     perso->batiments->centrales->nbalim=0;
 
-
-
     perso->batiments->centrales->alimentees=(int**)malloc(NBMAISONSMAX*sizeof(int*));
 
     for(int i=0;i<NBMAISONSMAX;i++)
@@ -1461,8 +1662,6 @@ void StructureJoueurInit(t_joueur* perso)
             perso->batiments->centrales->alimentees[i][j]=0;
         }
     }
-
-
 
     ///INITIALISATION STRUCTURE COMPOSANTE CONNEXE
 
@@ -1479,12 +1678,12 @@ void StructureJoueurInit(t_joueur* perso)
             perso->composante->tab[i][j]=0;
         }
     }
-
 }
 
+///INITIALISATION DE LA STRUCTURE BITMAP
 void StructureBitmapInit(t_bitmap* images)
 {
-    images->map0 = load_bitmap("Bitmaps/map.bmp",NULL);   ///CHANGEMENT CHEMIN
+    images->map0 = load_bitmap("Bitmaps/map.bmp",NULL);
     images->map1 = load_bitmap("Bitmaps/Egouts.bmp",NULL);
     images->map2 = load_bitmap("Bitmaps/zaapmap.bmp",NULL);
     images->fond0 = load_bitmap("Bitmaps/ecrandejeu.bmp",NULL);
@@ -1511,7 +1710,7 @@ void StructureBitmapInit(t_bitmap* images)
     images->surbrillance4x6 = load_bitmap("Bitmaps/surbrillance4x6.bmp",NULL);
 }
 
-
+///LANCE UNE NOUVELLE PARTIE AVEC DES STRUCTURES REMISES A ZERO ET CHOIX DU MODE
 void NouvellePartie(t_joueur* perso, t_bitmap* images)
 {
     StructureJoueurInit(perso);
@@ -1520,6 +1719,7 @@ void NouvellePartie(t_joueur* perso, t_bitmap* images)
     EcranDeJeu(perso,images);
 }
 
+///PERMET DE CHARGER UNE PARTIE PRECEDENTE ET DE RELANCER LE JEU
 void ChargerUnePartie(t_joueur* perso,t_bitmap* images)
 {
     int tmp=0; ///variable tampon pour lire les booleen
@@ -1635,6 +1835,7 @@ void ChargerUnePartie(t_joueur* perso,t_bitmap* images)
     EcranDeJeu(perso,images);
 }
 
+///PERMET D'AFFICHER L'ECRAN D'AFFICHAGE DES REGLES
 void AfficherRegles()
 {
     BITMAP *buffer;
@@ -1656,6 +1857,7 @@ void AfficherRegles()
     }
 }
 
+///PERMET DE QUITTER LE JEU EN LIBERANT L'ESPACE MEMOIRE ALLOUE PAR LES STRUCTURES
 void Quitter(t_joueur* perso, t_bitmap* images)
 {
     free(perso);
@@ -1663,11 +1865,7 @@ void Quitter(t_joueur* perso, t_bitmap* images)
     allegro_exit();
 }
 
-void QuitterBis()
-{
-    allegro_exit();
-}
-
+///AFFICHAGE DU MENU DE DEMARRAGE
 void MenuDemarrage(t_joueur* perso, t_bitmap* images)
 {
     //BITMAP
@@ -1726,15 +1924,15 @@ void MenuDemarrage(t_joueur* perso, t_bitmap* images)
     if(choix==3)
         AfficherRegles();
     if(choix==4)
-        QuitterBis();
+        Quitter(perso,images);
 }
 
 int main()
 {
-    initialisationAllegro();
-    srand(time(NULL));
-    t_joueur* homer=(t_joueur*)malloc(sizeof(t_joueur));
-    t_bitmap* images=(t_bitmap*)malloc(sizeof(t_bitmap));
+    initialisationAllegro();                                    ///routine d'initialisation d'Allegro
+    srand(time(NULL));                               ///routine pour mettre le temps à 0
+    t_joueur* homer=(t_joueur*)malloc(sizeof(t_joueur));   ///allocation dynamique de la structure joueur
+    t_bitmap* images=(t_bitmap*)malloc(sizeof(t_bitmap));  ///allocation dynamique de la structure des bitmaps
 
     MenuDemarrage(homer,images);
     allegro_exit();
