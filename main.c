@@ -1456,6 +1456,158 @@ void affichage_sommet(graphe* g)            //Affichage basique de chaque elemen
     }
 }
 
+///permet de transformer des coordonnées d'un sommet en son indice dans le graphe
+int transformerswoow(graphe* g, int x, int y)
+{
+    for(int i=0;i<g->ordre;i++)
+    {
+        if(g->tab_sommet[i].x == x && g->tab_sommet[i].y == y)
+        {
+            return i;
+        }
+    }
+}
+/*
+ * finir de merge dijkstra avec notre programme pour avoir la distance entre deux sommet
+ *  - s'en servir pour remplir les centrales
+ *  - finir la partie communiste
+ *  - tout tester ca va etre long mais force à toi
+ *  - etre efficace par pitiée
+ *
+ */
+///permet de rechercher le poids et donc la distance entre deux sommet du graphe crée par les batiments et routes
+void dijkstra(graphe* g, int debut, int fin, maillon* tabmaillon)
+{
+    int k=0,poids,memoire;
+    int indice;
+    int tabResultat[8];
+    int NbSomResultat;
+    tabmaillon[k].act = g->tab_sommet[debut];    //Initialisation du premier element avec le debut
+    tabmaillon[k].PoidRelatif=0;            //Initialisation du poid qui servira a calculer le poid total de chaque chemin
+    tabmaillon[k].pred.num=-1;          //Initialisation pour la fin du programme
+    memoire=k;
+    k++;
+    while(memoire<9){//parcours de la file
+        tabmaillon[memoire].act.noir=1;
+        for(int i=0; i<tabmaillon[memoire].act.nbsucc;i++)//parcours des successeurs
+        {
+            for(int j=0;j<g->ordre;j++)
+            {
+                if(tabmaillon[j].act.num == tabmaillon[memoire].act.tabsucc[i].num)
+                {
+                    if(tabmaillon[j].act.noir==1 && tabmaillon[j].act.num!=fin) {
+                        tabmaillon[memoire].act.tabsucc[i].noir = 1; //Verification des sommets noirs, impossible si le sommet est notre fin
+                    }
+                }
+            }
+            if(tabmaillon[memoire].act.tabsucc[i].noir!=1) { //vérification de si le successeur n'est pas déjà noir
+                for(int j=0;j<g->ordre;j++)
+                {
+                    if(tabmaillon[j].act.num == tabmaillon[memoire].act.tabsucc[i].num)
+                    {   //Remise en gris des successeurs qui sont deja gris
+                        if(tabmaillon[j].act.gris==1) {
+                            tabmaillon[memoire].act.tabsucc[i].gris = 1;
+                        }
+                    }
+                }
+                if (tabmaillon[memoire].act.tabsucc[i].gris !=1) //Verif si gris
+                {
+                    ///PAS GRIS
+                    /*
+                     * Modif du sommet exploré :
+                     * Calcul du poids total
+                     * Initialisation predecesseur
+                     * Passage en  Gris
+                     * */
+                    tabmaillon[k].act=g->tabsommet[tabmaillon[memoire].act.tabsucc[i].num];
+                    poids=recherchesommet(g,tabmaillon[memoire].act.num,tabmaillon[k].act.num);
+                    tabmaillon[k].PoidRelatif = tabmaillon[memoire].PoidRelatif+poids;
+                    tabmaillon[k].pred=tabmaillon[memoire].act;
+                    tabmaillon[k].act.gris=1;
+                    k++;
+
+                }
+                else
+                {
+                    ///GRIS
+                    /*
+                     * Modif du sommet exploré :
+                     * Calcul du poids total
+                     * Comparaison poids avec l'ancien
+                     * SI poid avantageux, changer :
+                     *      Predecesseur
+                     *      Poids
+                     *
+                     *      Boucle :
+                     *      Rechercher l'indice de celui qui est gris
+                     *      recup l'indice dans GrisIndice
+                     *
+                     * */
+                    int GrisIndice;
+
+                    for(int j=0;j<g->ordre;j++)
+                    {
+                        if(tabmaillon[j].act.num == tabmaillon[memoire].act.tabsucc[i].num)
+                        {
+                            GrisIndice=j;
+                        }
+                    }
+                    int poidcomp;
+                    poids=recherchesommet(g,tabmaillon[memoire].act.num,tabmaillon[GrisIndice].act.num);
+                    poidcomp=tabmaillon[memoire].PoidRelatif+poids;
+                    if(tabmaillon[GrisIndice].PoidRelatif>poidcomp)
+                    {
+                        tabmaillon[GrisIndice].PoidRelatif = poidcomp;
+                        tabmaillon[GrisIndice].pred=tabmaillon[memoire].act;
+                    }
+                }
+            }
+        }
+        memoire++;
+    }
+    /*
+     * -Recuperation de l'indice du sommet de fin dans le maillon
+     * -Remplir un tableau avec chaque sommet jusqu'au sommet de début
+     * -Affichage du tableau à l'envers et du poid total du chemin
+     * */
+    for(int i=0;i<9;i++)
+    {
+        if(fin == tabmaillon[i].act.num)
+        {
+            indice=i;
+        }
+    }
+    NbSomResultat=0;
+    while(tabmaillon[indice].pred.num!=-1)//NB SOM RES Jusqu'a fin
+    {
+        tabResultat[NbSomResultat]=tabmaillon[indice].act.num;
+        NbSomResultat++;
+        for(int i=0;i<9;i++)
+        {
+            if(tabmaillon[i].act.num == tabmaillon[indice].pred.num)
+            {
+                indice=i;
+            }
+        }
+    }
+
+    printf("\nChemin : ");
+    printf("%d",g->tabsommet[debut].num);
+    for(int i=0;i<NbSomResultat;i++)
+    {
+        printf("--> %d ",tabResultat[NbSomResultat-1-i]);
+    }
+
+    for(int i=0;i<9;i++)
+    {
+        if(fin == tabmaillon[i].act.num)
+        {
+            indice=i;
+        }
+    }
+    printf("\nPoids total du chemin : %d",tabmaillon[indice].PoidRelatif);
+}
+
 ///AFFICHAGE PRINCIPAL: ECRAN DU JEU ET CENTRALISE TOUTES LES FONCTIONS
 void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 {
