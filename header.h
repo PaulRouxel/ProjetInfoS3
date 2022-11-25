@@ -110,7 +110,6 @@ typedef struct bitmap
     BITMAP* fond1;
     BITMAP* fond2;
     BITMAP* dieu;
-    BITMAP* ecranaccueil;
     BITMAP* ecranmode;
     BITMAP* ecrancommuniste;
     BITMAP* ecrancapitaliste;
@@ -134,6 +133,8 @@ typedef struct bitmap
 ///INFOS
 //libre -> 0
 
+//montagne, decor -> 7
+
 //route -> 1
 //route connecte à une centrale -> 18
 //route connecte à un chateau d'eau ->19
@@ -152,9 +153,17 @@ typedef struct bitmap
 //centre (x=1;y=2) connecté -> 90
 //autour chateau d'eau -> 91
 
-//crash lorsque on construit en bordures du terrain (barrière ou blindage en +)
-//map de fond niveau -2
 
+//graphe
+//eau
+//elec
+//communiste
+//evolution bien
+//caserne ?
+//remplacer les textprintfs par texprintf_ex
+//regler les coordonnees d'affichage des capacités
+//enlever le blindage des 0 en defecit pour les capacites
+//update from main et pull ensuite
 
 
 
