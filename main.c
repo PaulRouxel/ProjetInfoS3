@@ -968,86 +968,104 @@ void editgraphe(t_joueur* perso,int indice, int x, int y)
     perso->g->tab_sommet[perso->g->ordre].gris=0;
 
     perso->g->tab_sommet[perso->g->ordre].nb_succ=0;
-    if(indice==0)
+    if(indice==0)///si on ajoute une route
     {
         perso->g->tab_sommet[perso->g->ordre].tabsucc=(sommet *) malloc(sizeof (sommet)* 4);
-        ///recherche dans les 4 directions autour de la route si il y a un sommet
+        ///recherche dans les 4 directions autour de la route si il y a une autre route
         for(int i=0;i<perso->g->ordre;i++)
         {
-            if(perso->g->tab_sommet[perso->g->ordre].x+1==perso->g->tab_sommet[i].x)
+            if((perso->g->tab_sommet[perso->g->ordre].x+1==perso->g->tab_sommet[i].x && perso->g->tab_sommet[perso->g->ordre].y==perso->g->tab_sommet[i].y) ||
+               (perso->g->tab_sommet[perso->g->ordre].x-1==perso->g->tab_sommet[i].x && perso->g->tab_sommet[perso->g->ordre].y==perso->g->tab_sommet[i].y) ||
+               (perso->g->tab_sommet[perso->g->ordre].y+1==perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y-1==perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x==perso->g->tab_sommet[i].x) )
             {
-                perso->g->tab_sommet[perso->g->ordre].tabsucc[perso->g->tab_sommet[perso->g->ordre].nb_succ] = perso->g->tab_sommet[i];
+                perso->g->tab_sommet[perso->g->ordre].tabsucc[perso->g->tab_sommet[perso->g->ordre].nb_succ] = perso->g->tab_sommet[i];///on l'enregistre dans tabsucc
                 perso->g->tab_sommet[perso->g->ordre].nb_succ++;///si oui on l'enregistre dans tabsucc
                 perso->g->tab_sommet[i].tabsucc[perso->g->tab_sommet[i].nb_succ] = perso->g->tab_sommet[perso->g->ordre];
                 perso->g->tab_sommet[i].nb_succ++;///mutuellement
                 ///et on enregistre une nouvelle arete
+                perso->g->tab_arete[perso->g->taille].a=perso->g->tab_sommet[i];///sommet a
+                perso->g->tab_arete[perso->g->taille].b=perso->g->tab_sommet[perso->g->ordre];///sommet b
+                perso->g->tab_arete[perso->g->taille].poids=1;///poids
+                perso->g->taille++;
             }
-            if(perso->g->tab_sommet[perso->g->ordre].x-1==perso->g->tab_sommet[i].x)
-            {
-                perso->g->tab_sommet[perso->g->ordre].tabsucc[perso->g->tab_sommet[perso->g->ordre].nb_succ] = perso->g->tab_sommet[i];
-                perso->g->tab_sommet[perso->g->ordre].nb_succ++;///si oui on l'enregistre dans tabsucc
-            }
-            if(perso->g->tab_sommet[perso->g->ordre].y+1==perso->g->tab_sommet[i].x)
-            {
-                perso->g->tab_sommet[perso->g->ordre].tabsucc[perso->g->tab_sommet[perso->g->ordre].nb_succ] = perso->g->tab_sommet[i];
-                perso->g->tab_sommet[perso->g->ordre].nb_succ++;///si oui on l'enregistre dans tabsucc
-            }
-            if(perso->g->tab_sommet[perso->g->ordre].y-1==perso->g->tab_sommet[i].x)
-            {
-                perso->g->tab_sommet[perso->g->ordre].tabsucc[perso->g->tab_sommet[perso->g->ordre].nb_succ] = perso->g->tab_sommet[i];
-                perso->g->tab_sommet[perso->g->ordre].nb_succ++;///si oui on l'enregistre dans tabsucc
-            }
-
         }
-
     }
-
-
-
-
-    for(int i=0;i<g->ordre;i++)             //Remplissage d'un tableau des successeur de chaque sommet
+    else if(indice == 1)///si on ajoute une maison
     {
-        int nb_suc=0;
-        for(int j=0;j<g->taille;j++)
+        perso->g->tab_sommet[perso->g->ordre].tabsucc=(sommet *) malloc(sizeof (sommet)* 9);
+        ///recherche dans les 4 directions autour de la route si il y a un sommet
+        for(int i=0;i<perso->g->ordre;i++)
         {
-            if( g->tabarete[j].b.num == g->tabsommet[i].num || g->tabarete[j].a.num == g->tabsommet[i].num)
+            ///recherche tout autour de la maison pour trouver des routes
+            if((perso->g->tab_sommet[perso->g->ordre].y + 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x-1==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y + 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x+1==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y + 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y - 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x-1==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y - 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x+1==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y - 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y - 1 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x-2==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y + 1 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x-2==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x-2==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y -1 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x+2==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y +1 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x+2==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x+2==perso->g->tab_sommet[i].x) )
             {
-                nb_suc++;
-            }
-        }
-        g->tabsommet[i].nbsucc=nb_suc;
-        g->tabsommet[i].tabsucc = (sommet *) malloc(sizeof (sommet)* nb_suc);
-        int k=0;
-        for(int j=0;j<g->taille;j++)
-        {
-            if(g->tabarete[j].a.num == g->tabsommet[i].num)
-            {
-                g->tabsommet[i].tabsucc[k] = g->tabarete[j].b;
-                k++;
-            }
-            else if(g->tabarete[j].b.num == g->tabsommet[i].num)
-            {
-                g->tabsommet[i].tabsucc[k] = g->tabarete[j].a;
-                k++;
+                perso->g->tab_sommet[perso->g->ordre].tabsucc[perso->g->tab_sommet[perso->g->ordre].nb_succ] = perso->g->tab_sommet[i];///on l'enregistre dans le tabsucc
+                perso->g->tab_sommet[perso->g->ordre].nb_succ++;///on augmente le nombre de succ
+                perso->g->tab_sommet[i].tabsucc[perso->g->tab_sommet[i].nb_succ] = perso->g->tab_sommet[perso->g->ordre];
+                perso->g->tab_sommet[i].nb_succ++;///mutuellement
+                ///et on enregistre une nouvelle arete
+                perso->g->tab_arete[perso->g->taille].a=perso->g->tab_sommet[i];///sommet a
+                perso->g->tab_arete[perso->g->taille].b=perso->g->tab_sommet[perso->g->ordre];///sommet b
+                perso->g->tab_arete[perso->g->taille].poids=1;///poids
+                perso->g->taille++;
             }
         }
 
     }
-    /*
-     * prendre ce qui arrive en parametre
-     * savoir ce que c'est d'une manière ou d'une autre
-     *  - avec les coordonnées
-     * l'enregistrer en tant que sommet
-     * chercher les autres sommets connexes
-     * rentré le tab_succ avec ca
-     *
-     * puis s'occuper en meme temps des aretes
-     *
-     * il faut d'abord modifier la structure
-     *
-     */
-    perso->g->tab_sommet[perso->g->ordre].num;
+    else if(indice == 2 || indice == 3)///si on ajoute une centrale ou un chateau
+    {
+        perso->g->tab_sommet[perso->g->ordre].tabsucc = (sommet *) malloc(sizeof(sommet) * 20);
+        ///recherche dans les 4 directions autour de la route si il y a un sommet
+        for (int i = 0; i < perso->g->ordre; i++) {
+            ///recherche tout autour de la centrale/chateau pour trouver des routes
+            if ((perso->g->tab_sommet[perso->g->ordre].y - 3 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 1 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y - 3 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y - 3 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 1 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y - 3 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 4 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 1 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 4 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 4 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 1 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 4 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y - 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y - 1 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 1 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 1 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 1 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 2 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 3 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 2 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y - 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 2 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y - 1 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 2 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 2 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 1 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 3== perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[i].x) )
+            {
+                perso->g->tab_sommet[perso->g->ordre].tabsucc[perso->g->tab_sommet[perso->g->ordre].nb_succ] = perso->g->tab_sommet[i];///on l'enregistre dans le tabsucc
+                perso->g->tab_sommet[perso->g->ordre].nb_succ++;///on augmente le nombre de succ
+                perso->g->tab_sommet[i].tabsucc[perso->g->tab_sommet[i].nb_succ] = perso->g->tab_sommet[perso->g->ordre];
+                perso->g->tab_sommet[i].nb_succ++;///mutuellement
+                ///et on enregistre une nouvelle arete
+                perso->g->tab_arete[perso->g->taille].a = perso->g->tab_sommet[i];///sommet a
+                perso->g->tab_arete[perso->g->taille].b = perso->g->tab_sommet[perso->g->ordre];///sommet b
+                perso->g->tab_arete[perso->g->taille].poids = 1;///poids
+                perso->g->taille++;
+            }
+        }
+    }
+    perso->g->ordre++;
 }
+
 ///PERMET DE VERIFIER SI LA CONSTRUCTION DE LA MAISON EST VIABLE: TOUTE LA PLACE EST DISPONIBLE ET EST CONNECTE A UN RESEAU ROUTIER
 void VerifMaison(t_joueur* perso)
 {
@@ -1262,7 +1280,7 @@ void VerifChateaux(t_joueur* perso)
             perso->flouz -= 100000;
             perso->batiments->chateaux[perso->batiments->nbchateaux].x= xPixeltoCoor(mouse_x-30);
             perso->batiments->chateaux[perso->batiments->nbchateaux].y= yPixeltoCoor(mouse_y-50);
-            editgraphe(perso,2,xPixeltoCoor(mouse_x-30),yPixeltoCoor(mouse_y-50));
+            editgraphe(perso,3,xPixeltoCoor(mouse_x-30),yPixeltoCoor(mouse_y-50));
             perso->batiments->chateaux[perso->batiments->nbchateaux].capacitemax= 5000;
             perso->batiments->nbchateaux+=1;
             perso->actualisationcapacites=true;
@@ -1411,6 +1429,33 @@ void VerifCentrale(t_joueur* perso)
     }
 }
 
+
+void affichage_sommet(graphe* g)            //Affichage basique de chaque element du graphe
+{
+    printf("Ordre : %d \n",g->ordre);
+
+    for(int i=0;i<g->ordre;i++)
+    {
+        printf("Sommet : %d \n",g->tab_sommet[i].type);
+    }
+    printf("Taille : %d\n",g->taille);
+    printf("Aretes :\n");
+
+    for(int i=0;i<g->taille;i++)
+    {
+        printf("%d, %d --> %d\n",g->tab_arete[i].a.type,g->tab_arete[i].b.type,g->tab_arete[i].poids);
+    }
+    for(int i=0;i<g->ordre;i++)
+    {
+        printf("\n Sommet %d :  \n",i);
+        for(int j=0;j<g->tab_sommet[i].nb_succ;j++) {
+            printf(" %d avec ",g->tab_sommet[i].tabsucc[j].type);
+            printf(" x : %d",g->tab_sommet[i].tabsucc[j].x);
+            printf("et y : %d",g->tab_sommet[i].tabsucc[j].y);
+        }
+    }
+}
+
 ///AFFICHAGE PRINCIPAL: ECRAN DU JEU ET CENTRALISE TOUTES LES FONCTIONS
 void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 {
@@ -1489,6 +1534,8 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         {
             rest(200);
             AffichageReseaudEau(perso, images);
+            //affichage_sommet(perso->g);
+
         }
 
         if ((mouse_b & 1) && (mouse_x >= 966) && (mouse_x <= 1015) && (mouse_y >= 571) && (mouse_y <= 613)) ///niveau -2

@@ -17,9 +17,12 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="il est 19h45 et j'ai toutes mes dents &#10;mais il manque la fabrication du graphe">
+    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="commit parce que voila et puis j'ai pas fini">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/header.h" beforeDir="false" afterPath="$PROJECT_DIR$/header.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/ProjetInfoS3.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/ProjetInfoS3.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -95,7 +98,7 @@
       <workItem from="1668530467272" duration="5128000" />
       <workItem from="1668545810486" duration="710000" />
       <workItem from="1668585033876" duration="15336000" />
-      <workItem from="1669382386675" duration="9048000" />
+      <workItem from="1669382386675" duration="14976000" />
     </task>
     <task id="LOCAL-00001" summary="AlleZ gros marche">
       <created>1667906483137</created>
@@ -209,7 +212,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669382609451</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="commit parce que voila et puis j'ai pas fini">
+      <created>1669392989099</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1669392989099</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -236,6 +246,7 @@
     <MESSAGE value="ca compile pas faut que je finisse" />
     <MESSAGE value="ca compile pas faut que je finisset_" />
     <MESSAGE value="il est 19h45 et j'ai toutes mes dents &#10;mais il manque la fabrication du graphe" />
-    <option name="LAST_COMMIT_MESSAGE" value="il est 19h45 et j'ai toutes mes dents &#10;mais il manque la fabrication du graphe" />
+    <MESSAGE value="commit parce que voila et puis j'ai pas fini" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit parce que voila et puis j'ai pas fini" />
   </component>
 </project>
