@@ -19,6 +19,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="il est 19h45 et j'ai toutes mes dents &#10;mais il manque la fabrication du graphe">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/header.h" beforeDir="false" afterPath="$PROJECT_DIR$/header.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +95,7 @@
       <workItem from="1668530467272" duration="5128000" />
       <workItem from="1668545810486" duration="710000" />
       <workItem from="1668585033876" duration="15336000" />
-      <workItem from="1669382386675" duration="2000" />
+      <workItem from="1669382386675" duration="9048000" />
     </task>
     <task id="LOCAL-00001" summary="AlleZ gros marche">
       <created>1667906483137</created>
@@ -200,7 +202,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669315583386</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="il est 19h45 et j'ai toutes mes dents &#10;mais il manque la fabrication du graphe">
+      <created>1669382609451</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1669382609451</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
