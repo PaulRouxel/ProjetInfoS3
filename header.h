@@ -8,7 +8,6 @@
 #include <allegro.h>
 #include <stdbool.h>
 
-
 #define GRILLE_W 62
 #define GRILLE_H 34
 
@@ -115,6 +114,7 @@ typedef struct graphe{
     arete *tab_arete;
 }graphe;
 
+
 /// STRUCTURE DES JOUEURS ///
 typedef struct joueur  //Cette structure gerera les donnees de joueurs tout au long de la partie ( XD )
 {
@@ -135,8 +135,6 @@ typedef struct joueur  //Cette structure gerera les donnees de joueurs tout au l
     t_temps antisp;
     t_bat4* batiments;
     t_connexe* composante;
-
-
 } t_joueur;
 
 typedef struct bitmap
@@ -148,7 +146,6 @@ typedef struct bitmap
     BITMAP* fond1;
     BITMAP* fond2;
     BITMAP* dieu;
-    BITMAP* ecranaccueil;
     BITMAP* ecranmode;
     BITMAP* ecrancommuniste;
     BITMAP* ecrancapitaliste;
@@ -169,9 +166,10 @@ typedef struct bitmap
 }t_bitmap;
 
 
-
 ///INFOS
 //libre -> 0
+
+//montagne, decor -> 7
 
 //route -> 1
 //route connecte à une centrale -> 18
@@ -191,8 +189,13 @@ typedef struct bitmap
 //centre (x=1;y=2) connecté -> 90
 //autour chateau d'eau -> 91
 
-//crash lorsque on construit en bordures du terrain (barrière ou blindage en +)
-//map de fond niveau -2
+
+//graphe
+//eau
+//elec
+//communiste
+//evolution bien
+//caserne ?
 
 
 
@@ -203,7 +206,6 @@ typedef struct bitmap
 /*************************/
 /*     PROTOTYPES        */
 /*************************/
-
 
 void initialisationAllegro(); //Initialise allegro
 
@@ -218,6 +220,91 @@ int yCoortoPixel(int yCoor); //pour traduire les coordonnes en pixels en Y
 void AffichageRoute(t_joueur* perso, BITMAP* back,t_bitmap* images); //pour afficher les routes sur la bitmap de fond
 
 void AffichageTemps(BITMAP* back, int* temps,clock_t t1, t_joueur* perso); //affiche le temps qui avance sur l'écran
+
+void SauvegardeMap(t_joueur* perso);
+
+void SauvegardeInfos(t_joueur* perso);
+
+void AffichageCanalisations(t_joueur* perso, BITMAP* back,t_bitmap* images);
+
+void AffichageEDF(t_joueur* perso, BITMAP* back,t_bitmap* images);
+
+void TestConnexionReseau(t_joueur* perso);
+
+void RecupererImpots(t_joueur* perso, int time);
+
+void ActualisationCapacites(t_joueur* perso);
+
+void ActualisationHabitants(t_joueur* perso);
+
+void AffichageDieu(t_bitmap* images);
+
+void AffichageReseauElec(t_joueur* perso,t_bitmap* images);
+
+void AffichageReseaudEau(t_joueur* perso,t_bitmap* images);
+
+int capacitelec(t_joueur* perso,int numero);
+
+void EnleverEauElecCapitaliste(t_joueur* perso, int tmp,int numero);
+
+void initgraphe(t_joueur* perso);
+
+void editgraphe(t_joueur* perso,int indice, int x, int y);
+
+void VerifEvolutionCapitaliste(t_joueur* perso,int numero);
+
+void VerifEvolutionCommuniste(t_joueur* perso,int numero);
+
+void VerifMaison(t_joueur* perso);
+
+void VerifChateaux(t_joueur* perso);
+
+void VerifCentrale(t_joueur* perso);
+
+void affichage_sommet(graphe* g);
+
+int transformerswoow(graphe* g, int x, int y);
+
+void dijkstra(graphe* g, int debut, int fin, maillon* tabmaillon);
+
+void EcranDeJeu(t_joueur* perso, t_bitmap* images);
+
+void AffichageCapitaliste(t_bitmap* images);
+
+void AffichageCommuniste(t_bitmap* images);
+
+void ChoixDuMode(t_joueur* perso,t_bitmap* images);
+
+graphe * creaGraphe();
+
+void StructureJoueurInit(t_joueur* perso);
+
+void StructureBitmapInit(t_bitmap* images);
+
+void NouvellePartie(t_joueur* perso, t_bitmap* images);
+
+void ChargerUnePartie(t_joueur* perso,t_bitmap* images);
+
+void AfficherRegles();
+
+void Quitter(t_joueur* perso, t_bitmap* images);
+
+void MenuDemarrage(t_joueur* perso, t_bitmap* images);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
