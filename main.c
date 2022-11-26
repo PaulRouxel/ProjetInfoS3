@@ -1104,25 +1104,25 @@ void VerifEvolutionCapitaliste(t_joueur* perso,int numero)
 void VerifEvolutionCommuniste(t_joueur* perso,int numero)
 {
     ///si le terrain peut évoluer
-    if((perso->batiments->maisons[numero].stade==2 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15 && capacitelec(perso,numero)==1) || ((clock()-perso->batiments->maisons[numero].temps)/1000>=15 && perso->capitaliste==true))
+    if(perso->batiments->maisons[numero].stade==2 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15 && capacitelec(perso,numero)==1)
     {
         perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
         perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
     }
         ///si la cabane peut évoluer
-    else if(perso->batiments->maisons[numero].stade==3 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capacitelec(perso,numero)==1)
+    if(perso->batiments->maisons[numero].stade==3 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15 && capacitelec(perso,numero)==1)
     {
         perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
         perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
     }
         ///si la maison peut évoluer
-    else if(perso->batiments->maisons[numero].stade==4 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capacitelec(perso,numero)==1)
+    if(perso->batiments->maisons[numero].stade==4 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15 && capacitelec(perso,numero)==1)
     {
         perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
         perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
     }
         ///si l'immeuble peut évoluer
-    else if(perso->batiments->maisons[numero].stade==5 && (perso->batiments->maisons[numero].temps-clock())/1000>=15 && capacitelec(perso,numero)==1)
+    if(perso->batiments->maisons[numero].stade==5 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15 && capacitelec(perso,numero)==1)
     {
         perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
         perso->batiments->maisons[numero].stade+=1;///évolution au stade sup

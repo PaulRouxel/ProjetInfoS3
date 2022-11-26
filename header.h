@@ -160,10 +160,8 @@ typedef struct bitmap
 //communiste
 //evolution bien
 //caserne ?
-//remplacer les textprintfs par texprintf_ex
-//regler les coordonnees d'affichage des capacités
-//enlever le blindage des 0 en defecit pour les capacites
-//update from main et pull ensuite
+
+
 
 
 
