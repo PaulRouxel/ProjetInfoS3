@@ -1053,7 +1053,7 @@ void editgraphe(t_joueur* perso,int indice, int x, int y)
                 (perso->g->tab_sommet[perso->g->ordre].y == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 2 == perso->g->tab_sommet[i].x) ||
                 (perso->g->tab_sommet[perso->g->ordre].y + 1 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[i].x) ||
                 (perso->g->tab_sommet[perso->g->ordre].y + 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[i].x) ||
-                (perso->g->tab_sommet[perso->g->ordre].y + 3== perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[i].x) )
+                (perso->g->tab_sommet[perso->g->ordre].y + 3 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[i].x) )
             {
                 perso->g->tab_sommet[perso->g->ordre].tabsucc[perso->g->tab_sommet[perso->g->ordre].nb_succ] = perso->g->tab_sommet[i];///on l'enregistre dans le tabsucc
                 perso->g->tab_sommet[perso->g->ordre].nb_succ++;///on augmente le nombre de succ
@@ -1594,7 +1594,7 @@ void dijkstra(graphe* g, int debut, int fin, maillon* tabmaillon)
      * -Remplir un tableau avec chaque sommet jusqu'au sommet de début
      * -Affichage du tableau à l'envers et du poid total du chemin
      * */
-    for(int i=0;i<=g->ordre;i++)
+    for(int i=0;i<g->ordre;i++)
     {
         if(fin == tabmaillon[i].act.num)
         {
@@ -1606,7 +1606,7 @@ void dijkstra(graphe* g, int debut, int fin, maillon* tabmaillon)
     {
         tabResultat[NbSomResultat]=tabmaillon[indice].act.num;
         NbSomResultat++;
-        for(int i=0;i<=g->ordre;i++)
+        for(int i=0;i<g->ordre;i++)
         {
             if(tabmaillon[i].act.num == tabmaillon[indice].pred.num)
             {
@@ -1622,7 +1622,7 @@ void dijkstra(graphe* g, int debut, int fin, maillon* tabmaillon)
         printf("--> %d ",tabResultat[NbSomResultat-1-i]);
     }
     */
-    for(int i=0;i<=g->ordre;i++)
+    for(int i=0;i<g->ordre;i++)
     {
         if(fin == tabmaillon[i].act.num)
         {

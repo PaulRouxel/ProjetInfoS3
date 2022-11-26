@@ -17,7 +17,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="faut que je m'en aille et c'est pas fini malheureusement">
+    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="ca avance doucement">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
@@ -96,7 +96,7 @@
       <workItem from="1669382386675" duration="17413000" />
       <workItem from="1669455855807" duration="1615000" />
       <workItem from="1669470701995" duration="4066000" />
-      <workItem from="1669485783173" duration="582000" />
+      <workItem from="1669485783173" duration="2489000" />
     </task>
     <task id="LOCAL-00001" summary="AlleZ gros marche">
       <created>1667906483137</created>
@@ -245,7 +245,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669456947266</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="ca avance doucement">
+      <created>1669486552719</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1669486552721</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -275,6 +282,7 @@
     <MESSAGE value="commit parce que voila et puis j'ai pas fini" />
     <MESSAGE value="départ de l'ECE du vendredi soir, on prie pour le WE" />
     <MESSAGE value="faut que je m'en aille et c'est pas fini malheureusement" />
-    <option name="LAST_COMMIT_MESSAGE" value="faut que je m'en aille et c'est pas fini malheureusement" />
+    <MESSAGE value="ca avance doucement" />
+    <option name="LAST_COMMIT_MESSAGE" value="ca avance doucement" />
   </component>
 </project>
