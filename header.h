@@ -85,7 +85,7 @@ typedef struct temps
 /****************************/
 
 typedef struct sommet{
-    int num;
+    ///int num;
     int type;
     int x;
     int y;

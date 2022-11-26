@@ -1471,31 +1471,32 @@ int transformerswoow(graphe* g, int x, int y)
  * finir de merge dijkstra avec notre programme pour avoir la distance entre deux sommet
  *  - s'en servir pour remplir les centrales
  *  - finir la partie communiste
- *  - tout tester ca va etre long mais force à toi
+ *  - tout tester ca va etre long
  *  - etre efficace par pitiée
  *
  */
 ///permet de rechercher le poids et donc la distance entre deux sommet du graphe crée par les batiments et routes
+///pour début et fin il faut utiliser le sousprogramme de transformation au dessus
 void dijkstra(graphe* g, int debut, int fin, maillon* tabmaillon)
 {
     int k=0,poids,memoire;
     int indice;
-    int tabResultat[8];
+    int tabResultat[g->ordre];
     int NbSomResultat;
     tabmaillon[k].act = g->tab_sommet[debut];    //Initialisation du premier element avec le debut
     tabmaillon[k].PoidRelatif=0;            //Initialisation du poid qui servira a calculer le poid total de chaque chemin
     tabmaillon[k].pred.num=-1;          //Initialisation pour la fin du programme
     memoire=k;
     k++;
-    while(memoire<9){//parcours de la file
+    while(memoire<= g->ordre){//parcours de la file
         tabmaillon[memoire].act.noir=1;
-        for(int i=0; i<tabmaillon[memoire].act.nbsucc;i++)//parcours des successeurs
+        for(int i=0; i<tabmaillon[memoire].act.nb_succ;i++)//parcours des successeurs
         {
             for(int j=0;j<g->ordre;j++)
             {
-                if(tabmaillon[j].act.num == tabmaillon[memoire].act.tabsucc[i].num)
+                if(transformerswoow(g,tabmaillon[j].act.x,tabmaillon[j].act.y) == transformerswoow(g,tabmaillon[memoire].act.tabsucc[i].x, tabmaillon[memoire].act.tabsucc[i].y))
                 {
-                    if(tabmaillon[j].act.noir==1 && tabmaillon[j].act.num!=fin) {
+                    if(tabmaillon[j].act.noir==1 && transformerswoow(g, tabmaillon[j].act.x, tabmaillon[j].act.y) != fin) {
                         tabmaillon[memoire].act.tabsucc[i].noir = 1; //Verification des sommets noirs, impossible si le sommet est notre fin
                     }
                 }
@@ -1503,7 +1504,7 @@ void dijkstra(graphe* g, int debut, int fin, maillon* tabmaillon)
             if(tabmaillon[memoire].act.tabsucc[i].noir!=1) { //vérification de si le successeur n'est pas déjà noir
                 for(int j=0;j<g->ordre;j++)
                 {
-                    if(tabmaillon[j].act.num == tabmaillon[memoire].act.tabsucc[i].num)
+                    if(transformerswoow(g,tabmaillon[j].act.x,tabmaillon[j].act.y) == transformerswoow(g,tabmaillon[memoire].act.tabsucc[i].x, tabmaillon[memoire].act.tabsucc[i].y))
                     {   //Remise en gris des successeurs qui sont deja gris
                         if(tabmaillon[j].act.gris==1) {
                             tabmaillon[memoire].act.tabsucc[i].gris = 1;
@@ -1519,7 +1520,7 @@ void dijkstra(graphe* g, int debut, int fin, maillon* tabmaillon)
                      * Initialisation predecesseur
                      * Passage en  Gris
                      * */
-                    tabmaillon[k].act=g->tabsommet[tabmaillon[memoire].act.tabsucc[i].num];
+                    tabmaillon[k].act=g->tab_sommet[tabmaillon[memoire].act.tabsucc[i].num];
                     poids=recherchesommet(g,tabmaillon[memoire].act.num,tabmaillon[k].act.num);
                     tabmaillon[k].PoidRelatif = tabmaillon[memoire].PoidRelatif+poids;
                     tabmaillon[k].pred=tabmaillon[memoire].act;
