@@ -8,9 +8,6 @@
 #include <allegro.h>
 #include <stdbool.h>
 
-/**********************/
-/*     STRUCTURES     */
-/**********************/
 
 #define GRILLE_W 62
 #define GRILLE_H 34
@@ -28,6 +25,10 @@
 #define NBCOLONNESMAXTABCONNEXE 4
 
 #define NBCOLONNESMAXMATRICEALIMENTEES 3
+
+/**********************/
+/*     STRUCTURES     */
+/**********************/
 
 /// Structure d'une Maison ///
 typedef struct maison
@@ -79,8 +80,43 @@ typedef struct temps
     bool antispam[nbantispam];
 }t_temps;
 
+/****************************/
+/*    THEORIE DES GRAPHES   */
+/****************************/
+
+typedef struct sommet{
+    int num;
+    int type;
+    int x;
+    int y;
+    int nb_succ;
+    int blanc;
+    int gris;
+    int noir;
+    struct sommet* tabsucc;
+}sommet;
+
+typedef struct arete{
+    sommet a;
+    sommet b;
+    int poids;
+}arete;
+
+typedef struct maillon{
+    sommet pred;
+    sommet act;
+    int PoidRelatif;
+}maillon;
+
+typedef struct graphe{
+    int ordre;
+    int taille;
+    sommet *tab_sommet;
+    arete *tab_arete;
+}graphe;
+
 /// STRUCTURE DES JOUEURS ///
-typedef struct joueur  //Cette structure gerera les donnees de joueurs tout au long de la partie
+typedef struct joueur  //Cette structure gerera les donnees de joueurs tout au long de la partie ( XD )
 {
     bool communiste;
     bool capitaliste;
@@ -94,10 +130,12 @@ typedef struct joueur  //Cette structure gerera les donnees de joueurs tout au l
     bool editcentrale;
     bool editchateaudeau;
     bool actualisationcapacites;
+    graphe* g;
     int** route;
     t_temps antisp;
     t_bat4* batiments;
     t_connexe* composante;
+
 
 } t_joueur;
 
@@ -128,6 +166,7 @@ typedef struct bitmap
     BITMAP* surbrillance3x3;
     BITMAP* surbrillance4x6;
 }t_bitmap;
+
 
 
 ///INFOS

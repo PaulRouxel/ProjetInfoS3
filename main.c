@@ -13,8 +13,7 @@ void initialisationAllegro(){
     install_mouse();
 }
 
-void VerifEvolutionCapitaliste(t_joueur* perso,int numero);
-void VerifEvolutionCommuniste(t_joueur* perso,int numero);
+void verifevolution(t_joueur* perso,int numero);
 
 ///FONCTION PERMETTANT DE CONVERTIR LES PIXELS (62;962) EN COORDONNEES (0,45)
 int xPixeltoCoor(int xPixel) //pour traduire les pixels en coordonnes en X
@@ -382,6 +381,23 @@ int yCoortoPixel(int yCoor)  //pour traduire les coordonnes en pixels en Y
     }
 }
 
+/**********************/
+/*      Dijkstra      */
+/**********************/
+
+graphe * creaGraphe()
+{
+    graphe * g;
+    g=(graphe*)malloc(sizeof(graphe));
+
+    g->tab_sommet=(sommet*)malloc(500*sizeof(sommet));
+    g->tab_arete=(arete*)malloc(1500*sizeof(arete));
+    g->ordre=0;
+    g->taille=0;
+    return g;
+}
+
+
 ///AFFICHAGE DE TOUTES LES BITMAPS DE LA ROUTE ET DES BATIMENTS
 void AffichageRoute(t_joueur* perso, BITMAP* back,t_bitmap* images) {
     for (int i = 0; i < LIGNES; i++) {
@@ -567,33 +583,7 @@ void AffichageCanalisations(t_joueur* perso, BITMAP* back,t_bitmap* images)
                 draw_sprite(back,images->eau,xCoortoPixel(j),yCoortoPixel(i));
             }
             if (perso->route[i][j] == 9 || perso->route[i][j] == 90)  ///CHATEAU D'EAU
-            {
                 draw_sprite(back, images->chateaudeau, xCoortoPixel(j-1), yCoortoPixel(i-2));
-
-                if(perso->batiments->nbchateaux==1)
-                {
-                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[0].x), yCoortoPixel(perso->batiments->chateaux[0].y+1), xCoortoPixel(perso->batiments->chateaux[0].x+4), yCoortoPixel(perso->batiments->chateaux[0].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->chateaux[0].x+1)-10, yCoortoPixel(perso->batiments->chateaux[0].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->chateaux[0].capacitemax);
-                }
-
-                if(perso->batiments->nbchateaux==2)
-                {
-                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[0].x), yCoortoPixel(perso->batiments->chateaux[0].y+1), xCoortoPixel(perso->batiments->chateaux[0].x+4), yCoortoPixel(perso->batiments->chateaux[0].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->chateaux[0].x+1)-10, yCoortoPixel(perso->batiments->chateaux[0].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->chateaux[0].capacitemax);
-                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[1].x), yCoortoPixel(perso->batiments->chateaux[1].y+1), xCoortoPixel(perso->batiments->chateaux[1].x+4), yCoortoPixel(perso->batiments->chateaux[1].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->chateaux[1].x+1)-10, yCoortoPixel(perso->batiments->chateaux[1].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->chateaux[1].capacitemax);
-                }
-
-                if(perso->batiments->nbchateaux==3)
-                {
-                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[0].x), yCoortoPixel(perso->batiments->chateaux[0].y+1), xCoortoPixel(perso->batiments->chateaux[0].x+4), yCoortoPixel(perso->batiments->chateaux[0].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->chateaux[0].x+1)-10, yCoortoPixel(perso->batiments->chateaux[0].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->chateaux[0].capacitemax);
-                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[1].x), yCoortoPixel(perso->batiments->chateaux[1].y+1), xCoortoPixel(perso->batiments->chateaux[1].x+4), yCoortoPixel(perso->batiments->chateaux[1].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->chateaux[1].x+1)-10, yCoortoPixel(perso->batiments->chateaux[1].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->chateaux[1].capacitemax);
-                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[2].x), yCoortoPixel(perso->batiments->chateaux[2].y+1), xCoortoPixel(perso->batiments->chateaux[2].x+4), yCoortoPixel(perso->batiments->chateaux[2].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->chateaux[2].x+1)-10, yCoortoPixel(perso->batiments->chateaux[2].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->chateaux[2].capacitemax);
-                }
-            }
         }
     }
 }
@@ -612,35 +602,44 @@ void AffichageEDF(t_joueur* perso, BITMAP* back,t_bitmap* images)
             if (perso->route[i][j] == 8 || perso->route[i][j] == 80)  ///CENTRALE
             {
                 draw_sprite(back, images->centrale, xCoortoPixel(j-1), yCoortoPixel(i-2));
-
-                if(perso->batiments->nbcentrales==1)
-                {
-                    rectfill(back, xCoortoPixel(perso->batiments->centrales[0].x), yCoortoPixel(perso->batiments->centrales[0].y+1), xCoortoPixel(perso->batiments->centrales[0].x+4), yCoortoPixel(perso->batiments->centrales[0].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->centrales[0].x+1)-10, yCoortoPixel(perso->batiments->centrales[0].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->centrales[0].capacitemax);
-                }
-
-                if(perso->batiments->nbcentrales==2)
-                {
-                    rectfill(back, xCoortoPixel(perso->batiments->centrales[0].x), yCoortoPixel(perso->batiments->centrales[0].y+1), xCoortoPixel(perso->batiments->centrales[0].x+4), yCoortoPixel(perso->batiments->centrales[0].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->centrales[0].x+1)-10, yCoortoPixel(perso->batiments->centrales[0].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->centrales[0].capacitemax);
-                    rectfill(back, xCoortoPixel(perso->batiments->centrales[1].x), yCoortoPixel(perso->batiments->centrales[1].y+1), xCoortoPixel(perso->batiments->centrales[1].x+4), yCoortoPixel(perso->batiments->centrales[1].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->centrales[1].x+1)-10, yCoortoPixel(perso->batiments->centrales[1].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->centrales[1].capacitemax);
-                }
-
-                if(perso->batiments->nbcentrales==3)
-                {
-                    rectfill(back, xCoortoPixel(perso->batiments->centrales[0].x), yCoortoPixel(perso->batiments->centrales[0].y+1), xCoortoPixel(perso->batiments->centrales[0].x+4), yCoortoPixel(perso->batiments->centrales[0].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->centrales[0].x+1)-10, yCoortoPixel(perso->batiments->centrales[0].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->centrales[0].capacitemax);
-                    rectfill(back, xCoortoPixel(perso->batiments->centrales[1].x), yCoortoPixel(perso->batiments->centrales[1].y+1), xCoortoPixel(perso->batiments->centrales[1].x+4), yCoortoPixel(perso->batiments->centrales[1].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->centrales[1].x+1)-10, yCoortoPixel(perso->batiments->centrales[1].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->centrales[1].capacitemax);
-                    rectfill(back, xCoortoPixel(perso->batiments->centrales[2].x), yCoortoPixel(perso->batiments->centrales[2].y+1), xCoortoPixel(perso->batiments->centrales[2].x+4), yCoortoPixel(perso->batiments->centrales[2].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->centrales[2].x+1)-10, yCoortoPixel(perso->batiments->centrales[2].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->centrales[2].capacitemax);
-                }
+                rectfill(back, xCoortoPixel(j-1), yCoortoPixel(i+4)+5, xCoortoPixel(j+3), yCoortoPixel(i+4)+15, makecol(0,0,0));
+                //textprintf(back,font, xCoortoPixel(j), yCoortoPixel(i+4)+8,makecol(255,255,255),"%d",perso->batiments->centrales[0].capacitemax);
             }
         }
     }
 }
 
+///PROCEDURE POUR FAIRE EVOLUER LES BATIMENT SI LES CONDITIONS SONT REUNIS (COMMUNISTE)
+void EvolutionBatiments(t_joueur* perso, int secondes)
+{
+    for (int i = 0; i < LIGNES; i++) {
+        for (int j = 0; j < COLONNES; j++) {
+            if (perso->route[i][j] == 20 && secondes % 15 == 0)  /// terrain -> cabane  (décalage de quelques secondes pour pas que tout se fasse d'affilé)
+            {
+                perso->route[i][j] = 3;
+            }
+
+
+            if (perso->route[i][j] == 3 && (secondes+1) % 15 == 0)  /// cabane -> maison
+            {
+                perso->route[i][j] = 4;
+            }
+
+
+            if (perso->route[i][j] == 4 && (secondes+2) % 15 == 0)  /// maison -> immeuble
+            {
+                perso->route[i][j] = 5;
+            }
+
+
+            if (perso->route[i][j] == 5 && (secondes+3) % 15 == 0)  /// immeuble -> gratte-ciel
+            {
+                perso->route[i][j] = 6;
+            }
+
+        }
+    }
+}
 
 ///PROCEDURE QUI VERIFIE LA CONNEXION DES MAISONS AU RESEAU ROUTIER/D'EAU/ELECTRIQUE
 void TestConnexionReseau(t_joueur* perso)
@@ -752,7 +751,6 @@ void ActualisationCapacites(t_joueur* perso)
         perso->electricite+=perso->batiments->centrales[i].capacitemax;
     }
 
-
     ///ACTUALISATION DE L'EAU
     perso->eau=0;
     for(int i=0;i<perso->batiments->nbchateaux;i++)
@@ -818,14 +816,14 @@ void AffichageReseauElec(t_joueur* perso,t_bitmap* images)
         AffichageEDF(perso,images->fond2,images);
 
         //correspond aux cases de l'ecran
-        if((mouse_b&1)&&(mouse_x>=967)&&(mouse_x<=1011)&&(mouse_y>=598)&&(mouse_y<=650)) ///niveau -1
+        if((mouse_b&1)&&(mouse_x>=976)&&(mouse_x<=1018)&&(mouse_y>=118)&&(mouse_y<=160)) ///niveau -1
         {
             choix=1;
             next=1;
         }
 
-        //correspond aux cases de l'ecranb
-        if((mouse_b&1)&&(mouse_x>=967)&&(mouse_x<=1011)&&(mouse_y>=521)&&(mouse_y<=570)) ///reseau 0
+        //correspond aux cases de l'ecran
+        if((mouse_b&1)&&(mouse_x>=976)&&(mouse_x<=1018)&&(mouse_y>=55)&&(mouse_y<=100)) ///reseau 0
             next=1;
 
     }
@@ -915,193 +913,8 @@ int capacitelec(t_joueur* perso,int numero)
     return peutevo;
 }
 
-void EnleverEauElecCapitaliste(t_joueur* perso, int tmp,int numero)
-{
-    ///ca retire l'elec
-    if(perso->batiments->nbcentrales==1)
-    {
-        perso->batiments->centrales[0].capacitemax=perso->batiments->centrales[0].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
-        if(perso->batiments->centrales[0].capacitemax<0)
-            perso->batiments->centrales[0].capacitemax=0;
-    }
-
-    if(perso->batiments->nbcentrales==2)
-    {
-        perso->batiments->centrales[0].capacitemax=perso->batiments->centrales[0].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
-        if(perso->batiments->centrales[0].capacitemax<0)
-        {
-            perso->batiments->centrales[0].capacitemax=0;
-            perso->batiments->centrales[1].capacitemax=perso->batiments->centrales[1].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
-            if(perso->batiments->centrales[1].capacitemax<0)
-                perso->batiments->centrales[1].capacitemax=0;
-        }
-    }
-
-    if(perso->batiments->nbcentrales==3)
-    {
-        perso->batiments->centrales[0].capacitemax=perso->batiments->centrales[0].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
-        if(perso->batiments->centrales[0].capacitemax<0)
-        {
-            perso->batiments->centrales[0].capacitemax=0;
-            perso->batiments->centrales[1].capacitemax=perso->batiments->centrales[1].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
-            if(perso->batiments->centrales[1].capacitemax<=0 && perso->batiments->centrales[0].capacitemax<=0)
-            {
-                perso->batiments->centrales[0].capacitemax=0;
-                perso->batiments->centrales[1].capacitemax=0;
-                perso->batiments->centrales[2].capacitemax=perso->batiments->centrales[2].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
-                if(perso->batiments->centrales[2].capacitemax<0)
-                    perso->batiments->centrales[2].capacitemax=0;
-            }
-        }
-    }
-
-    if(perso->batiments->nbcentrales==4)
-    {
-        perso->batiments->centrales[0].capacitemax=perso->batiments->centrales[0].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
-        if(perso->batiments->centrales[0].capacitemax<0)
-        {
-            perso->batiments->centrales[0].capacitemax=0;
-            perso->batiments->centrales[1].capacitemax=perso->batiments->centrales[1].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
-            if(perso->batiments->centrales[1].capacitemax<=0 && perso->batiments->centrales[0].capacitemax<=0)
-            {
-                perso->batiments->centrales[0].capacitemax=0;
-                perso->batiments->centrales[1].capacitemax=0;
-                perso->batiments->centrales[2].capacitemax=perso->batiments->centrales[2].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
-                if(perso->batiments->centrales[2].capacitemax<=0 && perso->batiments->centrales[1].capacitemax<=0 && perso->batiments->centrales[0].capacitemax<=0)
-                {
-                    perso->batiments->centrales[0].capacitemax=0;
-                    perso->batiments->centrales[1].capacitemax=0;
-                    perso->batiments->centrales[2].capacitemax=0;
-                    perso->batiments->centrales[3].capacitemax=perso->batiments->centrales[3].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
-                    if(perso->batiments->centrales[3].capacitemax<=0)
-                        perso->batiments->centrales[3].capacitemax=0;
-                }
-            }
-        }
-    }
-
-
-    ///ca retire l'eau
-    if(perso->batiments->nbchateaux==1)
-    {
-        perso->batiments->chateaux[0].capacitemax=perso->batiments->chateaux[0].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
-        if(perso->batiments->chateaux[0].capacitemax<0)
-            perso->batiments->chateaux[0].capacitemax=0;
-    }
-
-    if(perso->batiments->nbchateaux==2)
-    {
-        perso->batiments->chateaux[0].capacitemax=perso->batiments->chateaux[0].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
-        if(perso->batiments->chateaux[0].capacitemax<0)
-        {
-            perso->batiments->chateaux[0].capacitemax=0;
-            perso->batiments->chateaux[1].capacitemax=perso->batiments->chateaux[1].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
-            if(perso->batiments->chateaux[1].capacitemax<0)
-                perso->batiments->chateaux[1].capacitemax=0;
-        }
-    }
-
-    if(perso->batiments->nbchateaux==3)
-    {
-        perso->batiments->chateaux[0].capacitemax=perso->batiments->chateaux[0].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
-        if(perso->batiments->chateaux[0].capacitemax<0)
-        {
-            perso->batiments->chateaux[0].capacitemax=0;
-            perso->batiments->chateaux[1].capacitemax=perso->batiments->chateaux[1].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
-            if(perso->batiments->chateaux[1].capacitemax<=0 && perso->batiments->chateaux[0].capacitemax<=0)
-            {
-                perso->batiments->chateaux[0].capacitemax=0;
-                perso->batiments->chateaux[1].capacitemax=0;
-                perso->batiments->chateaux[2].capacitemax=perso->batiments->chateaux[2].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
-                if(perso->batiments->chateaux[2].capacitemax<0)
-                    perso->batiments->chateaux[2].capacitemax=0;
-            }
-        }
-    }
-
-    if(perso->batiments->nbchateaux==4)
-    {
-        perso->batiments->chateaux[0].capacitemax=perso->batiments->chateaux[0].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
-        if(perso->batiments->chateaux[0].capacitemax<0)
-        {
-            perso->batiments->chateaux[0].capacitemax=0;
-            perso->batiments->chateaux[1].capacitemax=perso->batiments->chateaux[1].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
-            if(perso->batiments->chateaux[1].capacitemax<=0 && perso->batiments->chateaux[0].capacitemax<=0)
-            {
-                perso->batiments->chateaux[0].capacitemax=0;
-                perso->batiments->chateaux[1].capacitemax=0;
-                perso->batiments->chateaux[2].capacitemax=perso->batiments->chateaux[2].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
-                if(perso->batiments->chateaux[2].capacitemax<=0 && perso->batiments->chateaux[1].capacitemax<=0 && perso->batiments->chateaux[0].capacitemax<=0)
-                {
-                    perso->batiments->chateaux[0].capacitemax=0;
-                    perso->batiments->chateaux[1].capacitemax=0;
-                    perso->batiments->chateaux[2].capacitemax=0;
-                    perso->batiments->chateaux[3].capacitemax=perso->batiments->chateaux[3].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
-                    if(perso->batiments->chateaux[3].capacitemax<=0)
-                        perso->batiments->chateaux[3].capacitemax=0;
-                }
-            }
-        }
-    }
-}
-
-
-///PERMET DE FAIRE EVOLUER LES MAISONS SI LES CNDTIONS SONT REUNIS (CAPITALISTE)
-void VerifEvolutionCapitaliste(t_joueur* perso,int numero)
-{
-    int tmp=0;
-    ///si le terrain peut évoluer
-    if(perso->batiments->maisons[numero].stade==2 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15)
-    {
-        perso->batiments->maisons[numero].temps=clock();       ///nouveau timer de départ
-        perso->batiments->maisons[numero].stade=3;             ///évolution au stade sup
-        perso->batiments->maisons[numero].nbhabitants=10;
-        perso->route[perso->batiments->maisons[numero].y][perso->batiments->maisons[numero].x]=3;
-        perso->actualisationcapacites=true;
-
-        EnleverEauElecCapitaliste(perso,tmp,numero);
-    }
-    ///si la cabane peut évoluer
-    else if(perso->batiments->maisons[numero].stade==3 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15)
-    {
-        tmp = perso->batiments->maisons[numero].nbhabitants;
-        perso->batiments->maisons[numero].temps=clock();       ///nouveau timer de départ
-        perso->batiments->maisons[numero].stade=4;             ///évolution au stade sup
-        perso->batiments->maisons[numero].nbhabitants=50;
-        perso->route[perso->batiments->maisons[numero].y][perso->batiments->maisons[numero].x]=4;
-        perso->actualisationcapacites=true;
-
-        EnleverEauElecCapitaliste(perso,tmp,numero);
-
-    }
-    ///si la maison peut évoluer
-    else if(perso->batiments->maisons[numero].stade==4 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15)
-    {
-        tmp = perso->batiments->maisons[numero].nbhabitants;
-        perso->batiments->maisons[numero].temps=clock();       ///nouveau timer de départ
-        perso->batiments->maisons[numero].stade=5;             ///évolution au stade sup
-        perso->batiments->maisons[numero].nbhabitants=100;
-        perso->route[perso->batiments->maisons[numero].y][perso->batiments->maisons[numero].x]=5;
-        perso->actualisationcapacites=true;
-
-        EnleverEauElecCapitaliste(perso,tmp,numero);
-    }
-    ///si l'immeuble peut évoluer
-    else if(perso->batiments->maisons[numero].stade==5 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15)
-    {
-        tmp = perso->batiments->maisons[numero].nbhabitants;
-        perso->batiments->maisons[numero].temps = clock();       ///nouveau timer de départ
-        perso->batiments->maisons[numero].stade = 6;             ///évolution au stade sup
-        perso->batiments->maisons[numero].nbhabitants = 1000;
-        perso->route[perso->batiments->maisons[numero].y][perso->batiments->maisons[numero].x] = 6;
-        perso->actualisationcapacites = true;
-
-        EnleverEauElecCapitaliste(perso, tmp, numero);
-    }
-}
-
-
-void VerifEvolutionCommuniste(t_joueur* perso,int numero)
+///PERMET DE FAIRE EVOLUER LES MAISONS SI LES CNDTIONS SONT REUNIS (COMMUNISTE)
+void verifevolution(t_joueur* perso,int numero)
 {
     ///si le terrain peut évoluer
     if(perso->batiments->maisons[numero].stade==2 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15 && capacitelec(perso,numero)==1)
@@ -1109,27 +922,149 @@ void VerifEvolutionCommuniste(t_joueur* perso,int numero)
         perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
         perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
     }
-        ///si la cabane peut évoluer
-    if(perso->batiments->maisons[numero].stade==3 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15 && capacitelec(perso,numero)==1)
+    ///si la cabane peut évoluer
+    else if(perso->batiments->maisons[numero].stade==3 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15 && capacitelec(perso,numero)==1)
     {
         perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
         perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
     }
-        ///si la maison peut évoluer
-    if(perso->batiments->maisons[numero].stade==4 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15 && capacitelec(perso,numero)==1)
+    ///si la maison peut évoluer
+    else if(perso->batiments->maisons[numero].stade==4 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15 && capacitelec(perso,numero)==1)
     {
         perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
         perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
     }
-        ///si l'immeuble peut évoluer
-    if(perso->batiments->maisons[numero].stade==5 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15 && capacitelec(perso,numero)==1)
+    ///si l'immeuble peut évoluer
+    else if(perso->batiments->maisons[numero].stade==5 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15 && capacitelec(perso,numero)==1)
     {
         perso->batiments->maisons[numero].temps=clock();///nouveau timer de départ
         perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
     }
 }
 
+///permet de remettre le graphe à 0 avec les bonne couleurs pour le prochain algorithme de recherche
+void initgraphe(t_joueur* perso)
+{
+    for(int i=0; i<perso->g->ordre;i++)
+    {
+        perso->g->tab_sommet[i].blanc=1;
+        perso->g->tab_sommet[i].noir=0;
+        perso->g->tab_sommet[i].gris=0;
+    }
 
+}
+///permet de mettre à jour le graphe avec les nouveaux batiments ajoutés
+/// route -> 0
+/// maison -> 1
+/// centrale -> 2
+/// chateau -> 3
+void editgraphe(t_joueur* perso,int indice, int x, int y)
+{
+    perso->g->tab_sommet[perso->g->ordre].type=indice;
+    perso->g->tab_sommet[perso->g->ordre].x=x;
+    perso->g->tab_sommet[perso->g->ordre].y=y;
+    perso->g->tab_sommet[perso->g->ordre].blanc=1;
+    perso->g->tab_sommet[perso->g->ordre].noir=0;
+    perso->g->tab_sommet[perso->g->ordre].gris=0;
+
+    perso->g->tab_sommet[perso->g->ordre].nb_succ=0;
+    if(indice==0)///si on ajoute une route
+    {
+        perso->g->tab_sommet[perso->g->ordre].tabsucc=(sommet *) malloc(sizeof (sommet)* 4);
+        ///recherche dans les 4 directions autour de la route si il y a une autre route
+        for(int i=0;i<perso->g->ordre;i++)
+        {
+            if((perso->g->tab_sommet[perso->g->ordre].x+1==perso->g->tab_sommet[i].x && perso->g->tab_sommet[perso->g->ordre].y==perso->g->tab_sommet[i].y) ||
+               (perso->g->tab_sommet[perso->g->ordre].x-1==perso->g->tab_sommet[i].x && perso->g->tab_sommet[perso->g->ordre].y==perso->g->tab_sommet[i].y) ||
+               (perso->g->tab_sommet[perso->g->ordre].y+1==perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y-1==perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x==perso->g->tab_sommet[i].x) )
+            {
+                perso->g->tab_sommet[perso->g->ordre].tabsucc[perso->g->tab_sommet[perso->g->ordre].nb_succ] = perso->g->tab_sommet[i];///on l'enregistre dans tabsucc
+                perso->g->tab_sommet[perso->g->ordre].nb_succ++;///si oui on l'enregistre dans tabsucc
+                perso->g->tab_sommet[i].tabsucc[perso->g->tab_sommet[i].nb_succ] = perso->g->tab_sommet[perso->g->ordre];
+                perso->g->tab_sommet[i].nb_succ++;///mutuellement
+                ///et on enregistre une nouvelle arete
+                perso->g->tab_arete[perso->g->taille].a=perso->g->tab_sommet[i];///sommet a
+                perso->g->tab_arete[perso->g->taille].b=perso->g->tab_sommet[perso->g->ordre];///sommet b
+                perso->g->tab_arete[perso->g->taille].poids=1;///poids
+                perso->g->taille++;
+            }
+        }
+    }
+    else if(indice == 1)///si on ajoute une maison
+    {
+        perso->g->tab_sommet[perso->g->ordre].tabsucc=(sommet *) malloc(sizeof (sommet)* 9);
+        ///recherche dans les 4 directions autour de la route si il y a un sommet
+        for(int i=0;i<perso->g->ordre;i++)
+        {
+            ///recherche tout autour de la maison pour trouver des routes
+            if((perso->g->tab_sommet[perso->g->ordre].y + 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x-1==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y + 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x+1==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y + 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y - 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x-1==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y - 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x+1==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y - 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y - 1 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x-2==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y + 1 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x-2==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x-2==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y -1 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x+2==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y +1 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x+2==perso->g->tab_sommet[i].x) ||
+               (perso->g->tab_sommet[perso->g->ordre].y == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x+2==perso->g->tab_sommet[i].x) )
+            {
+                perso->g->tab_sommet[perso->g->ordre].tabsucc[perso->g->tab_sommet[perso->g->ordre].nb_succ] = perso->g->tab_sommet[i];///on l'enregistre dans le tabsucc
+                perso->g->tab_sommet[perso->g->ordre].nb_succ++;///on augmente le nombre de succ
+                perso->g->tab_sommet[i].tabsucc[perso->g->tab_sommet[i].nb_succ] = perso->g->tab_sommet[perso->g->ordre];
+                perso->g->tab_sommet[i].nb_succ++;///mutuellement
+                ///et on enregistre une nouvelle arete
+                perso->g->tab_arete[perso->g->taille].a=perso->g->tab_sommet[i];///sommet a
+                perso->g->tab_arete[perso->g->taille].b=perso->g->tab_sommet[perso->g->ordre];///sommet b
+                perso->g->tab_arete[perso->g->taille].poids=1;///poids
+                perso->g->taille++;
+            }
+        }
+
+    }
+    else if(indice == 2 || indice == 3)///si on ajoute une centrale ou un chateau
+    {
+        perso->g->tab_sommet[perso->g->ordre].tabsucc = (sommet *) malloc(sizeof(sommet) * 20);
+        ///recherche dans les 4 directions autour de la route si il y a un sommet
+        for (int i = 0; i < perso->g->ordre; i++) {
+            ///recherche tout autour de la centrale/chateau pour trouver des routes
+            if ((perso->g->tab_sommet[perso->g->ordre].y - 3 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 1 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y - 3 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y - 3 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 1 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y - 3 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 4 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 1 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 4 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 4 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 1 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 4 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y - 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y - 1 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 1 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 1 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 1 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 2 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 3 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 2 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y - 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 2 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y - 1 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 2 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 2 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 1 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[i].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 3== perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[i].x) )
+            {
+                perso->g->tab_sommet[perso->g->ordre].tabsucc[perso->g->tab_sommet[perso->g->ordre].nb_succ] = perso->g->tab_sommet[i];///on l'enregistre dans le tabsucc
+                perso->g->tab_sommet[perso->g->ordre].nb_succ++;///on augmente le nombre de succ
+                perso->g->tab_sommet[i].tabsucc[perso->g->tab_sommet[i].nb_succ] = perso->g->tab_sommet[perso->g->ordre];
+                perso->g->tab_sommet[i].nb_succ++;///mutuellement
+                ///et on enregistre une nouvelle arete
+                perso->g->tab_arete[perso->g->taille].a = perso->g->tab_sommet[i];///sommet a
+                perso->g->tab_arete[perso->g->taille].b = perso->g->tab_sommet[perso->g->ordre];///sommet b
+                perso->g->tab_arete[perso->g->taille].poids = 1;///poids
+                perso->g->taille++;
+            }
+        }
+    }
+    perso->g->ordre++;
+}
 
 ///PERMET DE VERIFIER SI LA CONSTRUCTION DE LA MAISON EST VIABLE: TOUTE LA PLACE EST DISPONIBLE ET EST CONNECTE A UN RESEAU ROUTIER
 void VerifMaison(t_joueur* perso)
@@ -1142,7 +1077,19 @@ void VerifMaison(t_joueur* perso)
          (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 1] == 0) &&
          (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 1] == 0) &&
          (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 1] == 0)) &&
-         ((perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 10) &&
+        ((perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 1) &&
+         (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 2] == 1) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] == 1) &&
+         (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 2] == 1) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 1) &&
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x)] == 1) &&
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] == 1) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x)] == 1) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 1) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 10) &&
          (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 2] == 10) &&
          (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 10) ||
          (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] == 10) &&
@@ -1153,8 +1100,31 @@ void VerifMaison(t_joueur* perso)
          (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] == 10) ||
          (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] == 10) &&
          (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x)] == 10) &&
-         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 10)))
-        {
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 10) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 18) &&
+         (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 2] == 18) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] == 18) &&
+         (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 2] == 18) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 18) &&
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x)] == 18) &&
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] == 18) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x)] == 18) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 18) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) - 2] == 19) &&
+         (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 2] == 19) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) - 2] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 1][xPixeltoCoor(mouse_x) + 2] == 19) &&
+         (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 2] == 19) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x) + 2] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) - 1] == 19) &&
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x)] == 19) &&
+         (perso->route[yPixeltoCoor(mouse_y) - 2][xPixeltoCoor(mouse_x) + 1] == 19) ||
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) - 1] == 19) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x)] == 19) &&
+         (perso->route[yPixeltoCoor(mouse_y) + 2][xPixeltoCoor(mouse_x) + 1] == 19))) {
         perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) + 1] = 21;
         perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x) - 1] = 21;
         perso->route[yPixeltoCoor(mouse_y) + 1][xPixeltoCoor(mouse_x)] = 21;
@@ -1169,10 +1139,10 @@ void VerifMaison(t_joueur* perso)
         perso->batiments->maisons[perso->batiments->nbmaisons].nbhabitants = 0;
         perso->batiments->maisons[perso->batiments->nbmaisons].x = xPixeltoCoor(mouse_x);
         perso->batiments->maisons[perso->batiments->nbmaisons].y = yPixeltoCoor(mouse_y);
+        editgraphe(perso,1,perso->batiments->maisons[perso->batiments->nbmaisons].x,perso->batiments->maisons[perso->batiments->nbmaisons].y);
         perso->batiments->maisons[perso->batiments->nbmaisons].temps = clock();
         perso->batiments->nbmaisons += 1;
-        perso->actualisationcapacites=true;
-        }
+    }
 }
 
 ///PERMET DE VERIFIER SI LA CONSTRUCTION DU CHATEAU D'EAU EST VIABLE: TOUTE LA PLACE EST DISPONIBLE ET EST CONNECTE A UN RESEAU ROUTIER
@@ -1310,6 +1280,7 @@ void VerifChateaux(t_joueur* perso)
             perso->flouz -= 100000;
             perso->batiments->chateaux[perso->batiments->nbchateaux].x= xPixeltoCoor(mouse_x-30);
             perso->batiments->chateaux[perso->batiments->nbchateaux].y= yPixeltoCoor(mouse_y-50);
+            editgraphe(perso,3,xPixeltoCoor(mouse_x-30),yPixeltoCoor(mouse_y-50));
             perso->batiments->chateaux[perso->batiments->nbchateaux].capacitemax= 5000;
             perso->batiments->nbchateaux+=1;
             perso->actualisationcapacites=true;
@@ -1451,10 +1422,190 @@ void VerifCentrale(t_joueur* perso)
         perso->flouz -= 100000;
         perso->batiments->centrales[perso->batiments->nbcentrales].x= xPixeltoCoor(mouse_x-30);
         perso->batiments->centrales[perso->batiments->nbcentrales].y= yPixeltoCoor(mouse_y-50);
+        editgraphe(perso,2,xPixeltoCoor(mouse_x-30),yPixeltoCoor(mouse_y-50));
         perso->batiments->centrales[perso->batiments->nbcentrales].capacitemax= 5000;
         perso->batiments->nbcentrales+=1;
         perso->actualisationcapacites=true;
     }
+}
+
+
+void affichage_sommet(graphe* g)            //Affichage basique de chaque element du graphe
+{
+    printf("Ordre : %d \n",g->ordre);
+
+    for(int i=0;i<g->ordre;i++)
+    {
+        printf("Sommet : %d \n",g->tab_sommet[i].type);
+    }
+    printf("Taille : %d\n",g->taille);
+    printf("Aretes :\n");
+
+    for(int i=0;i<g->taille;i++)
+    {
+        printf("%d, %d --> %d\n",g->tab_arete[i].a.type,g->tab_arete[i].b.type,g->tab_arete[i].poids);
+    }
+    for(int i=0;i<g->ordre;i++)
+    {
+        printf("\n Sommet %d :  \n",i);
+        for(int j=0;j<g->tab_sommet[i].nb_succ;j++) {
+            printf(" %d avec ",g->tab_sommet[i].tabsucc[j].type);
+            printf(" x : %d",g->tab_sommet[i].tabsucc[j].x);
+            printf("et y : %d",g->tab_sommet[i].tabsucc[j].y);
+        }
+    }
+}
+
+///permet de transformer des coordonnées d'un sommet en son indice dans le graphe
+int transformerswoow(graphe* g, int x, int y)
+{
+    for(int i=0;i<g->ordre;i++)
+    {
+        if(g->tab_sommet[i].x == x && g->tab_sommet[i].y == y)
+        {
+            return i;
+        }
+    }
+}
+/*
+ * finir de merge dijkstra avec notre programme pour avoir la distance entre deux sommet
+ *  - s'en servir pour remplir les centrales
+ *  - finir la partie communiste
+ *  - tout tester ca va etre long mais force à toi
+ *  - etre efficace par pitiée
+ *
+ */
+///permet de rechercher le poids et donc la distance entre deux sommet du graphe crée par les batiments et routes
+void dijkstra(graphe* g, int debut, int fin, maillon* tabmaillon)
+{
+    int k=0,poids,memoire;
+    int indice;
+    int tabResultat[8];
+    int NbSomResultat;
+    tabmaillon[k].act = g->tab_sommet[debut];    //Initialisation du premier element avec le debut
+    tabmaillon[k].PoidRelatif=0;            //Initialisation du poid qui servira a calculer le poid total de chaque chemin
+    tabmaillon[k].pred.num=-1;          //Initialisation pour la fin du programme
+    memoire=k;
+    k++;
+    while(memoire<9){//parcours de la file
+        tabmaillon[memoire].act.noir=1;
+        for(int i=0; i<tabmaillon[memoire].act.nbsucc;i++)//parcours des successeurs
+        {
+            for(int j=0;j<g->ordre;j++)
+            {
+                if(tabmaillon[j].act.num == tabmaillon[memoire].act.tabsucc[i].num)
+                {
+                    if(tabmaillon[j].act.noir==1 && tabmaillon[j].act.num!=fin) {
+                        tabmaillon[memoire].act.tabsucc[i].noir = 1; //Verification des sommets noirs, impossible si le sommet est notre fin
+                    }
+                }
+            }
+            if(tabmaillon[memoire].act.tabsucc[i].noir!=1) { //vérification de si le successeur n'est pas déjà noir
+                for(int j=0;j<g->ordre;j++)
+                {
+                    if(tabmaillon[j].act.num == tabmaillon[memoire].act.tabsucc[i].num)
+                    {   //Remise en gris des successeurs qui sont deja gris
+                        if(tabmaillon[j].act.gris==1) {
+                            tabmaillon[memoire].act.tabsucc[i].gris = 1;
+                        }
+                    }
+                }
+                if (tabmaillon[memoire].act.tabsucc[i].gris !=1) //Verif si gris
+                {
+                    ///PAS GRIS
+                    /*
+                     * Modif du sommet exploré :
+                     * Calcul du poids total
+                     * Initialisation predecesseur
+                     * Passage en  Gris
+                     * */
+                    tabmaillon[k].act=g->tabsommet[tabmaillon[memoire].act.tabsucc[i].num];
+                    poids=recherchesommet(g,tabmaillon[memoire].act.num,tabmaillon[k].act.num);
+                    tabmaillon[k].PoidRelatif = tabmaillon[memoire].PoidRelatif+poids;
+                    tabmaillon[k].pred=tabmaillon[memoire].act;
+                    tabmaillon[k].act.gris=1;
+                    k++;
+
+                }
+                else
+                {
+                    ///GRIS
+                    /*
+                     * Modif du sommet exploré :
+                     * Calcul du poids total
+                     * Comparaison poids avec l'ancien
+                     * SI poid avantageux, changer :
+                     *      Predecesseur
+                     *      Poids
+                     *
+                     *      Boucle :
+                     *      Rechercher l'indice de celui qui est gris
+                     *      recup l'indice dans GrisIndice
+                     *
+                     * */
+                    int GrisIndice;
+
+                    for(int j=0;j<g->ordre;j++)
+                    {
+                        if(tabmaillon[j].act.num == tabmaillon[memoire].act.tabsucc[i].num)
+                        {
+                            GrisIndice=j;
+                        }
+                    }
+                    int poidcomp;
+                    poids=recherchesommet(g,tabmaillon[memoire].act.num,tabmaillon[GrisIndice].act.num);
+                    poidcomp=tabmaillon[memoire].PoidRelatif+poids;
+                    if(tabmaillon[GrisIndice].PoidRelatif>poidcomp)
+                    {
+                        tabmaillon[GrisIndice].PoidRelatif = poidcomp;
+                        tabmaillon[GrisIndice].pred=tabmaillon[memoire].act;
+                    }
+                }
+            }
+        }
+        memoire++;
+    }
+    /*
+     * -Recuperation de l'indice du sommet de fin dans le maillon
+     * -Remplir un tableau avec chaque sommet jusqu'au sommet de début
+     * -Affichage du tableau à l'envers et du poid total du chemin
+     * */
+    for(int i=0;i<9;i++)
+    {
+        if(fin == tabmaillon[i].act.num)
+        {
+            indice=i;
+        }
+    }
+    NbSomResultat=0;
+    while(tabmaillon[indice].pred.num!=-1)//NB SOM RES Jusqu'a fin
+    {
+        tabResultat[NbSomResultat]=tabmaillon[indice].act.num;
+        NbSomResultat++;
+        for(int i=0;i<9;i++)
+        {
+            if(tabmaillon[i].act.num == tabmaillon[indice].pred.num)
+            {
+                indice=i;
+            }
+        }
+    }
+
+    printf("\nChemin : ");
+    printf("%d",g->tabsommet[debut].num);
+    for(int i=0;i<NbSomResultat;i++)
+    {
+        printf("--> %d ",tabResultat[NbSomResultat-1-i]);
+    }
+
+    for(int i=0;i<9;i++)
+    {
+        if(fin == tabmaillon[i].act.num)
+        {
+            indice=i;
+        }
+    }
+    printf("\nPoids total du chemin : %d",tabmaillon[indice].PoidRelatif);
 }
 
 ///AFFICHAGE PRINCIPAL: ECRAN DU JEU ET CENTRALISE TOUTES LES FONCTIONS
@@ -1487,12 +1638,12 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         rectfill(images->fond0, 62, 11, 135, 30, makecol(1, 173, 232));                                     ///argent
         textprintf_ex(images->fond0, font, 85, 20, makecol(0, 0, 0), -1, "%d", perso->flouz);
 
-        rectfill(images->fond0, 235, 11, 320, 30, makecol(1, 173, 232));                                    ///capacite eau
-        textprintf_ex(images->fond0, font, 270, 20, makecol(0, 0, 0), -1, "%d", perso->eau);
+        rectfill(images->fond0, 235, 11, 300, 30, makecol(1, 173, 232));                                    ///capacite eau
+        textprintf_ex(images->fond0, font, 290, 20, makecol(0, 0, 0), -1, "%d", perso->eau);
 
 
-        rectfill(images->fond0, 355, 11, 450, 30, makecol(1, 173, 232));                                    ///capacite elec
-        textprintf_ex(images->fond0, font, 390, 20, makecol(0, 0, 0), -1, "%d", perso->electricite);
+        rectfill(images->fond0, 355, 11, 420, 30, makecol(1, 173, 232));                                    ///capacite elec
+        textprintf_ex(images->fond0, font, 410, 20, makecol(0, 0, 0), -1, "%d", perso->electricite);
 
 
         rectfill(images->fond0, 900, 11, 1010, 30, makecol(186, 209, 224));                                 ///nb_hab
@@ -1503,6 +1654,18 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         RecupererImpots(perso,temps[0]);
         AffichageRoute(perso, images->fond0, images);
         TestConnexionReseau(perso);
+        //EvolutionBatiments(perso,temps[0]);
+        for(int i=0;i<perso->batiments->nbmaisons;i++)
+        {
+            verifevolution(perso,i);
+            //printf("%ld \n",(perso->batiments->maisons[i].temps-clock())/1000);
+            if(perso->batiments->maisons[i].stade == 2 && (clock()-perso->batiments->maisons[i].temps)/1000 >= 15)
+            {
+                printf("temps bon pour evo maison %d \n",i);
+                perso->batiments->maisons[i].temps=clock();///nouveau timer de départ
+            }
+        }
+
         SauvegardeMap(perso);
         SauvegardeInfos(perso);
 
@@ -1523,6 +1686,8 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         {
             rest(200);
             AffichageReseaudEau(perso, images);
+            //affichage_sommet(perso->g);
+
         }
 
         if ((mouse_b & 1) && (mouse_x >= 966) && (mouse_x <= 1015) && (mouse_y >= 571) && (mouse_y <= 613)) ///niveau -2
@@ -1587,7 +1752,7 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
                 draw_sprite(images->fond0,images->surbrillance3x3,mouse_x-30,mouse_y-30);
 
             if ((mouse_b & 1) && (mouse_x >= 62) && (mouse_x <= 922) && (mouse_y >= 34) && (mouse_y <= 694) &&
-                (perso->flouz >= 1000)) { ///correspond à la taille de l'écran jouable
+            (perso->flouz >= 1000)) { ///correspond à la taille de l'écran jouable
                 VerifMaison(perso);
             }
         }
@@ -1602,24 +1767,16 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
             {
                 perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)] = 1;
                 perso->flouz -= 10;
+                editgraphe(perso,0,xPixeltoCoor(mouse_x),yPixeltoCoor(mouse_y));
             }
         }
 
-        if(perso->capitaliste==true)
+
+        ///test si les maisons peuvent évoluer -> dépends du mode
+        for(int i=0;i<=perso->batiments->nbmaisons;i++)
         {
-            ///test si les maisons peuvent évoluer -> dépends du mode
-            for(int i=0;i<=perso->batiments->nbmaisons;i++)
-                VerifEvolutionCapitaliste(perso,i);
+            verifevolution(perso,i);
         }
-
-        if(perso->communiste==true)
-        {
-            ///test si les maisons peuvent évoluer -> dépends du mode
-            for(int i=0;i<=perso->batiments->nbmaisons;i++)
-                VerifEvolutionCommuniste(perso,i);
-        }
-
-
 
 
         if (perso->editcentrale == true)  ///placement des centrales
@@ -1746,7 +1903,7 @@ void StructureJoueurInit(t_joueur* perso)
     ///INITIALISATION STRUCTURE JOUEUR
     perso->eau=0;
     perso->electricite=0;
-    perso->flouz=5000000;
+    perso->flouz=500000;
     perso->nb_habitants=0;
     perso->antispam=true;
     for(int i=0;i<nbantispam;i++ )
@@ -1771,24 +1928,14 @@ void StructureJoueurInit(t_joueur* perso)
         }
     }
 
-    for(int i=0;i<LIGNES;i++)
-    {
-        perso->route[i][0]=7;
-        perso->route[i][44]=7;
-    }
-
-    for(int j=0;j<COLONNES;j++)
-    {
-        perso->route[0][j]=7;
-        perso->route[34][j]=7;
-    }
-
     ///INITIALISATION STRUCTURE BATIMENTS
     perso->batiments=(t_bat4*)malloc(sizeof(t_bat4));
 
     perso->batiments->nbmaisons=0;
     perso->batiments->nbcentrales=0;
     perso->batiments->nbchateaux=0;
+
+    perso->g = creaGraphe();
 
     perso->batiments->maisons=(t_terter*)malloc(NBMAISONSMAX*sizeof(t_terter));
     perso->batiments->centrales=(t_centrale*)malloc(NBCENTRALESMAX*sizeof(t_centrale));
@@ -1836,6 +1983,7 @@ void StructureBitmapInit(t_bitmap* images)
     images->fond1 = load_bitmap("Bitmaps/ecranreseaudeau.bmp",NULL);
     images->fond2 = load_bitmap("Bitmaps/ecranreseaudelec.bmp",NULL);
     images->dieu = load_bitmap("Bitmaps/dieu.bmp",NULL);
+    images->ecranaccueil = load_bitmap("Bitmaps/ecrandemarrageS3.bmp",NULL);
     images->ecranmode = load_bitmap("Bitmaps/ecranmodedejeu.bmp",NULL);
     images->ecrancapitaliste = load_bitmap("Bitmaps/Capitaliste.bmp",NULL);
     images->ecrancommuniste = load_bitmap("Bitmaps/communiste.bmp",NULL);
