@@ -9,7 +9,7 @@ include_directories(.
 add_executable(ProjetInfoS3
         header.h
         main.c
-        source.c)
+        source.c affichages.c initialisations.c demarrage.c sauvegardes.c tdg.c coorpixels.c actualisations.c verifications.c caavancedoucement.c ecrandejeu.c)
 
 target_link_libraries(ProjetInfoS3 -lmingw32 -lalleg44)
 

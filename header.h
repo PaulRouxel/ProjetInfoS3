@@ -279,6 +279,8 @@ graphe * creaGraphe();
 
 void StructureJoueurInit(t_joueur* perso);
 
+void StructureBitmapInit(t_bitmap* images);
+
 void NouvellePartie(t_joueur* perso, t_bitmap* images);
 
 void ChargerUnePartie(t_joueur* perso,t_bitmap* images);
