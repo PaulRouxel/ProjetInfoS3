@@ -572,26 +572,26 @@ void AffichageCanalisations(t_joueur* perso, BITMAP* back,t_bitmap* images)
 
                 if(perso->batiments->nbchateaux==1)
                 {
-                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[0].x+1), yCoortoPixel(perso->batiments->chateaux[0].y), xCoortoPixel(perso->batiments->chateaux[0].x+5), yCoortoPixel(perso->batiments->chateaux[0].y)+10, makecol(0,0,0));
-                    textprintf(back,font, xCoortoPixel(perso->batiments->chateaux[0].x+3), yCoortoPixel(perso->batiments->chateaux[0].y),makecol(255,255,255),"%d",perso->batiments->chateaux[0].capacitemax);
+                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[0].x), yCoortoPixel(perso->batiments->chateaux[0].y+1), xCoortoPixel(perso->batiments->chateaux[0].x+4), yCoortoPixel(perso->batiments->chateaux[0].y+1)+10, makecol(0,0,0));
+                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->chateaux[0].x+1)-10, yCoortoPixel(perso->batiments->chateaux[0].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->chateaux[0].capacitemax);
                 }
 
                 if(perso->batiments->nbchateaux==2)
                 {
-                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[0].x+1), yCoortoPixel(perso->batiments->chateaux[0].y), xCoortoPixel(perso->batiments->chateaux[0].x+5), yCoortoPixel(perso->batiments->chateaux[0].y)+10, makecol(0,0,0));
-                    textprintf(back,font, xCoortoPixel(perso->batiments->chateaux[0].x+3), yCoortoPixel(perso->batiments->chateaux[0].y),makecol(255,255,255),"%d",perso->batiments->chateaux[0].capacitemax);
-                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[1].x+1), yCoortoPixel(perso->batiments->chateaux[1].y), xCoortoPixel(perso->batiments->chateaux[1].x+5), yCoortoPixel(perso->batiments->chateaux[1].y)+10, makecol(0,0,0));
-                    textprintf(back,font, xCoortoPixel(perso->batiments->chateaux[1].x+3), yCoortoPixel(perso->batiments->chateaux[1].y),makecol(255,255,255),"%d",perso->batiments->chateaux[1].capacitemax);
+                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[0].x), yCoortoPixel(perso->batiments->chateaux[0].y+1), xCoortoPixel(perso->batiments->chateaux[0].x+4), yCoortoPixel(perso->batiments->chateaux[0].y+1)+10, makecol(0,0,0));
+                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->chateaux[0].x+1)-10, yCoortoPixel(perso->batiments->chateaux[0].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->chateaux[0].capacitemax);
+                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[1].x), yCoortoPixel(perso->batiments->chateaux[1].y+1), xCoortoPixel(perso->batiments->chateaux[1].x+4), yCoortoPixel(perso->batiments->chateaux[1].y+1)+10, makecol(0,0,0));
+                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->chateaux[1].x+1)-10, yCoortoPixel(perso->batiments->chateaux[1].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->chateaux[1].capacitemax);
                 }
 
                 if(perso->batiments->nbchateaux==3)
                 {
-                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[0].x+1), yCoortoPixel(perso->batiments->chateaux[0].y), xCoortoPixel(perso->batiments->chateaux[0].x+5), yCoortoPixel(perso->batiments->chateaux[0].y)+10, makecol(0,0,0));
-                    textprintf(back,font, xCoortoPixel(perso->batiments->chateaux[0].x+3), yCoortoPixel(perso->batiments->chateaux[0].y),makecol(255,255,255),"%d",perso->batiments->chateaux[0].capacitemax);
-                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[1].x+1), yCoortoPixel(perso->batiments->chateaux[1].y), xCoortoPixel(perso->batiments->chateaux[1].x+5), yCoortoPixel(perso->batiments->chateaux[1].y)+10, makecol(0,0,0));
-                    textprintf(back,font, xCoortoPixel(perso->batiments->chateaux[1].x+3), yCoortoPixel(perso->batiments->chateaux[1].y),makecol(255,255,255),"%d",perso->batiments->chateaux[1].capacitemax);
-                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[2].x+1), yCoortoPixel(perso->batiments->chateaux[2].y), xCoortoPixel(perso->batiments->chateaux[2].x+5), yCoortoPixel(perso->batiments->chateaux[2].y)+10, makecol(0,0,0));
-                    textprintf(back,font, xCoortoPixel(perso->batiments->chateaux[2].x+3), yCoortoPixel(perso->batiments->chateaux[2].y),makecol(255,255,255),"%d",perso->batiments->chateaux[2].capacitemax);
+                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[0].x), yCoortoPixel(perso->batiments->chateaux[0].y+1), xCoortoPixel(perso->batiments->chateaux[0].x+4), yCoortoPixel(perso->batiments->chateaux[0].y+1)+10, makecol(0,0,0));
+                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->chateaux[0].x+1)-10, yCoortoPixel(perso->batiments->chateaux[0].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->chateaux[0].capacitemax);
+                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[1].x), yCoortoPixel(perso->batiments->chateaux[1].y+1), xCoortoPixel(perso->batiments->chateaux[1].x+4), yCoortoPixel(perso->batiments->chateaux[1].y+1)+10, makecol(0,0,0));
+                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->chateaux[1].x+1)-10, yCoortoPixel(perso->batiments->chateaux[1].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->chateaux[1].capacitemax);
+                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[2].x), yCoortoPixel(perso->batiments->chateaux[2].y+1), xCoortoPixel(perso->batiments->chateaux[2].x+4), yCoortoPixel(perso->batiments->chateaux[2].y+1)+10, makecol(0,0,0));
+                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->chateaux[2].x+1)-10, yCoortoPixel(perso->batiments->chateaux[2].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->chateaux[2].capacitemax);
                 }
             }
         }
@@ -615,65 +615,32 @@ void AffichageEDF(t_joueur* perso, BITMAP* back,t_bitmap* images)
 
                 if(perso->batiments->nbcentrales==1)
                 {
-                    rectfill(back, xCoortoPixel(perso->batiments->centrales[0].x+1), yCoortoPixel(perso->batiments->centrales[0].y), xCoortoPixel(perso->batiments->centrales[0].x+5), yCoortoPixel(perso->batiments->centrales[0].y)+10, makecol(0,0,0));
-                    textprintf(back,font, xCoortoPixel(perso->batiments->centrales[0].x+3), yCoortoPixel(perso->batiments->centrales[0].y),makecol(255,255,255),"%d",perso->batiments->centrales[0].capacitemax);
+                    rectfill(back, xCoortoPixel(perso->batiments->centrales[0].x), yCoortoPixel(perso->batiments->centrales[0].y+1), xCoortoPixel(perso->batiments->centrales[0].x+4), yCoortoPixel(perso->batiments->centrales[0].y+1)+10, makecol(0,0,0));
+                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->centrales[0].x+1)-10, yCoortoPixel(perso->batiments->centrales[0].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->centrales[0].capacitemax);
                 }
 
                 if(perso->batiments->nbcentrales==2)
                 {
-                    rectfill(back, xCoortoPixel(perso->batiments->centrales[0].x+1), yCoortoPixel(perso->batiments->centrales[0].y), xCoortoPixel(perso->batiments->centrales[0].x+5), yCoortoPixel(perso->batiments->centrales[0].y)+10, makecol(0,0,0));
-                    textprintf(back,font, xCoortoPixel(perso->batiments->centrales[0].x+3), yCoortoPixel(perso->batiments->centrales[0].y),makecol(255,255,255),"%d",perso->batiments->centrales[0].capacitemax);
-                    rectfill(back, xCoortoPixel(perso->batiments->centrales[1].x+1), yCoortoPixel(perso->batiments->centrales[1].y), xCoortoPixel(perso->batiments->centrales[1].x+5), yCoortoPixel(perso->batiments->centrales[1].y)+10, makecol(0,0,0));
-                    textprintf(back,font, xCoortoPixel(perso->batiments->centrales[1].x+3), yCoortoPixel(perso->batiments->centrales[1].y),makecol(255,255,255),"%d",perso->batiments->centrales[1].capacitemax);
+                    rectfill(back, xCoortoPixel(perso->batiments->centrales[0].x), yCoortoPixel(perso->batiments->centrales[0].y+1), xCoortoPixel(perso->batiments->centrales[0].x+4), yCoortoPixel(perso->batiments->centrales[0].y+1)+10, makecol(0,0,0));
+                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->centrales[0].x+1)-10, yCoortoPixel(perso->batiments->centrales[0].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->centrales[0].capacitemax);
+                    rectfill(back, xCoortoPixel(perso->batiments->centrales[1].x), yCoortoPixel(perso->batiments->centrales[1].y+1), xCoortoPixel(perso->batiments->centrales[1].x+4), yCoortoPixel(perso->batiments->centrales[1].y+1)+10, makecol(0,0,0));
+                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->centrales[1].x+1)-10, yCoortoPixel(perso->batiments->centrales[1].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->centrales[1].capacitemax);
                 }
 
                 if(perso->batiments->nbcentrales==3)
                 {
-                    rectfill(back, xCoortoPixel(perso->batiments->centrales[0].x+1), yCoortoPixel(perso->batiments->centrales[0].y), xCoortoPixel(perso->batiments->centrales[0].x+5), yCoortoPixel(perso->batiments->centrales[0].y)+10, makecol(0,0,0));
-                    textprintf(back,font, xCoortoPixel(perso->batiments->centrales[0].x+3), yCoortoPixel(perso->batiments->centrales[0].y),makecol(255,255,255),"%d",perso->batiments->centrales[0].capacitemax);
-                    rectfill(back, xCoortoPixel(perso->batiments->centrales[1].x+1), yCoortoPixel(perso->batiments->centrales[1].y), xCoortoPixel(perso->batiments->centrales[1].x+5), yCoortoPixel(perso->batiments->centrales[1].y)+10, makecol(0,0,0));
-                    textprintf(back,font, xCoortoPixel(perso->batiments->centrales[1].x+3), yCoortoPixel(perso->batiments->centrales[1].y),makecol(255,255,255),"%d",perso->batiments->centrales[1].capacitemax);
-                    rectfill(back, xCoortoPixel(perso->batiments->centrales[2].x+1), yCoortoPixel(perso->batiments->centrales[2].y), xCoortoPixel(perso->batiments->centrales[2].x+5), yCoortoPixel(perso->batiments->centrales[2].y)+10, makecol(0,0,0));
-                    textprintf(back,font, xCoortoPixel(perso->batiments->centrales[2].x+3), yCoortoPixel(perso->batiments->centrales[2].y),makecol(255,255,255),"%d",perso->batiments->centrales[2].capacitemax);
+                    rectfill(back, xCoortoPixel(perso->batiments->centrales[0].x), yCoortoPixel(perso->batiments->centrales[0].y+1), xCoortoPixel(perso->batiments->centrales[0].x+4), yCoortoPixel(perso->batiments->centrales[0].y+1)+10, makecol(0,0,0));
+                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->centrales[0].x+1)-10, yCoortoPixel(perso->batiments->centrales[0].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->centrales[0].capacitemax);
+                    rectfill(back, xCoortoPixel(perso->batiments->centrales[1].x), yCoortoPixel(perso->batiments->centrales[1].y+1), xCoortoPixel(perso->batiments->centrales[1].x+4), yCoortoPixel(perso->batiments->centrales[1].y+1)+10, makecol(0,0,0));
+                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->centrales[1].x+1)-10, yCoortoPixel(perso->batiments->centrales[1].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->centrales[1].capacitemax);
+                    rectfill(back, xCoortoPixel(perso->batiments->centrales[2].x), yCoortoPixel(perso->batiments->centrales[2].y+1), xCoortoPixel(perso->batiments->centrales[2].x+4), yCoortoPixel(perso->batiments->centrales[2].y+1)+10, makecol(0,0,0));
+                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->centrales[2].x+1)-10, yCoortoPixel(perso->batiments->centrales[2].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->centrales[2].capacitemax);
                 }
             }
         }
     }
 }
 
-/*
-///PROCEDURE POUR FAIRE EVOLUER LES BATIMENT SI LES CONDITIONS SONT REUNIS (COMMUNISTE)
-void EvolutionBatiments(t_joueur* perso, int secondes)
-{
-    for (int i = 0; i < LIGNES; i++) {
-        for (int j = 0; j < COLONNES; j++) {
-            if (perso->route[i][j] == 20 && secondes % 15 == 0)  /// terrain -> cabane  (décalage de quelques secondes pour pas que tout se fasse d'affilé)
-            {
-                perso->route[i][j] = 3;
-            }
-
-
-            if (perso->route[i][j] == 3 && (secondes+1) % 15 == 0)  /// cabane -> maison
-            {
-                perso->route[i][j] = 4;
-            }
-
-
-            if (perso->route[i][j] == 4 && (secondes+2) % 15 == 0)  /// maison -> immeuble
-            {
-                perso->route[i][j] = 5;
-            }
-
-
-            if (perso->route[i][j] == 5 && (secondes+3) % 15 == 0)  /// immeuble -> gratte-ciel
-            {
-                perso->route[i][j] = 6;
-            }
-
-        }
-    }
-}
- */
 
 ///PROCEDURE QUI VERIFIE LA CONNEXION DES MAISONS AU RESEAU ROUTIER/D'EAU/ELECTRIQUE
 void TestConnexionReseau(t_joueur* perso)
@@ -965,6 +932,8 @@ void EnleverEauElecCapitaliste(t_joueur* perso, int tmp,int numero)
         {
             perso->batiments->centrales[0].capacitemax=0;
             perso->batiments->centrales[1].capacitemax=perso->batiments->centrales[1].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
+            if(perso->batiments->centrales[1].capacitemax<0)
+                perso->batiments->centrales[1].capacitemax=0;
         }
     }
 
@@ -980,6 +949,8 @@ void EnleverEauElecCapitaliste(t_joueur* perso, int tmp,int numero)
                 perso->batiments->centrales[0].capacitemax=0;
                 perso->batiments->centrales[1].capacitemax=0;
                 perso->batiments->centrales[2].capacitemax=perso->batiments->centrales[2].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
+                if(perso->batiments->centrales[2].capacitemax<0)
+                    perso->batiments->centrales[2].capacitemax=0;
             }
         }
     }
@@ -996,7 +967,7 @@ void EnleverEauElecCapitaliste(t_joueur* perso, int tmp,int numero)
                 perso->batiments->centrales[0].capacitemax=0;
                 perso->batiments->centrales[1].capacitemax=0;
                 perso->batiments->centrales[2].capacitemax=perso->batiments->centrales[2].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
-                if(perso->batiments->centrales[1].capacitemax<=0 && perso->batiments->centrales[0].capacitemax<=0 && perso->batiments->centrales[0].capacitemax<=0)
+                if(perso->batiments->centrales[2].capacitemax<=0 && perso->batiments->centrales[1].capacitemax<=0 && perso->batiments->centrales[0].capacitemax<=0)
                 {
                     perso->batiments->centrales[0].capacitemax=0;
                     perso->batiments->centrales[1].capacitemax=0;
@@ -1025,6 +996,8 @@ void EnleverEauElecCapitaliste(t_joueur* perso, int tmp,int numero)
         {
             perso->batiments->chateaux[0].capacitemax=0;
             perso->batiments->chateaux[1].capacitemax=perso->batiments->chateaux[1].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
+            if(perso->batiments->chateaux[1].capacitemax<0)
+                perso->batiments->chateaux[1].capacitemax=0;
         }
     }
 
@@ -1040,6 +1013,8 @@ void EnleverEauElecCapitaliste(t_joueur* perso, int tmp,int numero)
                 perso->batiments->chateaux[0].capacitemax=0;
                 perso->batiments->chateaux[1].capacitemax=0;
                 perso->batiments->chateaux[2].capacitemax=perso->batiments->chateaux[2].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
+                if(perso->batiments->chateaux[2].capacitemax<0)
+                    perso->batiments->chateaux[2].capacitemax=0;
             }
         }
     }
@@ -1056,7 +1031,7 @@ void EnleverEauElecCapitaliste(t_joueur* perso, int tmp,int numero)
                 perso->batiments->chateaux[0].capacitemax=0;
                 perso->batiments->chateaux[1].capacitemax=0;
                 perso->batiments->chateaux[2].capacitemax=perso->batiments->chateaux[2].capacitemax-perso->batiments->maisons[numero].nbhabitants+tmp;
-                if(perso->batiments->chateaux[1].capacitemax<=0 && perso->batiments->chateaux[0].capacitemax<=0 && perso->batiments->chateaux[0].capacitemax<=0)
+                if(perso->batiments->chateaux[2].capacitemax<=0 && perso->batiments->chateaux[1].capacitemax<=0 && perso->batiments->chateaux[0].capacitemax<=0)
                 {
                     perso->batiments->chateaux[0].capacitemax=0;
                     perso->batiments->chateaux[1].capacitemax=0;
@@ -1531,11 +1506,6 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         SauvegardeMap(perso);
         SauvegardeInfos(perso);
 
-        if(perso->eau<0)
-            perso->eau=0;
-
-        if(perso->electricite<0)
-            perso->electricite=0;
 
         if(perso->actualisationcapacites==true)
         {
