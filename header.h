@@ -33,6 +33,7 @@
 /// Structure d'une Maison ///
 typedef struct maison
 {
+    int NumG; ///indice de la maison dans le graphe
     int x;  ///coordonnées du centre du batiment
     int y;
     int stade; ///stade d'évolution
@@ -42,6 +43,7 @@ typedef struct maison
 
 typedef struct centrale
 {
+    int NumG; ///indice de la centrale dans le graphe
     int x;  ///coordonnées du centre du batiment
     int y;
     int capacitemax;
@@ -51,6 +53,7 @@ typedef struct centrale
 
 typedef struct chateau
 {
+    int NumG; ///indice du chateau dans le graphe
     int x;
     int y;
     int capacitemax;
@@ -85,7 +88,7 @@ typedef struct temps
 /****************************/
 
 typedef struct sommet{
-    ///int num;
+    int num;
     int type;
     int x;
     int y;

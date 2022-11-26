@@ -385,6 +385,8 @@ int yCoortoPixel(int yCoor)  //pour traduire les coordonnes en pixels en Y
 /*      Dijkstra      */
 /**********************/
 
+int transformerswoow(graphe* g, int x, int y);
+
 graphe * creaGraphe()
 {
     graphe * g;
@@ -953,6 +955,7 @@ void initgraphe(t_joueur* perso)
     }
 
 }
+
 ///permet de mettre à jour le graphe avec les nouveaux batiments ajoutés
 /// route -> 0
 /// maison -> 1
@@ -960,6 +963,7 @@ void initgraphe(t_joueur* perso)
 /// chateau -> 3
 void editgraphe(t_joueur* perso,int indice, int x, int y)
 {
+    perso->g->tab_sommet[perso->g->ordre].num=perso->g->ordre;
     perso->g->tab_sommet[perso->g->ordre].type=indice;
     perso->g->tab_sommet[perso->g->ordre].x=x;
     perso->g->tab_sommet[perso->g->ordre].y=y;
@@ -1139,6 +1143,7 @@ void VerifMaison(t_joueur* perso)
         perso->batiments->maisons[perso->batiments->nbmaisons].nbhabitants = 0;
         perso->batiments->maisons[perso->batiments->nbmaisons].x = xPixeltoCoor(mouse_x);
         perso->batiments->maisons[perso->batiments->nbmaisons].y = yPixeltoCoor(mouse_y);
+        perso->batiments->maisons[perso->batiments->nbmaisons].NumG=perso->g->ordre;
         editgraphe(perso,1,perso->batiments->maisons[perso->batiments->nbmaisons].x,perso->batiments->maisons[perso->batiments->nbmaisons].y);
         perso->batiments->maisons[perso->batiments->nbmaisons].temps = clock();
         perso->batiments->nbmaisons += 1;
@@ -1280,6 +1285,7 @@ void VerifChateaux(t_joueur* perso)
             perso->flouz -= 100000;
             perso->batiments->chateaux[perso->batiments->nbchateaux].x= xPixeltoCoor(mouse_x-30);
             perso->batiments->chateaux[perso->batiments->nbchateaux].y= yPixeltoCoor(mouse_y-50);
+            perso->batiments->chateaux[perso->batiments->nbchateaux].NumG=perso->g->ordre;
             editgraphe(perso,3,xPixeltoCoor(mouse_x-30),yPixeltoCoor(mouse_y-50));
             perso->batiments->chateaux[perso->batiments->nbchateaux].capacitemax= 5000;
             perso->batiments->nbchateaux+=1;
@@ -1422,6 +1428,7 @@ void VerifCentrale(t_joueur* perso)
         perso->flouz -= 100000;
         perso->batiments->centrales[perso->batiments->nbcentrales].x= xPixeltoCoor(mouse_x-30);
         perso->batiments->centrales[perso->batiments->nbcentrales].y= yPixeltoCoor(mouse_y-50);
+        perso->batiments->centrales[perso->batiments->nbcentrales].NumG= perso->g->ordre;
         editgraphe(perso,2,xPixeltoCoor(mouse_x-30),yPixeltoCoor(mouse_y-50));
         perso->batiments->centrales[perso->batiments->nbcentrales].capacitemax= 5000;
         perso->batiments->nbcentrales+=1;
@@ -1430,6 +1437,7 @@ void VerifCentrale(t_joueur* perso)
 }
 
 
+///permet de vérifier ce qui est contenu dans le graphe
 void affichage_sommet(graphe* g)            //Affichage basique de chaque element du graphe
 {
     printf("Ordre : %d \n",g->ordre);
@@ -1467,28 +1475,44 @@ int transformerswoow(graphe* g, int x, int y)
         }
     }
 }
+
+///Utiliser pour dijkstra, permet de parcourir le tab_arete pour retrouver une arete en particulier
+int recherchesommet(graphe* g,int debut, int fin)
+{
+    int poids;
+    for(int i=0;i<g->taille;i++)
+    {
+        if(g->tab_arete[i].a.num == debut && g->tab_arete[i].b.num == fin || g->tab_arete[i].b.num == debut && g->tab_arete[i].a.num == fin)
+        {
+            poids=g->tab_arete[i].poids;
+        }
+    }
+    return poids;
+}
+
 /*
  * finir de merge dijkstra avec notre programme pour avoir la distance entre deux sommet
  *  - s'en servir pour remplir les centrales
  *  - finir la partie communiste
  *  - tout tester ca va etre long
  *  - etre efficace par pitiée
+ *  ma bite
  *
  */
 ///permet de rechercher le poids et donc la distance entre deux sommet du graphe crée par les batiments et routes
 ///pour début et fin il faut utiliser le sousprogramme de transformation au dessus
 void dijkstra(graphe* g, int debut, int fin, maillon* tabmaillon)
 {
-    int k=0,poids,memoire;
-    int indice;
+    int k=0,poids=0,memoire=0;
+    int indice =0 ;
     int tabResultat[g->ordre];
-    int NbSomResultat;
+    int NbSomResultat = 0;
     tabmaillon[k].act = g->tab_sommet[debut];    //Initialisation du premier element avec le debut
     tabmaillon[k].PoidRelatif=0;            //Initialisation du poid qui servira a calculer le poid total de chaque chemin
     tabmaillon[k].pred.num=-1;          //Initialisation pour la fin du programme
     memoire=k;
     k++;
-    while(memoire<= g->ordre){//parcours de la file
+    while(memoire <= g->ordre){//parcours de la file
         tabmaillon[memoire].act.noir=1;
         for(int i=0; i<tabmaillon[memoire].act.nb_succ;i++)//parcours des successeurs
         {
@@ -1571,7 +1595,7 @@ void dijkstra(graphe* g, int debut, int fin, maillon* tabmaillon)
      * -Remplir un tableau avec chaque sommet jusqu'au sommet de début
      * -Affichage du tableau à l'envers et du poid total du chemin
      * */
-    for(int i=0;i<9;i++)
+    for(int i=0;i<=g->ordre;i++)
     {
         if(fin == tabmaillon[i].act.num)
         {
@@ -1583,7 +1607,7 @@ void dijkstra(graphe* g, int debut, int fin, maillon* tabmaillon)
     {
         tabResultat[NbSomResultat]=tabmaillon[indice].act.num;
         NbSomResultat++;
-        for(int i=0;i<9;i++)
+        for(int i=0;i<=g->ordre;i++)
         {
             if(tabmaillon[i].act.num == tabmaillon[indice].pred.num)
             {
@@ -1593,13 +1617,13 @@ void dijkstra(graphe* g, int debut, int fin, maillon* tabmaillon)
     }
 
     printf("\nChemin : ");
-    printf("%d",g->tabsommet[debut].num);
+    printf("%d",g->tab_sommet[debut].num);
     for(int i=0;i<NbSomResultat;i++)
     {
         printf("--> %d ",tabResultat[NbSomResultat-1-i]);
     }
 
-    for(int i=0;i<9;i++)
+    for(int i=0;i<=g->ordre;i++)
     {
         if(fin == tabmaillon[i].act.num)
         {
@@ -1607,6 +1631,7 @@ void dijkstra(graphe* g, int debut, int fin, maillon* tabmaillon)
         }
     }
     printf("\nPoids total du chemin : %d",tabmaillon[indice].PoidRelatif);
+    ///return tabmaillon[indice].PoidRelatif;
 }
 
 ///AFFICHAGE PRINCIPAL: ECRAN DU JEU ET CENTRALISE TOUTES LES FONCTIONS
@@ -1686,8 +1711,12 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         if ((mouse_b & 1) && (mouse_x >= 966) && (mouse_x <= 1015) && (mouse_y >= 506) && (mouse_y <= 555)) ///niveau -1
         {
             rest(200);
-            AffichageReseaudEau(perso, images);
+            //AffichageReseaudEau(perso, images);
             //affichage_sommet(perso->g);
+            maillon* tabmaillon;
+            tabmaillon=(maillon*)malloc(perso->g->ordre*sizeof(maillon*));
+            dijkstra(perso->g,perso->batiments->maisons[2].NumG,perso->batiments->centrales[1].NumG, tabmaillon);
+            free(tabmaillon);
 
         }
 
