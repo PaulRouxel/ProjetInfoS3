@@ -389,7 +389,6 @@ graphe * creaGraphe()
 {
     graphe * g;
     g=(graphe*)malloc(sizeof(graphe));
-
     g->tab_sommet=(sommet*)malloc(500*sizeof(sommet));
     g->tab_arete=(arete*)malloc(1500*sizeof(arete));
     g->ordre=0;
@@ -609,37 +608,6 @@ void AffichageEDF(t_joueur* perso, BITMAP* back,t_bitmap* images)
     }
 }
 
-///PROCEDURE POUR FAIRE EVOLUER LES BATIMENT SI LES CONDITIONS SONT REUNIS (COMMUNISTE)
-void EvolutionBatiments(t_joueur* perso, int secondes)
-{
-    for (int i = 0; i < LIGNES; i++) {
-        for (int j = 0; j < COLONNES; j++) {
-            if (perso->route[i][j] == 20 && secondes % 15 == 0)  /// terrain -> cabane  (décalage de quelques secondes pour pas que tout se fasse d'affilé)
-            {
-                perso->route[i][j] = 3;
-            }
-
-
-            if (perso->route[i][j] == 3 && (secondes+1) % 15 == 0)  /// cabane -> maison
-            {
-                perso->route[i][j] = 4;
-            }
-
-
-            if (perso->route[i][j] == 4 && (secondes+2) % 15 == 0)  /// maison -> immeuble
-            {
-                perso->route[i][j] = 5;
-            }
-
-
-            if (perso->route[i][j] == 5 && (secondes+3) % 15 == 0)  /// immeuble -> gratte-ciel
-            {
-                perso->route[i][j] = 6;
-            }
-
-        }
-    }
-}
 
 ///PROCEDURE QUI VERIFIE LA CONNEXION DES MAISONS AU RESEAU ROUTIER/D'EAU/ELECTRIQUE
 void TestConnexionReseau(t_joueur* perso)
@@ -1489,7 +1457,7 @@ void dijkstra(graphe* g, int debut, int fin, maillon* tabmaillon)
     k++;
     while(memoire<9){//parcours de la file
         tabmaillon[memoire].act.noir=1;
-        for(int i=0; i<tabmaillon[memoire].act.nbsucc;i++)//parcours des successeurs
+        for(int i=0; i<tabmaillon[memoire].act.nb_succ;i++)//parcours des successeurs
         {
             for(int j=0;j<g->ordre;j++)
             {
@@ -1519,8 +1487,8 @@ void dijkstra(graphe* g, int debut, int fin, maillon* tabmaillon)
                      * Initialisation predecesseur
                      * Passage en  Gris
                      * */
-                    tabmaillon[k].act=g->tabsommet[tabmaillon[memoire].act.tabsucc[i].num];
-                    poids=recherchesommet(g,tabmaillon[memoire].act.num,tabmaillon[k].act.num);
+                    tabmaillon[k].act=g->tab_sommet[tabmaillon[memoire].act.tabsucc[i].num];
+                    //poids=recherchesommet(g,tabmaillon[memoire].act.num,tabmaillon[k].act.num);
                     tabmaillon[k].PoidRelatif = tabmaillon[memoire].PoidRelatif+poids;
                     tabmaillon[k].pred=tabmaillon[memoire].act;
                     tabmaillon[k].act.gris=1;
@@ -1553,7 +1521,7 @@ void dijkstra(graphe* g, int debut, int fin, maillon* tabmaillon)
                         }
                     }
                     int poidcomp;
-                    poids=recherchesommet(g,tabmaillon[memoire].act.num,tabmaillon[GrisIndice].act.num);
+                    //poids=recherchesommet(g,tabmaillon[memoire].act.num,tabmaillon[GrisIndice].act.num);
                     poidcomp=tabmaillon[memoire].PoidRelatif+poids;
                     if(tabmaillon[GrisIndice].PoidRelatif>poidcomp)
                     {
@@ -1592,7 +1560,7 @@ void dijkstra(graphe* g, int debut, int fin, maillon* tabmaillon)
     }
 
     printf("\nChemin : ");
-    printf("%d",g->tabsommet[debut].num);
+    printf("%d",g->tab_sommet[debut].num);
     for(int i=0;i<NbSomResultat;i++)
     {
         printf("--> %d ",tabResultat[NbSomResultat-1-i]);
@@ -1983,7 +1951,6 @@ void StructureBitmapInit(t_bitmap* images)
     images->fond1 = load_bitmap("Bitmaps/ecranreseaudeau.bmp",NULL);
     images->fond2 = load_bitmap("Bitmaps/ecranreseaudelec.bmp",NULL);
     images->dieu = load_bitmap("Bitmaps/dieu.bmp",NULL);
-    images->ecranaccueil = load_bitmap("Bitmaps/ecrandemarrageS3.bmp",NULL);
     images->ecranmode = load_bitmap("Bitmaps/ecranmodedejeu.bmp",NULL);
     images->ecrancapitaliste = load_bitmap("Bitmaps/Capitaliste.bmp",NULL);
     images->ecrancommuniste = load_bitmap("Bitmaps/communiste.bmp",NULL);

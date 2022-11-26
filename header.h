@@ -115,6 +115,7 @@ typedef struct graphe{
     arete *tab_arete;
 }graphe;
 
+
 /// STRUCTURE DES JOUEURS ///
 typedef struct joueur  //Cette structure gerera les donnees de joueurs tout au long de la partie ( XD )
 {
