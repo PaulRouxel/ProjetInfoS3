@@ -1444,22 +1444,21 @@ void affichage_sommet(graphe* g)            //Affichage basique de chaque elemen
 
     for(int i=0;i<g->ordre;i++)
     {
-        printf("Sommet : %d \n",g->tab_sommet[i].type);
+        printf("Sommet : %d \n",g->tab_sommet[i].num);
     }
     printf("Taille : %d\n",g->taille);
     printf("Aretes :\n");
 
     for(int i=0;i<g->taille;i++)
     {
-        printf("%d, %d --> %d\n",g->tab_arete[i].a.type,g->tab_arete[i].b.type,g->tab_arete[i].poids);
+        printf("%d, %d --> %d\n",g->tab_arete[i].a.num,g->tab_arete[i].b.num,g->tab_arete[i].poids);
     }
     for(int i=0;i<g->ordre;i++)
     {
         printf("\n Sommet %d :  \n",i);
-        for(int j=0;j<g->tab_sommet[i].nb_succ;j++) {
-            printf(" %d avec ",g->tab_sommet[i].tabsucc[j].type);
-            printf(" x : %d",g->tab_sommet[i].tabsucc[j].x);
-            printf("et y : %d",g->tab_sommet[i].tabsucc[j].y);
+        for(int j=0;j<g->tab_sommet[i].nb_succ;j++)
+        {
+            printf(" %d",g->tab_sommet[i].tabsucc[j].num);
         }
     }
 }
@@ -1615,14 +1614,14 @@ void dijkstra(graphe* g, int debut, int fin, maillon* tabmaillon)
             }
         }
     }
-
+    /*
     printf("\nChemin : ");
     printf("%d",g->tab_sommet[debut].num);
     for(int i=0;i<NbSomResultat;i++)
     {
         printf("--> %d ",tabResultat[NbSomResultat-1-i]);
     }
-
+    */
     for(int i=0;i<=g->ordre;i++)
     {
         if(fin == tabmaillon[i].act.num)
@@ -1630,7 +1629,7 @@ void dijkstra(graphe* g, int debut, int fin, maillon* tabmaillon)
             indice=i;
         }
     }
-    printf("\nPoids total du chemin : %d",tabmaillon[indice].PoidRelatif);
+    printf("\n Poids total du chemin : %d",tabmaillon[indice].PoidRelatif);
     ///return tabmaillon[indice].PoidRelatif;
 }
 
@@ -1712,12 +1711,13 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         {
             rest(200);
             //AffichageReseaudEau(perso, images);
-            //affichage_sommet(perso->g);
+            affichage_sommet(perso->g);
+            /*
             maillon* tabmaillon;
             tabmaillon=(maillon*)malloc(perso->g->ordre*sizeof(maillon*));
             dijkstra(perso->g,perso->batiments->maisons[2].NumG,perso->batiments->centrales[1].NumG, tabmaillon);
             free(tabmaillon);
-
+            */
         }
 
         if ((mouse_b & 1) && (mouse_x >= 966) && (mouse_x <= 1015) && (mouse_y >= 571) && (mouse_y <= 613)) ///niveau -2
