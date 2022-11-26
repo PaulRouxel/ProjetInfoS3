@@ -1032,35 +1032,35 @@ void editgraphe(t_joueur* perso,int indice, int x, int y)
     {
         perso->g->tab_sommet[perso->g->ordre].tabsucc = (sommet *) malloc(sizeof(sommet) * 20);
         ///recherche dans les 4 directions autour de la route si il y a un sommet
-        for (int i = 0; i < perso->g->ordre; i++) {
+        for (int j = 0; j < perso->g->ordre; j++) {
             ///recherche tout autour de la centrale/chateau pour trouver des routes
-            if ((perso->g->tab_sommet[perso->g->ordre].y - 3 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 1 == perso->g->tab_sommet[i].x) ||
-                (perso->g->tab_sommet[perso->g->ordre].y - 3 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x == perso->g->tab_sommet[i].x) ||
-                (perso->g->tab_sommet[perso->g->ordre].y - 3 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 1 == perso->g->tab_sommet[i].x) ||
-                (perso->g->tab_sommet[perso->g->ordre].y - 3 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[i].x) ||
-                (perso->g->tab_sommet[perso->g->ordre].y + 4 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 1 == perso->g->tab_sommet[i].x) ||
-                (perso->g->tab_sommet[perso->g->ordre].y + 4 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x == perso->g->tab_sommet[i].x) ||
-                (perso->g->tab_sommet[perso->g->ordre].y + 4 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 1 == perso->g->tab_sommet[i].x) ||
-                (perso->g->tab_sommet[perso->g->ordre].y + 4 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[i].x) ||
-                (perso->g->tab_sommet[perso->g->ordre].y - 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x == perso->g->tab_sommet[i].x) ||
-                (perso->g->tab_sommet[perso->g->ordre].y - 1 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 1 == perso->g->tab_sommet[i].x) ||
-                (perso->g->tab_sommet[perso->g->ordre].y == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 1 == perso->g->tab_sommet[i].x) ||
-                (perso->g->tab_sommet[perso->g->ordre].y + 1 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x == perso->g->tab_sommet[i].x) ||
-                (perso->g->tab_sommet[perso->g->ordre].y + 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 2 == perso->g->tab_sommet[i].x) ||
-                (perso->g->tab_sommet[perso->g->ordre].y + 3 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 2 == perso->g->tab_sommet[i].x) ||
-                (perso->g->tab_sommet[perso->g->ordre].y - 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 2 == perso->g->tab_sommet[i].x) ||
-                (perso->g->tab_sommet[perso->g->ordre].y - 1 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 2 == perso->g->tab_sommet[i].x) ||
-                (perso->g->tab_sommet[perso->g->ordre].y == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x - 2 == perso->g->tab_sommet[i].x) ||
-                (perso->g->tab_sommet[perso->g->ordre].y + 1 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[i].x) ||
-                (perso->g->tab_sommet[perso->g->ordre].y + 2 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[i].x) ||
-                (perso->g->tab_sommet[perso->g->ordre].y + 3 == perso->g->tab_sommet[i].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[i].x) )
+            if ((perso->g->tab_sommet[perso->g->ordre].y - 3 == perso->g->tab_sommet[j].y && perso->g->tab_sommet[perso->g->ordre].x - 1 == perso->g->tab_sommet[j].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y - 3 == perso->g->tab_sommet[j].y && perso->g->tab_sommet[perso->g->ordre].x == perso->g->tab_sommet[j].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y - 3 == perso->g->tab_sommet[j].y && perso->g->tab_sommet[perso->g->ordre].x + 1 == perso->g->tab_sommet[j].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y - 3 == perso->g->tab_sommet[j].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[j].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 4 == perso->g->tab_sommet[j].y && perso->g->tab_sommet[perso->g->ordre].x - 1 == perso->g->tab_sommet[j].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 4 == perso->g->tab_sommet[j].y && perso->g->tab_sommet[perso->g->ordre].x == perso->g->tab_sommet[j].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 4 == perso->g->tab_sommet[j].y && perso->g->tab_sommet[perso->g->ordre].x + 1 == perso->g->tab_sommet[j].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 4 == perso->g->tab_sommet[j].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[j].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y - 2 == perso->g->tab_sommet[j].y && perso->g->tab_sommet[perso->g->ordre].x == perso->g->tab_sommet[j].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y - 1 == perso->g->tab_sommet[j].y && perso->g->tab_sommet[perso->g->ordre].x - 1 == perso->g->tab_sommet[j].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y == perso->g->tab_sommet[j].y && perso->g->tab_sommet[perso->g->ordre].x + 1 == perso->g->tab_sommet[j].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 1 == perso->g->tab_sommet[j].y && perso->g->tab_sommet[perso->g->ordre].x == perso->g->tab_sommet[j].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 2 == perso->g->tab_sommet[j].y && perso->g->tab_sommet[perso->g->ordre].x - 2 == perso->g->tab_sommet[j].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 3 == perso->g->tab_sommet[j].y && perso->g->tab_sommet[perso->g->ordre].x - 2 == perso->g->tab_sommet[j].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y - 2 == perso->g->tab_sommet[j].y && perso->g->tab_sommet[perso->g->ordre].x - 2 == perso->g->tab_sommet[j].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y - 1 == perso->g->tab_sommet[j].y && perso->g->tab_sommet[perso->g->ordre].x - 2 == perso->g->tab_sommet[j].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y == perso->g->tab_sommet[j].y && perso->g->tab_sommet[perso->g->ordre].x - 2 == perso->g->tab_sommet[j].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 1 == perso->g->tab_sommet[j].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[j].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 2 == perso->g->tab_sommet[j].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[j].x) ||
+                (perso->g->tab_sommet[perso->g->ordre].y + 3 == perso->g->tab_sommet[j].y && perso->g->tab_sommet[perso->g->ordre].x + 2 == perso->g->tab_sommet[j].x) )
             {
-                perso->g->tab_sommet[perso->g->ordre].tabsucc[perso->g->tab_sommet[perso->g->ordre].nb_succ] = perso->g->tab_sommet[i];///on l'enregistre dans le tabsucc
+                perso->g->tab_sommet[perso->g->ordre].tabsucc[perso->g->tab_sommet[perso->g->ordre].nb_succ] = perso->g->tab_sommet[j];///on l'enregistre dans le tabsucc
                 perso->g->tab_sommet[perso->g->ordre].nb_succ++;///on augmente le nombre de succ
-                perso->g->tab_sommet[i].tabsucc[perso->g->tab_sommet[i].nb_succ] = perso->g->tab_sommet[perso->g->ordre];
-                perso->g->tab_sommet[i].nb_succ++;///mutuellement
+                perso->g->tab_sommet[j].tabsucc[perso->g->tab_sommet[j].nb_succ] = perso->g->tab_sommet[perso->g->ordre];
+                perso->g->tab_sommet[j].nb_succ++;///mutuellement
                 ///et on enregistre une nouvelle arete
-                perso->g->tab_arete[perso->g->taille].a = perso->g->tab_sommet[i];///sommet a
+                perso->g->tab_arete[perso->g->taille].a = perso->g->tab_sommet[j];///sommet a
                 perso->g->tab_arete[perso->g->taille].b = perso->g->tab_sommet[perso->g->ordre];///sommet b
                 perso->g->tab_arete[perso->g->taille].poids = 1;///poids
                 perso->g->taille++;
