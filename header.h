@@ -291,21 +291,4 @@ void Quitter(t_joueur* perso, t_bitmap* images);
 
 void MenuDemarrage(t_joueur* perso, t_bitmap* images);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #endif

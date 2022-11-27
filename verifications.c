@@ -259,8 +259,8 @@ void VerifChateaux(t_joueur* perso)
         perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] = 91;
         perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] = 91;
         perso->flouz -= 100000;
-        perso->batiments->chateaux[perso->batiments->nbchateaux].x= xPixeltoCoor(mouse_x-30);
-        perso->batiments->chateaux[perso->batiments->nbchateaux].y= yPixeltoCoor(mouse_y-50);
+        perso->batiments->chateaux[perso->batiments->nbchateaux].x= xPixeltoCoor(mouse_x+20); //30
+        perso->batiments->chateaux[perso->batiments->nbchateaux].y= yPixeltoCoor(mouse_y+20); //50
         perso->batiments->chateaux[perso->batiments->nbchateaux].capacitemax= 5000;
         perso->batiments->nbchateaux+=1;
         perso->actualisationcapacites=true;
@@ -400,8 +400,8 @@ void VerifCentrale(t_joueur* perso)
         perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] = 81;
         perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] = 81;
         perso->flouz -= 100000;
-        perso->batiments->centrales[perso->batiments->nbcentrales].x= xPixeltoCoor(mouse_x-30);
-        perso->batiments->centrales[perso->batiments->nbcentrales].y= yPixeltoCoor(mouse_y-50);
+        perso->batiments->centrales[perso->batiments->nbcentrales].x= xPixeltoCoor(mouse_x+20); //30
+        perso->batiments->centrales[perso->batiments->nbcentrales].y= yPixeltoCoor(mouse_y+20); //50
         perso->batiments->centrales[perso->batiments->nbcentrales].capacitemax= 5000;
         perso->batiments->nbcentrales+=1;
         perso->actualisationcapacites=true;
@@ -431,6 +431,13 @@ void TestConnexionReseau(t_joueur* perso)
                     (perso->route[i - 1][j] == 19) || (perso->route[i + 1][j] == 19) ||
                     (perso->route[i][j - 1] == 19) || (perso->route[i][j + 1] == 19))
                     perso->route[i][j] = 19;
+            }
+
+            if(perso->route[i][j]==1)  ///si route connecte à une route connecte
+            {
+                if ((perso->route[i - 1][j] == 10) || (perso->route[i + 1][j] == 10) ||
+                    (perso->route[i][j - 1] == 10) || (perso->route[i][j + 1] == 10))
+                    perso->route[i][j] = 10;
             }
 
             if(perso->route[i][j]==18)  ///si route deja connecte à une centrale devient connecte en eau

@@ -31,19 +31,6 @@ void AffichageRoute(t_joueur* perso, BITMAP* back,t_bitmap* images) {
 
         }
     }
-    /*
-    for (int i = 0; i < LIGNES; i++) {
-        for (int j = 0; j < COLONNES; j++) ///ROUTE
-        {
-            if(perso->route[i][j]<10)
-                printf(" %d ", perso->route[i][j]);
-            else
-                printf("%d ", perso->route[i][j]);
-        }
-        printf("\n");
-    }
-    printf("\n\n");
-    */
 }
 
 ///AFFICHAGE DES SPRITES DE CANALISATIONS ET CHATEAU D'EAU AU NIVEAU -1
@@ -54,38 +41,17 @@ void AffichageCanalisations(t_joueur* perso, BITMAP* back,t_bitmap* images)
         for(int j=0;j<COLONNES;j++)
         {
             if(perso->route[i][j]==1 || perso->route[i][j]==18 || perso->route[i][j]==19 || perso->route[i][j]==10)
-            {
                 draw_sprite(back,images->eau,xCoortoPixel(j),yCoortoPixel(i));
-            }
+            
             if (perso->route[i][j] == 9 || perso->route[i][j] == 90)  ///CHATEAU D'EAU
-            {
                 draw_sprite(back, images->chateaudeau, xCoortoPixel(j-1), yCoortoPixel(i-2));
-
-                if(perso->batiments->nbchateaux==1)
-                {
-                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[0].x), yCoortoPixel(perso->batiments->chateaux[0].y+1), xCoortoPixel(perso->batiments->chateaux[0].x+4), yCoortoPixel(perso->batiments->chateaux[0].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->chateaux[0].x+1)-10, yCoortoPixel(perso->batiments->chateaux[0].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->chateaux[0].capacitemax);
-                }
-
-                if(perso->batiments->nbchateaux==2)
-                {
-                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[0].x), yCoortoPixel(perso->batiments->chateaux[0].y+1), xCoortoPixel(perso->batiments->chateaux[0].x+4), yCoortoPixel(perso->batiments->chateaux[0].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->chateaux[0].x+1)-10, yCoortoPixel(perso->batiments->chateaux[0].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->chateaux[0].capacitemax);
-                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[1].x), yCoortoPixel(perso->batiments->chateaux[1].y+1), xCoortoPixel(perso->batiments->chateaux[1].x+4), yCoortoPixel(perso->batiments->chateaux[1].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->chateaux[1].x+1)-10, yCoortoPixel(perso->batiments->chateaux[1].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->chateaux[1].capacitemax);
-                }
-
-                if(perso->batiments->nbchateaux==3)
-                {
-                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[0].x), yCoortoPixel(perso->batiments->chateaux[0].y+1), xCoortoPixel(perso->batiments->chateaux[0].x+4), yCoortoPixel(perso->batiments->chateaux[0].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->chateaux[0].x+1)-10, yCoortoPixel(perso->batiments->chateaux[0].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->chateaux[0].capacitemax);
-                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[1].x), yCoortoPixel(perso->batiments->chateaux[1].y+1), xCoortoPixel(perso->batiments->chateaux[1].x+4), yCoortoPixel(perso->batiments->chateaux[1].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->chateaux[1].x+1)-10, yCoortoPixel(perso->batiments->chateaux[1].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->chateaux[1].capacitemax);
-                    rectfill(back, xCoortoPixel(perso->batiments->chateaux[2].x), yCoortoPixel(perso->batiments->chateaux[2].y+1), xCoortoPixel(perso->batiments->chateaux[2].x+4), yCoortoPixel(perso->batiments->chateaux[2].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->chateaux[2].x+1)-10, yCoortoPixel(perso->batiments->chateaux[2].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->chateaux[2].capacitemax);
-                }
-            }
         }
+    }
+
+    for(int i=0;i<perso->batiments->nbchateaux;i++)
+    {
+        rectfill(back, xCoortoPixel(perso->batiments->chateaux[i].x-2), yCoortoPixel(perso->batiments->chateaux[i].y-3), xCoortoPixel(perso->batiments->chateaux[i].x+2), yCoortoPixel(perso->batiments->chateaux[i].y-3)+10, makecol(0,0,0));
+        textprintf_ex(back,font, xCoortoPixel(perso->batiments->chateaux[i].x-1)-10, yCoortoPixel(perso->batiments->chateaux[i].y-3),makecol(255,255,255),-1,"%d/5000",perso->batiments->chateaux[i].capacitemax);
     }
 }
 
@@ -97,38 +63,16 @@ void AffichageEDF(t_joueur* perso, BITMAP* back,t_bitmap* images)
         for(int j=0;j<COLONNES;j++)
         {
             if(perso->route[i][j]==1 || perso->route[i][j]==18 || perso->route[i][j]==19 || perso->route[i][j]==10)
-            {
-                draw_sprite(back,images->electricite,xCoortoPixel(j),yCoortoPixel(i));   ///CHANGEMENT
-            }
+                draw_sprite(back,images->electricite,xCoortoPixel(j),yCoortoPixel(i)); 
+            
             if (perso->route[i][j] == 8 || perso->route[i][j] == 80)  ///CENTRALE
-            {
                 draw_sprite(back, images->centrale, xCoortoPixel(j-1), yCoortoPixel(i-2));
-
-                if(perso->batiments->nbcentrales==1)
-                {
-                    rectfill(back, xCoortoPixel(perso->batiments->centrales[0].x), yCoortoPixel(perso->batiments->centrales[0].y+1), xCoortoPixel(perso->batiments->centrales[0].x+4), yCoortoPixel(perso->batiments->centrales[0].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->centrales[0].x+1)-10, yCoortoPixel(perso->batiments->centrales[0].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->centrales[0].capacitemax);
-                }
-
-                if(perso->batiments->nbcentrales==2)
-                {
-                    rectfill(back, xCoortoPixel(perso->batiments->centrales[0].x), yCoortoPixel(perso->batiments->centrales[0].y+1), xCoortoPixel(perso->batiments->centrales[0].x+4), yCoortoPixel(perso->batiments->centrales[0].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->centrales[0].x+1)-10, yCoortoPixel(perso->batiments->centrales[0].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->centrales[0].capacitemax);
-                    rectfill(back, xCoortoPixel(perso->batiments->centrales[1].x), yCoortoPixel(perso->batiments->centrales[1].y+1), xCoortoPixel(perso->batiments->centrales[1].x+4), yCoortoPixel(perso->batiments->centrales[1].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->centrales[1].x+1)-10, yCoortoPixel(perso->batiments->centrales[1].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->centrales[1].capacitemax);
-                }
-
-                if(perso->batiments->nbcentrales==3)
-                {
-                    rectfill(back, xCoortoPixel(perso->batiments->centrales[0].x), yCoortoPixel(perso->batiments->centrales[0].y+1), xCoortoPixel(perso->batiments->centrales[0].x+4), yCoortoPixel(perso->batiments->centrales[0].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->centrales[0].x+1)-10, yCoortoPixel(perso->batiments->centrales[0].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->centrales[0].capacitemax);
-                    rectfill(back, xCoortoPixel(perso->batiments->centrales[1].x), yCoortoPixel(perso->batiments->centrales[1].y+1), xCoortoPixel(perso->batiments->centrales[1].x+4), yCoortoPixel(perso->batiments->centrales[1].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->centrales[1].x+1)-10, yCoortoPixel(perso->batiments->centrales[1].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->centrales[1].capacitemax);
-                    rectfill(back, xCoortoPixel(perso->batiments->centrales[2].x), yCoortoPixel(perso->batiments->centrales[2].y+1), xCoortoPixel(perso->batiments->centrales[2].x+4), yCoortoPixel(perso->batiments->centrales[2].y+1)+10, makecol(0,0,0));
-                    textprintf_ex(back,font, xCoortoPixel(perso->batiments->centrales[2].x+1)-10, yCoortoPixel(perso->batiments->centrales[2].y+1),makecol(255,255,255),-1,"%d/5000",perso->batiments->centrales[2].capacitemax);
-                }
-            }
         }
+    }
+    for(int i=0;i<perso->batiments->nbcentrales;i++)
+    {
+        rectfill(back, xCoortoPixel(perso->batiments->centrales[i].x-2), yCoortoPixel(perso->batiments->centrales[i].y-3), xCoortoPixel(perso->batiments->centrales[i].x+2), yCoortoPixel(perso->batiments->centrales[i].y-3)+10, makecol(0,0,0));
+        textprintf_ex(back,font, xCoortoPixel(perso->batiments->centrales[i].x-1)-10, yCoortoPixel(perso->batiments->centrales[i].y-3),makecol(255,255,255),-1,"%d/5000",perso->batiments->centrales[i].capacitemax);
     }
 }
 
