@@ -19,6 +19,7 @@ void ActualisationCapacites(t_joueur* perso)
     }
 }
 
+///CALCUL DES HABITANTS EN FONCTION DE TOUTES LES CENTRALES
 void ActualisationHabitants(t_joueur* perso)
 {
     perso->nb_habitants=0;
@@ -40,6 +41,7 @@ void RecupererImpots(t_joueur* perso, int time)
         perso->antispam=true;
 }
 
+///AJUSTE L'ACTUALISATION DES CAPACITES
 void EnleverEauElecCapitaliste(t_joueur* perso, int tmp,int numero)
 {
     ///ca retire l'elec
