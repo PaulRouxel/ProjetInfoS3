@@ -17,7 +17,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="ca marche je vais canner">
+    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="juste pour les coordonnées">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
@@ -98,7 +98,7 @@
       <workItem from="1669470701995" duration="4066000" />
       <workItem from="1669485783173" duration="2489000" />
       <workItem from="1669491565035" duration="4727000" />
-      <workItem from="1669545987646" duration="1636000" />
+      <workItem from="1669545987646" duration="5738000" />
     </task>
     <task id="LOCAL-00001" summary="AlleZ gros marche">
       <created>1667906483137</created>
@@ -261,7 +261,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669496210209</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="juste pour les coordonnées">
+      <created>1669548098835</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1669548098835</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -293,6 +300,7 @@
     <MESSAGE value="faut que je m'en aille et c'est pas fini malheureusement" />
     <MESSAGE value="ca avance doucement" />
     <MESSAGE value="ca marche je vais canner" />
-    <option name="LAST_COMMIT_MESSAGE" value="ca marche je vais canner" />
+    <MESSAGE value="juste pour les coordonnées" />
+    <option name="LAST_COMMIT_MESSAGE" value="juste pour les coordonnées" />
   </component>
 </project>

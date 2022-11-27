@@ -1710,7 +1710,7 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         if ((mouse_b & 1) && (mouse_x >= 966) && (mouse_x <= 1015) && (mouse_y >= 506) && (mouse_y <= 555)) ///niveau -1
         {
             rest(200);
-            //AffichageReseaudEau(perso, images);
+            AffichageReseaudEau(perso, images);
             //affichage_sommet(perso->g);
 /*
             maillon* tabmaillon;
