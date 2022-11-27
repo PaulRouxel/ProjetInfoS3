@@ -174,18 +174,11 @@ int transformerswoow(graphe* g, int x, int y)
         }
     }
 }
-/*
- * finir de merge dijkstra avec notre programme pour avoir la distance entre deux sommet
- *  - s'en servir pour remplir les centrales
- *  - finir la partie communiste
- *  - tout tester ca va etre long mais force à toi
- *  - etre efficace par pitiée
- *
- */
+
 ///permet de rechercher le poids et donc la distance entre deux sommet du graphe crée par les batiments et routes
 void dijkstra(graphe* g, int debut, int fin, maillon* tabmaillon)
 {
-    int k=0,poids,memoire;
+    int k=0,poids=0,memoire;
     int indice;
     int tabResultat[8];
     int NbSomResultat;

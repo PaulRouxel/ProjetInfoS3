@@ -88,7 +88,7 @@ void VerifEvolutionCommuniste(t_joueur* perso,int numero)
 {
     int tmp=0;
     ///si le terrain peut évoluer
-    if(perso->batiments->maisons[numero].stade==2 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15)
+    if(perso->batiments->maisons[numero].stade==2 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15 && capacitelec(perso,numero)==1)
     {
         perso->batiments->maisons[numero].temps=clock();       ///nouveau timer de départ
         perso->batiments->maisons[numero].stade=3;             ///évolution au stade sup
@@ -99,7 +99,7 @@ void VerifEvolutionCommuniste(t_joueur* perso,int numero)
         EnleverEauElecCapitaliste(perso,tmp,numero);
     }
         ///si la cabane peut évoluer
-    else if(perso->batiments->maisons[numero].stade==3 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15)
+    else if(perso->batiments->maisons[numero].stade==3 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15 && capacitelec(perso,numero)==1)
     {
         tmp = perso->batiments->maisons[numero].nbhabitants;
         perso->batiments->maisons[numero].temps=clock();       ///nouveau timer de départ
@@ -112,7 +112,7 @@ void VerifEvolutionCommuniste(t_joueur* perso,int numero)
 
     }
         ///si la maison peut évoluer
-    else if(perso->batiments->maisons[numero].stade==4 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15)
+    else if(perso->batiments->maisons[numero].stade==4 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15 && capacitelec(perso,numero)==1)
     {
         tmp = perso->batiments->maisons[numero].nbhabitants;
         perso->batiments->maisons[numero].temps=clock();       ///nouveau timer de départ
@@ -124,7 +124,7 @@ void VerifEvolutionCommuniste(t_joueur* perso,int numero)
         EnleverEauElecCapitaliste(perso,tmp,numero);
     }
         ///si l'immeuble peut évoluer
-    else if(perso->batiments->maisons[numero].stade==5 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15)
+    else if(perso->batiments->maisons[numero].stade==5 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15 && capacitelec(perso,numero)==1)
     {
         tmp = perso->batiments->maisons[numero].nbhabitants;
         perso->batiments->maisons[numero].temps = clock();       ///nouveau timer de départ
@@ -195,6 +195,7 @@ void VerifMaison(t_joueur* perso)
         perso->batiments->maisons[perso->batiments->nbmaisons].x = xPixeltoCoor(mouse_x);
         perso->batiments->maisons[perso->batiments->nbmaisons].y = yPixeltoCoor(mouse_y);
         perso->batiments->maisons[perso->batiments->nbmaisons].temps = clock();
+        cherchercentrale(perso);
         perso->batiments->nbmaisons += 1;
         perso->actualisationcapacites=true;
     }

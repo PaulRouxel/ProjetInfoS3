@@ -297,4 +297,6 @@ void GameOver(t_bitmap* images);
 
 void Regression(t_joueur* perso);
 
+void cherchercentrale(t_joueur* perso);
+
 #endif
