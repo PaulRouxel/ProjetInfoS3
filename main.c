@@ -1283,10 +1283,10 @@ void VerifChateaux(t_joueur* perso)
             perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] = 91;
             perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] = 91;
             perso->flouz -= 100000;
-            perso->batiments->chateaux[perso->batiments->nbchateaux].x= xPixeltoCoor(mouse_x-30);
-            perso->batiments->chateaux[perso->batiments->nbchateaux].y= yPixeltoCoor(mouse_y-50);
+            perso->batiments->chateaux[perso->batiments->nbchateaux].x= xPixeltoCoor(mouse_x+20);
+            perso->batiments->chateaux[perso->batiments->nbchateaux].y= yPixeltoCoor(mouse_y+20);
             perso->batiments->chateaux[perso->batiments->nbchateaux].NumG=perso->g->ordre;
-            editgraphe(perso,3,xPixeltoCoor(mouse_x-30),yPixeltoCoor(mouse_y-50));
+            editgraphe(perso,3,xPixeltoCoor(mouse_x+20),yPixeltoCoor(mouse_y+20));
             perso->batiments->chateaux[perso->batiments->nbchateaux].capacitemax= 5000;
             perso->batiments->nbchateaux+=1;
             perso->actualisationcapacites=true;
@@ -1426,10 +1426,10 @@ void VerifCentrale(t_joueur* perso)
         perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 1] = 81;
         perso->route[yPixeltoCoor(mouse_y) + 3][xPixeltoCoor(mouse_x) + 2] = 81;
         perso->flouz -= 100000;
-        perso->batiments->centrales[perso->batiments->nbcentrales].x= xPixeltoCoor(mouse_x-30);
-        perso->batiments->centrales[perso->batiments->nbcentrales].y= yPixeltoCoor(mouse_y-50);
+        perso->batiments->centrales[perso->batiments->nbcentrales].x= xPixeltoCoor(mouse_x+20);
+        perso->batiments->centrales[perso->batiments->nbcentrales].y= yPixeltoCoor(mouse_y+20);
         perso->batiments->centrales[perso->batiments->nbcentrales].NumG= perso->g->ordre;
-        editgraphe(perso,2,xPixeltoCoor(mouse_x-30),yPixeltoCoor(mouse_y-50));
+        editgraphe(perso,2,xPixeltoCoor(mouse_x+20),yPixeltoCoor(mouse_y+20));
         perso->batiments->centrales[perso->batiments->nbcentrales].capacitemax= 5000;
         perso->batiments->nbcentrales+=1;
         perso->actualisationcapacites=true;
@@ -1711,13 +1711,13 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         {
             rest(200);
             //AffichageReseaudEau(perso, images);
-            affichage_sommet(perso->g);
-            /*
+            //affichage_sommet(perso->g);
+/*
             maillon* tabmaillon;
             tabmaillon=(maillon*)malloc(perso->g->ordre*sizeof(maillon*));
-            dijkstra(perso->g,perso->batiments->maisons[2].NumG,perso->batiments->centrales[1].NumG, tabmaillon);
+            dijkstra(perso->g,perso->batiments->maisons[0].NumG,perso->batiments->maisons[1].NumG, tabmaillon);
             free(tabmaillon);
-            */
+*/
         }
 
         if ((mouse_b & 1) && (mouse_x >= 966) && (mouse_x <= 1015) && (mouse_y >= 571) && (mouse_y <= 613)) ///niveau -2

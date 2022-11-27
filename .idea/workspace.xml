@@ -17,7 +17,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="ca avance doucement">
+    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="ca marche je vais canner">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
@@ -97,7 +97,8 @@
       <workItem from="1669455855807" duration="1615000" />
       <workItem from="1669470701995" duration="4066000" />
       <workItem from="1669485783173" duration="2489000" />
-      <workItem from="1669491565035" duration="3972000" />
+      <workItem from="1669491565035" duration="4727000" />
+      <workItem from="1669545987646" duration="1636000" />
     </task>
     <task id="LOCAL-00001" summary="AlleZ gros marche">
       <created>1667906483137</created>
@@ -253,7 +254,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669486552721</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="ca marche je vais canner">
+      <created>1669496210209</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1669496210209</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -284,6 +292,7 @@
     <MESSAGE value="départ de l'ECE du vendredi soir, on prie pour le WE" />
     <MESSAGE value="faut que je m'en aille et c'est pas fini malheureusement" />
     <MESSAGE value="ca avance doucement" />
-    <option name="LAST_COMMIT_MESSAGE" value="ca avance doucement" />
+    <MESSAGE value="ca marche je vais canner" />
+    <option name="LAST_COMMIT_MESSAGE" value="ca marche je vais canner" />
   </component>
 </project>
