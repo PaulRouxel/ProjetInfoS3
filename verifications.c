@@ -54,6 +54,7 @@ void VerifEvolutionCapitaliste(t_joueur* perso,int numero)
     }
 }
 
+/*
 void VerifEvolutionCommuniste(t_joueur* perso,int numero)
 {
     ///si le terrain peut évoluer
@@ -81,6 +82,79 @@ void VerifEvolutionCommuniste(t_joueur* perso,int numero)
         perso->batiments->maisons[numero].stade+=1;///évolution au stade sup
     }
 }
+*/
+
+void VerifEvolutionCommuniste(t_joueur* perso,int numero)
+{
+    int tmp=0;
+    ///si le terrain peut évoluer
+    if(perso->batiments->maisons[numero].stade==2 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15)
+    {
+        perso->batiments->maisons[numero].temps=clock();       ///nouveau timer de départ
+        perso->batiments->maisons[numero].stade=3;             ///évolution au stade sup
+        perso->batiments->maisons[numero].nbhabitants=10;
+        perso->route[perso->batiments->maisons[numero].y][perso->batiments->maisons[numero].x]=3;
+        perso->actualisationcapacites=true;
+
+        EnleverEauElecCapitaliste(perso,tmp,numero);
+    }
+        ///si la cabane peut évoluer
+    else if(perso->batiments->maisons[numero].stade==3 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15)
+    {
+        tmp = perso->batiments->maisons[numero].nbhabitants;
+        perso->batiments->maisons[numero].temps=clock();       ///nouveau timer de départ
+        perso->batiments->maisons[numero].stade=4;             ///évolution au stade sup
+        perso->batiments->maisons[numero].nbhabitants=50;
+        perso->route[perso->batiments->maisons[numero].y][perso->batiments->maisons[numero].x]=4;
+        perso->actualisationcapacites=true;
+
+        EnleverEauElecCapitaliste(perso,tmp,numero);
+
+    }
+        ///si la maison peut évoluer
+    else if(perso->batiments->maisons[numero].stade==4 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15)
+    {
+        tmp = perso->batiments->maisons[numero].nbhabitants;
+        perso->batiments->maisons[numero].temps=clock();       ///nouveau timer de départ
+        perso->batiments->maisons[numero].stade=5;             ///évolution au stade sup
+        perso->batiments->maisons[numero].nbhabitants=100;
+        perso->route[perso->batiments->maisons[numero].y][perso->batiments->maisons[numero].x]=5;
+        perso->actualisationcapacites=true;
+
+        EnleverEauElecCapitaliste(perso,tmp,numero);
+    }
+        ///si l'immeuble peut évoluer
+    else if(perso->batiments->maisons[numero].stade==5 && (clock()-perso->batiments->maisons[numero].temps)/1000>=15)
+    {
+        tmp = perso->batiments->maisons[numero].nbhabitants;
+        perso->batiments->maisons[numero].temps = clock();       ///nouveau timer de départ
+        perso->batiments->maisons[numero].stade = 6;             ///évolution au stade sup
+        perso->batiments->maisons[numero].nbhabitants = 1000;
+        perso->route[perso->batiments->maisons[numero].y][perso->batiments->maisons[numero].x] = 6;
+        perso->actualisationcapacites = true;
+
+        EnleverEauElecCapitaliste(perso, tmp, numero);
+    }
+}
+
+void Regression(t_joueur* perso)
+{
+    if((perso->electricite<=0 || perso->eau<=0) && (mouse_b & 2))
+    {
+        int tmp=perso->batiments->nbmaisons-perso->batiments->nbruines-1;
+        perso->batiments->maisons[tmp].stade=99;
+        perso->route[perso->batiments->maisons[tmp].y][perso->batiments->maisons[tmp].x]=99;
+        perso->batiments->maisons[tmp].nbhabitants=0;
+        perso->batiments->centrales[0].capacitemax+=1000;
+        perso->batiments->chateaux[0].capacitemax+=1000;
+        perso->electricite+=1000;
+        perso->batiments->nbruines+=1;
+        perso->actualisationcapacites=true;
+    }
+}
+
+
+
 
 ///PERMET DE VERIFIER SI LA CONSTRUCTION DE LA MAISON EST VIABLE: TOUTE LA PLACE EST DISPONIBLE ET EST CONNECTE A UN RESEAU ROUTIER
 void VerifMaison(t_joueur* perso)

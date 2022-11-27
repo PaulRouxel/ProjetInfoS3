@@ -19,7 +19,7 @@ void StructureJoueurInit(t_joueur* perso)
     ///INITIALISATION STRUCTURE JOUEUR
     perso->eau=0;
     perso->electricite=0;
-    perso->flouz=5000000;
+    perso->flouz=500000;
     perso->nb_habitants=0;
     perso->antispam=true;
     for(int i=0;i<nbantispam;i++ )
@@ -63,6 +63,7 @@ void StructureJoueurInit(t_joueur* perso)
     perso->batiments->nbmaisons=0;
     perso->batiments->nbcentrales=0;
     perso->batiments->nbchateaux=0;
+    perso->batiments->nbruines=0;
 
     perso->batiments->maisons=(t_terter*)malloc(NBMAISONSMAX*sizeof(t_terter));
     perso->batiments->centrales=(t_centrale*)malloc(NBCENTRALESMAX*sizeof(t_centrale));
