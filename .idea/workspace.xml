@@ -17,17 +17,12 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="C BON LA PAUL 15h42">
+    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="c bon paul 12h54">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/actualisations.c" beforeDir="false" afterPath="$PROJECT_DIR$/actualisations.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/affichages.c" beforeDir="false" afterPath="$PROJECT_DIR$/affichages.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/ProjetInfoS3.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/ProjetInfoS3.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ecrandejeu.c" beforeDir="false" afterPath="$PROJECT_DIR$/ecrandejeu.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/header.h" beforeDir="false" afterPath="$PROJECT_DIR$/header.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/verifications.c" beforeDir="false" afterPath="$PROJECT_DIR$/verifications.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +96,8 @@
       <workItem from="1669464971622" duration="134000" />
       <workItem from="1669469271160" duration="4765000" />
       <workItem from="1669486695159" duration="913000" />
-      <workItem from="1669545530753" duration="4277000" />
+      <workItem from="1669545530753" duration="5453000" />
+      <workItem from="1669558542074" duration="471000" />
     </task>
     <task id="LOCAL-00001" summary="AlleZ gros marche">
       <created>1667906483137</created>
@@ -250,7 +246,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669473783197</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="c bon paul 12h54">
+      <created>1669550098371</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1669550098371</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -282,6 +285,7 @@
     <MESSAGE value="c bon paul 15h00" />
     <MESSAGE value="C BON LA PAUL 15h10" />
     <MESSAGE value="C BON LA PAUL 15h42" />
-    <option name="LAST_COMMIT_MESSAGE" value="C BON LA PAUL 15h42" />
+    <MESSAGE value="c bon paul 12h54" />
+    <option name="LAST_COMMIT_MESSAGE" value="c bon paul 12h54" />
   </component>
 </project>

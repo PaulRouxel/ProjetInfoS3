@@ -14,6 +14,7 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 
     //va nous permettre de sortir de la boucle d'affichage lorsqu'un choix est fait
     int next = 0;
+    int gameover=0;
 
     //boucle d'affichage
     while (next != 1) {
@@ -48,6 +49,12 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         TestConnexionReseau(perso);
         SauvegardeMap(perso);
         SauvegardeInfos(perso);
+
+        if(perso->flouz==0 && perso->nb_habitants==0 ||(mouse_b & 2))
+        {
+            gameover=1;
+            next=1;
+        }
 
 
         if(perso->actualisationcapacites==true)
@@ -163,8 +170,6 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         }
 
 
-
-
         if (perso->editcentrale == true)  ///placement des centrales
         {
             if((mouse_x >=92 && mouse_x<912)&&(mouse_y>=84 && mouse_y<664)) ///affichage surbillance
@@ -187,6 +192,8 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
 
         }
     }
+    if(gameover==1)
+        GameOver(images);
     Quitter(perso,images);
 }
 

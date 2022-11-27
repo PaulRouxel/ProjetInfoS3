@@ -214,3 +214,27 @@ void AffichageReseaudEau(t_joueur* perso,t_bitmap* images)
         rest(200);
 }
 
+///AFFICHAGE GAMEOVER
+void GameOver(t_bitmap* images)
+{
+    BITMAP* buffer;
+    buffer = create_bitmap(SCREEN_W, SCREEN_H);
+
+    //va nous permettre de sortir de la boucle d'affichage lorsqu'un choix est fait
+    int next=0;
+
+    //boucle d'affichage
+    while(next!=1){
+
+        //routine d'affichage
+        blit(images->gameover, buffer, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
+        show_mouse(buffer);
+        blit(buffer, screen, 0, 0, 0, 0,SCREEN_W, SCREEN_H);
+        clear_bitmap(buffer);
+
+        //correspond aux cases de l'ecran
+        if((mouse_b&1)&&(mouse_x>=700)&&(mouse_x<=900)&&(mouse_y>=300)&&(mouse_y<=700)) ///quitter
+            next=1;
+    }
+}
+

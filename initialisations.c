@@ -127,6 +127,7 @@ void StructureBitmapInit(t_bitmap* images)
     images->surbrillance1x1 = load_bitmap("Bitmaps/surbrillance1x1.bmp",NULL);
     images->surbrillance3x3 = load_bitmap("Bitmaps/surbrillance3x3.bmp",NULL);
     images->surbrillance4x6 = load_bitmap("Bitmaps/surbrillance4x6.bmp",NULL);
+    images->gameover = load_bitmap("Bitmaps/gameoversimpson.bmp",NULL);
 }
 
 
