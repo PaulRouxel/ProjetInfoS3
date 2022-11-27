@@ -29,6 +29,9 @@ void AffichageRoute(t_joueur* perso, BITMAP* back,t_bitmap* images) {
             if (perso->route[i][j] == 6) ///GRATTE-CIEL
                 draw_sprite(back, images->gratteciel, xCoortoPixel(j - 1), yCoortoPixel(i - 1));
 
+            if (perso->route[i][j] == 99)///RUINE
+                draw_sprite(back,images->ruine, xCoortoPixel(j-1), yCoortoPixel(i-1));
+
         }
     }
 }

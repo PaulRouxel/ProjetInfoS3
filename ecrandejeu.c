@@ -49,8 +49,9 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         TestConnexionReseau(perso);
         SauvegardeMap(perso);
         SauvegardeInfos(perso);
+        Regression(perso);
 
-        if(perso->flouz==0 && perso->nb_habitants==0 ||(mouse_b & 2))
+        if(perso->flouz==0 && perso->nb_habitants==0 ||(mouse_b & 2) && (mouse_b & 1))
         {
             gameover=1;
             next=1;

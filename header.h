@@ -70,6 +70,7 @@ typedef struct batiments
     int nbmaisons;
     int nbcentrales;
     int nbchateaux;
+    int nbruines;
 }t_bat4;
 
 
@@ -293,5 +294,7 @@ void Quitter(t_joueur* perso, t_bitmap* images);
 void MenuDemarrage(t_joueur* perso, t_bitmap* images);
 
 void GameOver(t_bitmap* images);
+
+void Regression(t_joueur* perso);
 
 #endif
