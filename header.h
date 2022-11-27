@@ -163,6 +163,7 @@ typedef struct bitmap
     BITMAP* surbrillance1x1;
     BITMAP* surbrillance3x3;
     BITMAP* surbrillance4x6;
+    BITMAP* gameover;
 }t_bitmap;
 
 
@@ -290,5 +291,7 @@ void AfficherRegles();
 void Quitter(t_joueur* perso, t_bitmap* images);
 
 void MenuDemarrage(t_joueur* perso, t_bitmap* images);
+
+void GameOver(t_bitmap* images);
 
 #endif

@@ -70,3 +70,15 @@
 2	137	6912532179118404	CMakeFiles/ProjetInfoS3.dir/affichages.c.obj	9073d302170bc1a
 7	213	6912532179882947	CMakeFiles/ProjetInfoS3.dir/verifications.c.obj	849725aee04c6d4d
 213	335	6912532181057384	ProjetInfoS3.exe	2e90bb3fb67596d8
+48	280	6912623843851499	CMakeFiles/ProjetInfoS3.dir/demarrage.c.obj	d3d8fc545fb9485f
+3	290	6912623843906491	CMakeFiles/ProjetInfoS3.dir/main.c.obj	9cdb0a42ed5174b1
+41	297	6912623843901495	CMakeFiles/ProjetInfoS3.dir/initialisations.c.obj	ac2c1f356aef5d40
+35	308	6912623844061497	CMakeFiles/ProjetInfoS3.dir/affichages.c.obj	9073d302170bc1a
+55	316	6912623844106493	CMakeFiles/ProjetInfoS3.dir/sauvegardes.c.obj	1c338b7dc063c8c
+62	433	6912623845376486	CMakeFiles/ProjetInfoS3.dir/verifications.c.obj	849725aee04c6d4d
+280	469	6912623845731499	CMakeFiles/ProjetInfoS3.dir/coorpixels.c.obj	197fad60f5d496c8
+309	477	6912623845798433	CMakeFiles/ProjetInfoS3.dir/caavancedoucement.c.obj	6cd29dceb3fe3bb7
+298	484	6912623845851492	CMakeFiles/ProjetInfoS3.dir/actualisations.c.obj	13dc9cc7e53e67d6
+316	500	6912623846038004	CMakeFiles/ProjetInfoS3.dir/ecrandejeu.c.obj	6280cb3679783cc6
+290	539	6912623846451488	CMakeFiles/ProjetInfoS3.dir/tdg.c.obj	dbf110f9b0190291
+539	702	6912623848011481	ProjetInfoS3.exe	2e90bb3fb67596d8
