@@ -195,6 +195,7 @@ void VerifMaison(t_joueur* perso)
         perso->batiments->maisons[perso->batiments->nbmaisons].x = xPixeltoCoor(mouse_x);
         perso->batiments->maisons[perso->batiments->nbmaisons].y = yPixeltoCoor(mouse_y);
         perso->batiments->maisons[perso->batiments->nbmaisons].temps = clock();
+        editgraphe(perso,1,xPixeltoCoor(mouse_x),yPixeltoCoor(mouse_y));
         cherchercentrale(perso);
         perso->batiments->nbmaisons += 1;
         perso->actualisationcapacites=true;
@@ -337,6 +338,7 @@ void VerifChateaux(t_joueur* perso)
         perso->batiments->chateaux[perso->batiments->nbchateaux].x= xPixeltoCoor(mouse_x+20); //30
         perso->batiments->chateaux[perso->batiments->nbchateaux].y= yPixeltoCoor(mouse_y+20); //50
         perso->batiments->chateaux[perso->batiments->nbchateaux].capacitemax= 5000;
+        editgraphe(perso,3,xPixeltoCoor(mouse_x+20),yPixeltoCoor(mouse_y+20));
         perso->batiments->nbchateaux+=1;
         perso->actualisationcapacites=true;
     }
@@ -478,6 +480,7 @@ void VerifCentrale(t_joueur* perso)
         perso->batiments->centrales[perso->batiments->nbcentrales].x= xPixeltoCoor(mouse_x+20); //30
         perso->batiments->centrales[perso->batiments->nbcentrales].y= yPixeltoCoor(mouse_y+20); //50
         perso->batiments->centrales[perso->batiments->nbcentrales].capacitemax= 5000;
+        editgraphe(perso,2,xPixeltoCoor(mouse_x+20),yPixeltoCoor(mouse_y+20));
         perso->batiments->nbcentrales+=1;
         perso->actualisationcapacites=true;
     }

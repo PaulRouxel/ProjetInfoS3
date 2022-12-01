@@ -32,6 +32,7 @@ void initgraphe(t_joueur* perso)
 void editgraphe(t_joueur* perso,int indice, int x, int y)
 {
     perso->g->tab_sommet[perso->g->ordre].type=indice;
+    perso->g->tab_sommet[perso->g->ordre].num=perso->g->ordre;
     perso->g->tab_sommet[perso->g->ordre].x=x;
     perso->g->tab_sommet[perso->g->ordre].y=y;
     perso->g->tab_sommet[perso->g->ordre].blanc=1;
@@ -143,22 +144,20 @@ void affichage_sommet(graphe* g)            //Affichage basique de chaque elemen
 
     for(int i=0;i<g->ordre;i++)
     {
-        printf("Sommet : %d \n",g->tab_sommet[i].type);
+        printf("Sommet : %d \n",g->tab_sommet[i].num);
     }
     printf("Taille : %d\n",g->taille);
     printf("Aretes :\n");
 
     for(int i=0;i<g->taille;i++)
     {
-        printf("%d, %d --> %d\n",g->tab_arete[i].a.type,g->tab_arete[i].b.type,g->tab_arete[i].poids);
+        printf("%d, %d --> %d\n",g->tab_arete[i].a.num,g->tab_arete[i].b.num,g->tab_arete[i].poids);
     }
     for(int i=0;i<g->ordre;i++)
     {
         printf("\n Sommet %d :  \n",i);
         for(int j=0;j<g->tab_sommet[i].nb_succ;j++) {
-            printf(" %d avec ",g->tab_sommet[i].tabsucc[j].type);
-            printf(" x : %d",g->tab_sommet[i].tabsucc[j].x);
-            printf("et y : %d",g->tab_sommet[i].tabsucc[j].y);
+            printf(" %d",g->tab_sommet[i].tabsucc[j].num);
         }
     }
 }

@@ -17,9 +17,16 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="je sens la mauvaise crotte c'est casse pieds">
+    <list default="true" id="d40d1734-8a96-4534-abc9-e0dc7e3a24ab" name="Changes" comment="commit final">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/caavancedoucement.c" beforeDir="false" afterPath="$PROJECT_DIR$/caavancedoucement.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/ProjetInfoS3.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/ProjetInfoS3.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ecrandejeu.c" beforeDir="false" afterPath="$PROJECT_DIR$/ecrandejeu.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tdg.c" beforeDir="false" afterPath="$PROJECT_DIR$/tdg.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/verifications.c" beforeDir="false" afterPath="$PROJECT_DIR$/verifications.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +107,8 @@
       <workItem from="1669656316406" duration="72000" />
       <workItem from="1669657459837" duration="11000" />
       <workItem from="1669657483525" duration="870000" />
-      <workItem from="1669821943757" duration="1000" />
+      <workItem from="1669821943757" duration="919000" />
+      <workItem from="1669880132711" duration="1358000" />
     </task>
     <task id="LOCAL-00001" summary="AlleZ gros marche">
       <created>1667906483137</created>
@@ -270,7 +278,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669588783816</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="commit final">
+      <created>1669822080084</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1669822080084</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -305,7 +320,8 @@
     <MESSAGE value="c bon paul 12h54" />
     <MESSAGE value="c bon paul 15h27" />
     <MESSAGE value="je sens la mauvaise crotte c'est casse pieds" />
-    <option name="LAST_COMMIT_MESSAGE" value="je sens la mauvaise crotte c'est casse pieds" />
+    <MESSAGE value="commit final" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit final" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -73,7 +73,8 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
         if ((mouse_b & 1) && (mouse_x >= 966) && (mouse_x <= 1015) && (mouse_y >= 506) && (mouse_y <= 555)) ///niveau -1
         {
             rest(200);
-            AffichageReseaudEau(perso, images);
+            //AffichageReseaudEau(perso, images);
+            affichage_sommet(perso->g);
         }
 
         if ((mouse_b & 1) && (mouse_x >= 966) && (mouse_x <= 1015) && (mouse_y >= 571) && (mouse_y <= 613)) ///niveau -2
@@ -152,6 +153,7 @@ void EcranDeJeu(t_joueur* perso, t_bitmap* images)
                 (perso->flouz >= 10) && (perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)] == 0)) ///correspond à la taille de l'écran jouable
             {
                 perso->route[yPixeltoCoor(mouse_y)][xPixeltoCoor(mouse_x)] = 1;
+                editgraphe(perso,0,xPixeltoCoor(mouse_x),yPixeltoCoor(mouse_y));
                 perso->flouz -= 10;
             }
         }
